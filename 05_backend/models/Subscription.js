@@ -1,14 +1,14 @@
 const mongoose = require('mongoose');
+const User=require('../models/User')
 
 const subscriptionSchema = new mongoose.Schema({
   user_id: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User', // Reference to the User model
+    type:String,
     required: true,
   },
   trainer_id: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User', // Reference to the User model (optional trainer)
+    type: String,
+    required:true, // Reference to the User model (optional trainer)
   },
   start_date: {
     type: Date,

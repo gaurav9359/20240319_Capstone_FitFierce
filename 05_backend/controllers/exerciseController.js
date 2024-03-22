@@ -1,4 +1,5 @@
 const Exercise = require("../models/ExercissePlans");
+const Subscription= require("../models/Subscription")
 const {
   exerciseNameValidator,
   categoryValidator,
@@ -10,42 +11,42 @@ const mongoose = require("mongoose");
 
 // Get all exercises
 const getAllExercises = async (req, res) => {
-  let responseToSend = {};
-  // Check if user role is "user"
-  if (req.user.role === "user") {
-    // Filter exercises based on user ID
-    const exercisesUser = await Exercise.find({ userid: req.user._id });
-    const exerciseTrainer = await Exercise.find({
-      trainer_id: { $in: req.user.subscribed_plans },
-    });
-    console.log(exercisesUser);
-    console.log(req.user._id);
-    console.log(exerciseTrainer);
-    console.log(req.user);
-    //
-  }
-  //   try {
-  //     res.status(200).json(req.user)
-  //     const exercises = await Exercise.find();
-  //     res.status(200).json(exercises);
-  //   } catch (error) {
-  //     res.status(500).json({ message: error.message });
-  //   }
-};
-
-const getExerciseToday = async (req, res) => {
     try {
-      const userId = req.user._id;
-      const date = new Date().toISOString().slice(0, 10);
+      // Get user ID
+      const userId = req.user._id.toString();
+      let exerciseToReturn = {}; // Final object to return
+      // Handle user role
+      if (req.user.role === 'user') {
+        // Get all exercises created by user
+        const userExercises = await Exercise.find({ userid: userId });
   
-      const query = req.user.role === 'user'
-        ? { userid: userId, date }
-        : { trainer_id: userId, date};
+        // Find active subscriptions for the user
+        const activeSubscriptions = await Subscription.find({
+          user_id: userId // Replace with a dynamic trainer ID if needed
+        });
   
-      const exerciseToReturn = await Exercise.findOne(query);
+        // Extract trainer IDs from active subscriptions
+        const trainerIds = activeSubscriptions.map((subscription) => subscription.trainer_id);
   
-      if (!exerciseToReturn) {
-        return res.status(404).json({ message: 'Exercise not found' });
+        // Fetch exercises from trainers (if any)
+        const trainerExercises = await Promise.all(
+          trainerIds.map(async (trainerId) => {
+            return await Exercise.find({ trainer_id: trainerId });
+          })
+        );
+  
+        // Combine exercises from user and trainers
+        exerciseToReturn = {
+          userExercises: userExercises,
+          trainerExercises: [].concat(...trainerExercises), // Flatten array
+        };
+        // console.log(exerciseToReturn)
+      } else if (req.user.role === 'trainer') {
+        // Get all exercises created by the trainer
+        const userExercise = await Exercise.find({ trainerId: userId });
+        exerciseToReturn = userExercise;
+      } else {
+        res.status(400).json({ message: "Invalid user role" });
       }
   
       res.status(200).json(exerciseToReturn);
@@ -55,6 +56,66 @@ const getExerciseToday = async (req, res) => {
     }
   };
   
+  
+
+const getExerciseToday = async (req, res) => {
+  try {
+    // Get user ID and today's date in YYYY-MM-DD format
+    const userId = req.user._id.toString();
+    const date = new Date().toISOString().slice(0, 10);
+    let exerciseToReturn = {}; // Final object to return
+
+    // Handle user role
+    if (req.user.role === 'user') {
+      // Get exercises created by user
+      const userExercises = await Exercise.find({ userid:userId, date:date });
+
+      console.log(userId)
+      // Find active subscriptions for the user
+      const activeSubscriptions = await Subscription.find({
+        user_id: userId
+      });
+
+      console.log(activeSubscriptions)
+
+      // activeSubscriptions.filter((subscription) => subscription.user_id === userId)
+
+      // const temp= await Subscription.find({})
+      // console.log(activeSubscriptions)
+
+      // Extract trainer IDs from active subscriptions
+      const trainerIds = activeSubscriptions.map((subscription) => subscription.trainer_id);
+
+      console.log(trainerIds)
+
+      // Fetch exercises from trainers (if any)
+      const trainerExercises = await Promise.all(
+        trainerIds.map(async (trainerId) => {
+          return await Exercise.find({ trainer_id:trainerId, date:date });
+        })
+      );
+        console.log(trainerExercises)
+      // Combine exercises from user and trainers
+      exerciseToReturn = {
+        userExercises: userExercises,
+        trainerExercises: [].concat(...trainerExercises), // Flatten array
+      };
+
+      console.log(exerciseToReturn)
+    } else if (req.user.role === 'trainer') {
+      // Trainer can only see exercises created by themselves
+      const userExercise = await Exercise.findOne({ trainerId: userId, date });
+      exerciseToReturn = userExercise;
+    } else {
+      res.status(400).json({ message: "Invalid user role" });
+    }
+
+    res.status(200).json(exerciseToReturn);
+  } catch (error) {
+    console.error(error); // Log the error for debugging
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
 
 
 const createExercise = async (req, res) => {
@@ -74,14 +135,20 @@ const createExercise = async (req, res) => {
 
     // 3. Extract user ID and today's date
     const userId = req.user._id; // Assuming you have user ID in req.user object
-    const date = new Date().toISOString().slice(0, 10); // YYYY-MM-DD format
+    const today = new Date();
 
+// Get tomorrow's date
+let date = new Date(today);
+date.setDate(today.getDate() +2);
+date= date.toISOString().slice(0,10);
+    // const date = new Date().toISOString().slice(0, 10); // YYYY-MM-DD format
+console.log(date)
     // 4. Find existing exercise (based on user role)
     let prevExercise;
     if (req.user.role === "user") {
-      prevExercise = await Exercise.findOne({ userid: userId, date: date }); // Use userId for user role
+      prevExercise = await Exercise.findOne({ userid: userId, date:date}); // Use userId for user role
     } else if (req.user.role === "trainer") {
-      prevExercise = await Exercise.findOne({ trainer_id: userId, date: date }); // Use trainer_id for trainer role
+      prevExercise = await Exercise.findOne({ trainer_id: userId, date:date }); // Use trainer_id for trainer role
     } else {
       return res.status(400).json({ message: "Invalid user role" }); // Handle invalid role
     }
@@ -89,7 +156,8 @@ const createExercise = async (req, res) => {
 
     // 5. Update existing exercise or create a new one
     if (prevExercise) {
-      prevExercise.exercises.push({
+      prevExercise.exercises.push(
+        {
         exercise_name,
         category,
         sets,
@@ -97,9 +165,9 @@ const createExercise = async (req, res) => {
       });
     } else {
       prevExercise = new Exercise({
-        [req.user.role === "user" ? "userId" : "trainer_id"]: userId, // Dynamic assignment based on role
+        [req.user.role === "user" ? "userid" : "trainer_id"]: userId, // Dynamic assignment based on role
         exercises: [{ exercise_name, category, sets, estimated_time }],
-        date,
+        date:date,
       });
     }
 
@@ -203,13 +271,13 @@ const deleteExercise = async (req, res) => {
     if (req.user.role === "user") {
       const updatedExercise = await Exercise.findOneAndUpdate(
         { userid: userId, date:date },
-        { $pull: { exercises: { _id: mongoose.Types.ObjectId(exerciseId) } } } // Use $pull for deletion within array
+        { $pull: { exercises: { _id: new mongoose.Types.ObjectId(exerciseId) } } } // Use $pull for deletion within array
       );
       console.log(updatedExercise);
     } else if (req.user.role === "trainer") {
-        exerciseToDelete = await Exercise.findOneAndUpdate(
+        updatedExercise = await Exercise.findOneAndUpdate(
             { trainer_id: userId, date },
-            { $pull: { exercises: { _id: mongoose.Types.ObjectId(exerciseId) } } } // Ensure correct ID type
+            { $pull: { exercises: { _id:exerciseId } } } // Ensure correct ID type
           );
       console.log(updatedExercise);
     } else {

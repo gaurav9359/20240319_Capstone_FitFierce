@@ -19,7 +19,7 @@ app.use(cors());
 // Routes
 // Authentication Router
 app.use("/auth", authRouter);
-app.use("/exercise",exercise)
+app.use("/exercise",exercise);
 
 
 
