@@ -135,12 +135,7 @@ const createExercise = async (req, res) => {
 
     // 3. Extract user ID and today's date
     const userId = req.user._id; // Assuming you have user ID in req.user object
-    const today = new Date();
-
-// Get tomorrow's date
-let date = new Date(today);
-date.setDate(today.getDate() +2);
-date= date.toISOString().slice(0,10);
+  date=new Date().toISOString().slice(0,10);
     // const date = new Date().toISOString().slice(0, 10); // YYYY-MM-DD format
 console.log(date)
     // 4. Find existing exercise (based on user role)
@@ -301,10 +296,61 @@ const deleteExercise = async (req, res) => {
   }
 };
 
+const updateStatus=async (req,res)=>{
+  try {
+    // 1. Extract exercise data from request body
+    const exerciseStatuses  = req.body; // Array of objects [{ exerciseId, isDone }, ...]
+
+    // 2. Validate exercise data (check for required fields and data types)
+    // if (!Array.isArray(exerciseStatuses)) {
+    //   return res.status(400).json({ message: "Invalid this exercise data format" });
+    // }
+    console.log(exerciseStatuses)
+
+    for (const { exerciseId, isDone } of exerciseStatuses) {
+      if (typeof exerciseId !== 'string' || typeof isDone !== 'boolean') {
+        return res.status(400).json({ message: "Invalid exercise data format" });
+      }
+    }
+
+    // 3. Extract user ID and today's date
+    const userId = req.user._id; // Assuming you have user ID in req.user object
+    const date = new Date().toISOString().slice(0, 10); // YYYY-MM-DD format
+
+    // 4. Update exercises (user only)
+    const updatePromises = exerciseStatuses.map(async ({ exerciseId, isDone }) => {
+      if (req.user.role !== "user") { // Restrict updates to users only
+        return res.status(403).json({ message: "Unauthorized operation" });
+      }
+
+      const exerciseToUpdate = await Exercise.findOneAndUpdate(
+        {
+          userid: userId,
+          date, // Filter by user ID and today's date
+          "exercises._id": exerciseId, // Nested query to find exercise by ID in exercises array
+        },
+        { $set: { "exercises.$[exercise].isDone": isDone } }, // Update isDone using update operator
+        { arrayFilters: [{ "exercise._id": exerciseId }] } // Filter to match specific exercise
+      );
+
+      // No need to track updated count here (optional)
+    });
+
+    await Promise.all(updatePromises); // Wait for all update operations to complete
+
+    // 5. Send successful response
+    res.status(200).json({ message: "Exercise statuses updated successfully" });
+  } catch (error) {
+    console.error(error); // Log the error for debugging
+    res.status(500).json({ message: "Internal server error" });
+  }
+};
+
 module.exports = {
   getAllExercises,
   getExerciseToday,
   createExercise,
   updateExercise,
+  updateStatus,
   deleteExercise,
 };

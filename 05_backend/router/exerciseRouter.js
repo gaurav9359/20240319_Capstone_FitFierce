@@ -17,6 +17,9 @@ router.get("/readExercise/", verifyJwt, getUserMiddleware, exerciseController.ge
 //Update Exercise
 router.put("/updateExercise", verifyJwt, getUserMiddleware, exerciseController.updateExercise);
 
+//Update status
+router.put("/updateStatus", verifyJwt, getUserMiddleware, exerciseController.updateStatus);
+
 //Delete Exercise
 router.delete("/deleteExercise", verifyJwt, getUserMiddleware, exerciseController.deleteExercise);
 

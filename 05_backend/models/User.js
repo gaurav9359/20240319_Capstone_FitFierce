@@ -47,8 +47,7 @@ const userSchema = new mongoose.Schema({
   },
   subscribed_plans:[
     {
-      type:mongoose.Schema.Types.ObjectId,
-      ref: 'User'
+      type:String,
     }
   ]
 });
