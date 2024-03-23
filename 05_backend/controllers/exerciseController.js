@@ -121,48 +121,45 @@ const getExerciseToday = async (req, res) => {
 const createExercise = async (req, res) => {
   try {
     // 1. Extract exercise data from request body
-    const { exercise_name, category, sets, estimated_time } = req.body;
+    const  exercises  = req.body;
 
     // 2. Validate exercise data (assuming you have validator functions)
-    if (
-      !exerciseNameValidator(exercise_name) ||
-      !categoryValidator(category) ||
-      !setsValidator(sets) ||
-      !estimatedTimeValidator(estimated_time)
-    ) {
+    const validExercises = exercises.filter((exercise) => {
+      const { exercise_name, category, sets, estimated_time } = exercise;
+      return (
+        exerciseNameValidator(exercise_name) &&
+        categoryValidator(category) &&
+        setsValidator(sets) &&
+        estimatedTimeValidator(estimated_time)
+      );
+    });
+
+    if (validExercises.length !== exercises.length) {
       return res.status(400).json({ message: "Invalid exercise data" });
     }
 
     // 3. Extract user ID and today's date
     const userId = req.user._id; // Assuming you have user ID in req.user object
-  date=new Date().toISOString().slice(0,10);
-    // const date = new Date().toISOString().slice(0, 10); // YYYY-MM-DD format
-console.log(date)
+    const date = new Date().toISOString().slice(0, 10); // YYYY-MM-DD format
+
     // 4. Find existing exercise (based on user role)
     let prevExercise;
     if (req.user.role === "user") {
-      prevExercise = await Exercise.findOne({ userid: userId, date:date}); // Use userId for user role
+      prevExercise = await Exercise.findOne({ userid: userId, date });
     } else if (req.user.role === "trainer") {
-      prevExercise = await Exercise.findOne({ trainer_id: userId, date:date }); // Use trainer_id for trainer role
+      prevExercise = await Exercise.findOne({ trainer_id: userId, date });
     } else {
-      return res.status(400).json({ message: "Invalid user role" }); // Handle invalid role
+      return res.status(400).json({ message: "Invalid user role" });
     }
-    console.log(prevExercise);
 
     // 5. Update existing exercise or create a new one
     if (prevExercise) {
-      prevExercise.exercises.push(
-        {
-        exercise_name,
-        category,
-        sets,
-        estimated_time,
-      });
+      prevExercise.exercises.push(...validExercises);
     } else {
       prevExercise = new Exercise({
-        [req.user.role === "user" ? "userid" : "trainer_id"]: userId, // Dynamic assignment based on role
-        exercises: [{ exercise_name, category, sets, estimated_time }],
-        date:date,
+        [req.user.role === "user" ? "userid" : "trainer_id"]: userId,
+        exercises: validExercises,
+        date,
       });
     }
 
@@ -172,7 +169,7 @@ console.log(date)
     // 7. Send successful response with saved exercise
     res.status(201).json(savedExercise);
   } catch (error) {
-    console.error(error); // Log the error for debugging
+    console.error(error);
     res.status(500).json({ message: "Internal server error" });
   }
 };

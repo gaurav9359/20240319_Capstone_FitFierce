@@ -6,6 +6,7 @@ const cors=require('cors');
 const authRouter = require("./router/authRouter");
 const exercise=require("./router/exerciseRouter")
 const user= require("./router/userRouter")
+const diet=require("./router/dietRouter")
 
 // Database connection
 const { connectToDatabase } = require("./database/db");
@@ -22,6 +23,7 @@ app.use(cors());
 app.use("/auth", authRouter);
 app.use("/exercise",exercise);
 app.use("/user",user);
+app.use("/diet",diet);
 
 
 

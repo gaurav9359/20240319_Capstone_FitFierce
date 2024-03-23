@@ -4,9 +4,7 @@ const User = require('../models/User')
 const {
     nameValidator,
     emailValidator,
-    passwordValidator,
     phoneNumberValidator,
-    roleValidator,
     imageValidator,
     bannerValidator,
     descriptionValidator,
