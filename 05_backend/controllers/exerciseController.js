@@ -298,11 +298,6 @@ const updateStatus=async (req,res)=>{
     // 1. Extract exercise data from request body
     const exerciseStatuses  = req.body; // Array of objects [{ exerciseId, isDone }, ...]
 
-    // 2. Validate exercise data (check for required fields and data types)
-    // if (!Array.isArray(exerciseStatuses)) {
-    //   return res.status(400).json({ message: "Invalid this exercise data format" });
-    // }
-    console.log(exerciseStatuses)
 
     for (const { exerciseId, isDone } of exerciseStatuses) {
       if (typeof exerciseId !== 'string' || typeof isDone !== 'boolean') {

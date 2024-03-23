@@ -33,6 +33,10 @@ const dietplanSchema = new mongoose.Schema({
       type: String,
       enum: ['morning', 'evening', 'night'], // Restricts time to morning, evening, or night
       required: true,
+    },
+    isDone:{
+      type: Boolean,
+      default: false
     }
   }], // Array of meal objects based on sub-schema
   created_at: {
