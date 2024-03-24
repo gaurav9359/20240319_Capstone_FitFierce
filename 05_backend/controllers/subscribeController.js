@@ -25,30 +25,33 @@ const subscribePlan = async (req, res) => {
       trainer_id: trainerId,
     });
 
-    // if (existingSubscription && new Date().toISOString().slice(0,10)<=existingSubscription.end_date.toISOString.slice(0,10)) {
-    //     return res.status(400).json({ message: 'Subscription already exists' });
-    
-    // }
-    // else if(existingSubscription && new Date().toISOString().slice(0,10)>existingSubscription.end_date.toISOString().slice(0,10)){
-    //     // Calculate the start and end dates
-    // const startDate = new Date().toISOString().slice(0,10);
-    // const endDate = new Date(startDate);
-    // endDate.setDate(startDate.getDate() + validityDays);
-    // endDate=endDate.toISOString().slice(0,10)
-    //     updated_data={
-    //         startDate: startDate,
-    //         endDate: endDate
-    //     }
-
-    //     const updated_document= await Subscription.findOneAndUpdate({
-    //         user_id: userId,trainer_id: trainerId
-    //     },updated_data, { upsert: false })
-
-    //     return res.status(200).json({message: updated_document})
-    // }
-
     // Find the validity days for the trainer
     const validityDays = trainer.validity_days;
+
+    if (existingSubscription && new Date().toISOString().slice(0,10)<=existingSubscription.end_date.toISOString().slice(0,10)) {
+        return res.status(400).json({ message: 'Subscription already exists' });
+    
+    }
+    else if(existingSubscription && new Date().toISOString().slice(0,10)>existingSubscription.end_date.toISOString().slice(0,10)){
+        // Calculate the start and end dates
+    let startDate = new Date()
+    let endDate = new Date(startDate);
+    endDate.setDate(startDate.getDate() + validityDays);
+    endDate=endDate.toISOString().slice(0,10)
+    startDate=startDate.toISOString().slice(0,10)
+        updated_data={
+            start_date: startDate,
+            end_date: endDate
+        }
+
+        const updated_document= await Subscription.findOneAndUpdate({
+            user_id: userId,trainer_id: trainerId
+        },updated_data, { upsert: false , new: true })
+
+        return res.status(200).json({message: updated_document})
+    }
+
+    
 
     // Calculate the start and end dates
     let startDate = new Date()

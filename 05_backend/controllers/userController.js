@@ -27,7 +27,7 @@ const getUser=async (req,res)=>{
         let trainer=await User.findOne({_id: new mongoose.Types.ObjectId(trainerId)})
         trainerInfo.trainer_name=trainer.name
         trainerInfo.image=trainer.image
-        trainerInfo.speciality=trainer.speciality
+        trainerInfo.speciality=trainer.trainer_speciality
         trainerInfo.price= trainer.price
         trainerInfo.validity_days= trainer.validity_days
 
