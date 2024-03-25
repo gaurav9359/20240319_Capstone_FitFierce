@@ -105,6 +105,39 @@ const createDietplan = async (req, res) => {
   
       // 6. Save the dietplan (update or create)
       const savedDietplan = await prevDietplan.save();
+
+     //save the trainer exercise in all the user's exercise array
+    if(req.user.role==='trainer'){
+      // Find active subscriptions for the user
+      const activeSubscriptions = await Subscription.find({
+        trainer_id: userId  // Replace with a dynamic trainer ID if needed
+      });
+  
+      // Extract trainer IDs from active subscriptions
+      const userIds = activeSubscriptions.map((subscription) => subscription.user_id);
+      console.log(userIds)
+      const newDate= new Date(date);
+      // Fetch exercises from trainers (if any)
+      const userExercise = await Promise.all(
+        userIds.map(async (user_Id) => {
+          let user_object= new mongoose.Types.ObjectId(user_Id.toString())
+          let diet_array= await Dietplan.findOne({user_id: user_object} );
+          if(diet_array){
+            diet_array.meals.push(...validMeals)
+          }
+          else{
+            diet_array = new Dietplan({
+              user_id: user_Id,
+              exercises: validMeals,
+              date,
+            });
+          }
+          const savedDietUser=await diet_array.save();
+  
+          console.log(savedDietUser)
+        })
+      );
+      }
   
       // 7. Send successful response with saved dietplan
       res.status(201).json(savedDietplan);
