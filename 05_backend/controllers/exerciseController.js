@@ -166,6 +166,48 @@ const createExercise = async (req, res) => {
     // 6. Save the exercise (update or create)
     const savedExercise = await prevExercise.save();
 
+    //save the trainer exercise in all the user's exercise array
+    if(req.user.role==='trainer'){
+    // Find active subscriptions for the user
+    const activeSubscriptions = await Subscription.find({
+      trainer_id: userId  // Replace with a dynamic trainer ID if needed
+    });
+
+    // Extract trainer IDs from active subscriptions
+    const userIds = activeSubscriptions.map((subscription) => subscription.user_id);
+    console.log(userIds)
+    const newDate= new Date(date);
+    // Fetch exercises from trainers (if any)
+    const userExercise = await Promise.all(
+      userIds.map(async (user_Id) => {
+        console.log(newDate)
+
+        console.log(user_Id)
+        let user_object= new mongoose.Types.ObjectId(user_Id.toString())
+        console.log(user_object)
+        let exercise_array= await Exercise.findOne({userid: user_object} );
+        console.log(exercise_array)
+        console.log(exercise_array)
+        if(exercise_array){
+          console.log("onreo")
+        }
+        if(exercise_array){
+          exercise_array.exercises.push(...validExercises)
+        }
+        else{
+          exercise_array = new Exercise({
+            userid: user_Id,
+            exercises: validExercises,
+            date,
+          });
+        }
+        const savedExerciseUser=await exercise_array.save();
+
+        // console.log(savedExerciseUser)
+      })
+    );
+    }
+
     // 7. Send successful response with saved exercise
     res.status(201).json(savedExercise);
   } catch (error) {
@@ -321,7 +363,7 @@ const updateStatus=async (req,res)=>{
           date, // Filter by user ID and today's date
           "exercises._id": exerciseId, // Nested query to find exercise by ID in exercises array
         },
-        { $set: { "exercises.$[exercise].isDone": isDone } }, // Update isDone using update operator
+        { $z: { "exercises.$[exercise].isDone": isDone } }, // Update isDone using update operator
         { arrayFilters: [{ "exercise._id": exerciseId }] } // Filter to match specific exercise
       );
 

@@ -51,10 +51,7 @@ const planSchema = new mongoose.Schema({
         type: Boolean,
         default: false
       },
-      trainerId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User', // Reference to the User model (optional trainer)
-      }
+      
     }
   ], // Array of exercise objects based on sub-schema
  
