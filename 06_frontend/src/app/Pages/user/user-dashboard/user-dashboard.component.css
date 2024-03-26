@@ -1,0 +1,22 @@
+.middle-part{
+    height: 100vh;
+    align-items: center;
+    display: flex;
+}
+.left-side{
+    width: 40%;
+}
+.right-side{
+    height: 70%;
+}
+
+@media (max-width:1080px) {
+    .left-side{
+        width: 10%;
+    }
+    .right-side{
+        width: 80%;
+        margin-top: 100px;
+    }
+
+}
