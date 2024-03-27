@@ -1,7 +1,13 @@
 <div class="card">
-    <img src="../../../assets/undraw_pic_profile_re_7g2h.svg" alt="John" style="width:50%">
-    <h1>John Doe</h1>
-    <p class="title">CEO & Founder, Example</p>
-    <p>Harvard University</p>
-   
+  <img
+    src="../../../assets/undraw_pic_profile_re_7g2h.svg"
+    alt="John"
+    style="width: 50%"
+  />
+  <div class="Details">
+    <p>Name: {{ userProfile.name }}</p>
+    <p>Email: {{ userProfile.email }}</p>
+    <p>Phone Number: {{ userProfile.phone_number }}</p>
+    <p>Role: {{ userProfile.role }}</p>
   </div>
+</div>

@@ -57,8 +57,8 @@ em{
  }
  
  .s-sidebar__nav:hover,
- .s-sidebar__nav:focus,
- .s-sidebar__trigger:focus + .s-sidebar__nav,
+ .s-sidebar__nav:hover,
+ .s-sidebar__trigger:hover + .s-sidebar__nav,
  .s-sidebar__trigger:hover + .s-sidebar__nav {
     left: 0;
  }
@@ -138,9 +138,9 @@ em{
    
     
     .s-sidebar__nav:hover,
-    .s-sidebar__nav:focus,
+    .s-sidebar__nav:hover,
     .s-sidebar__trigger:hover + .s-sidebar__nav,
-    .s-sidebar__trigger:focus + .s-sidebar__nav {
+    .s-sidebar__trigger:hover + .s-sidebar__nav {
        width: 15em;
     }
  }

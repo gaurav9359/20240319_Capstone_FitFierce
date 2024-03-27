@@ -1,0 +1,13 @@
+h1{
+    color: #21695c;
+    margin-bottom: 20px;
+}
+table {
+    width: 100%;
+    border: 1px solid rgb(235, 229, 229);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  }
+
+.diet-text{
+    margin: 30px 0px;
+}

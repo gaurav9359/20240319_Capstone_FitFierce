@@ -1,0 +1,10 @@
+<app-navbar></app-navbar>
+<div class="history">
+    <div class="left-side">
+        <app-sidebar [navItems]="navItems"></app-sidebar>
+    </div>
+    <!-- <div *ngFor="let trainer of trainers"> <p> {{ trainer.name }} </p>  </div> -->
+    <div class="right-side">
+    <app-subscription-buy-card class="cards" *ngFor="let trainer of trainers" [trainer]="trainer"></app-subscription-buy-card>
+    </div>
+</div>

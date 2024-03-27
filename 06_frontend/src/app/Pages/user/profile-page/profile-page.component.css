@@ -1,0 +1,36 @@
+.middle-part{
+    /* height: fit-content; */
+    
+    align-items: center;
+    display: flex;
+}
+.left-side{
+    width: 25%;
+}
+.right-side{
+    padding-top: 90px;
+    width: 60%;
+}
+
+.table{
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+.plans{
+    margin-top: 100px;
+    margin-bottom: 50px;
+}
+
+.plans h1{
+    color: #21695c;
+}
+@media (max-width:1080px) {
+    .left-side{
+        width: 10%;
+    }
+    .right-side{
+        width: 80%;
+        margin-top: 100px;
+    }
+
+}

@@ -3,14 +3,14 @@
         <div class="s-layout">
             <!-- Sidebar -->
             <div class="s-layout__sidebar">
-              <a class="s-sidebar__trigger" href="#0">
+              <a class="s-sidebar__trigger">
                  <i class="fa fa-bars"></i>
               </a>
             
               <nav class="s-sidebar__nav">
                 <ul>
                     <li *ngFor="let item of navItems">
-                      <a class="s-sidebar__nav-link" [href]="item.link">
+                      <a class="s-sidebar__nav-link" [routerLink]="item.link">
                         <i class="fa-solic {{ item.icon }}"></i>
                         <em>{{ item.text }}</em>
                       </a>
