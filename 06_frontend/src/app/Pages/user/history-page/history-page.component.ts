@@ -24,6 +24,6 @@ export class HistoryPageComponent {
     { icon: 'fa-solid fa-cart-shopping', text: 'Buy Subscription', link: '/buy' },
     { icon: 'fa-solid fa-user', text: 'My Profile', link: '/profile' },
     { icon: 'fa-solid fa-clock-rotate-left', text: 'History', link: '/history' },
-    { icon: 'fa-solid fa-right-from-bracket', text: 'Logout', link: '/logout' }
+    
   ];
 }

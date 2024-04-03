@@ -12,7 +12,7 @@ import { RouterLink } from '@angular/router';
 export class SubscriptionBuyCardComponent {
  
     @Input() trainer: any; // Input property to receive movie information
-    @Output() movieClicked: EventEmitter<any> = new EventEmitter<any>(); // Event emitter for movie click event
+    // @Output() movieClicked: EventEmitter<any> = new EventEmitter<any>(); // Event emitter for movie click event
   
     
   

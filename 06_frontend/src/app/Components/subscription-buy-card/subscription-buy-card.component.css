@@ -13,6 +13,26 @@
   .trainer-card:hover {
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   }
+  .buttons-buy{
+    margin-top: 10px;
+  }
+  .buttons-buy button{
+    color: rgb(0, 0, 0);
+	padding: 10px;
+    border-radius: 4px;
+    padding: 8px 15px;
+    border: none;
+    border: 1px solid rgb(235, 229, 229);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+	font-weight: bold;
+	text-decoration: none;
+  }
+
+  .buttons-buy button:hover{
+    background-color: #21695c;
+	border-radius: 4px;
+	color: white;
+  }
   
   .trainer-image {
     width: 100%;
@@ -35,7 +55,10 @@
     transition: opacity 0.2s ease-in-out;
     opacity: 0;
   }
-  
+  .buttons-buy{
+    display: flex;
+    justify-content: space-between;
+  }
   .trainer-card:hover .trainer-details {
     opacity: 1;
   }

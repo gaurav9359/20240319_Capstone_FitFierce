@@ -16,6 +16,15 @@
 
 
 
+h1{
+margin: 28px;
+color: #21695c;
+}
+
+.goal-section{
+    margin-top: 100px;
+}
+
 @media (max-width:1080px) {
     .left-side{
         width: 10%;

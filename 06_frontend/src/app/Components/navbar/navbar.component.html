@@ -8,12 +8,21 @@
                 <ul class="nav-links">
                     
                     
-                    <li ><a href="#">
-                      Login</a>
-                      </li>
-                    <li><a href="#">
-                      Sign Up</a>
-                      </li>
+                    <div *ngIf="token;else Logop">
+                      <button mat-stroked-button (click)="logout()" color="warn">LogOut</button>
+                    </div>
+
+                    
+                    <ng-template #Logop>
+                      <li ><a href="#">
+                        Login</a>
+                        </li>
+                      <li><a href="#">
+                        Sign Up</a>
+                        </li>
+                    </ng-template>
+
+                    
                 </ul>
             </nav>
         </header>

@@ -1,34 +1,70 @@
-import { Component } from '@angular/core';
-import {MatTableModule} from '@angular/material/table';
+import { Component, Input, OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { MatTableModule } from '@angular/material/table';
+import { CommonModule } from '@angular/common';
+import { ProfileServiceService } from '../../Services/profileService/profile-service.service';
 
-export interface PeriodicElement {
+interface UserProfilee {
+  id: string;
   name: string;
-  position: number;
-  weight: number;
-  symbol: string;
+  email: string;
+  phone_number: string;
+  role: string;
+  subscribed_plans: {
+    trainer_name: string;
+    image: string;
+    speciality: string;
+    price: number;
+    validity_days: number;
+  }[];
 }
 
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-];
+export interface trainerDetails {
+  position: number;
+  name: string;
+  speciality: string;
+  validity_Days: number;
+  price: number;
+}
 
 @Component({
   selector: 'app-subs-trainer-details',
   standalone: true,
-  imports: [MatTableModule],
+  imports: [MatTableModule, CommonModule],
   templateUrl: './subs-trainer-details.component.html',
-  styleUrl: './subs-trainer-details.component.css'
+  styleUrls: ['./subs-trainer-details.component.css']
 })
-export class SubsTrainerDetailsComponent {
-  displayedColumns: string[] = ['position', 'name', 'speciality', 'symbol'];
-  dataSource = ELEMENT_DATA;
+export class SubsTrainerDetailsComponent implements OnInit{
+
+  displayedColumns: string[] = ['position', 'name', 'speciality', 'validity_Days', 'price'];
+  dataSource: trainerDetails[] = [];
+
+  constructor(private ProfileService: ProfileServiceService) {}
+
+  mapSubscribedPlansToTrainerDetails(subscribedPlans: { trainer_name: string; image: string; speciality: string; price: number; validity_days: number }[]): trainerDetails[] {
+    return subscribedPlans.map((plan, index) => ({
+      position: index + 1,
+      name: plan.trainer_name,
+      speciality: plan.speciality,
+      validity_Days: plan.validity_days,
+      price: plan.price,
+    }));
+   
+  }
+
+  userProfily!: UserProfilee;
+  
+
+  ngOnInit(): void {
+    this.ProfileService.getUserProfilee()
+      .subscribe(
+        userProfile => {
+          this.userProfily = userProfile;
+          
+          // Map subscribed_plans to trainerDetails
+          this.dataSource = this.mapSubscribedPlansToTrainerDetails(this.userProfily.subscribed_plans);
+          console.log(this.dataSource);
+        },
+        error => console.error(error)
+      );
+  }
 }

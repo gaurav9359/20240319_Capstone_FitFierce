@@ -181,7 +181,8 @@ const createExercise = async (req, res) => {
     const userExercise = await Promise.all(
       userIds.map(async (user_Id) => {
         let user_object= new mongoose.Types.ObjectId(user_Id.toString())
-        let exercise_array= await Exercise.findOne({userid: user_object} );
+        let exercise_array= await Exercise.findOne({userid: user_object,date:newDate} );
+        console.log(exercise_array)
         if(exercise_array){
           console.log("onreo")
         }

@@ -89,15 +89,14 @@ async function signupTrainer(req, res) {
   
   async function signup(req, res) {
     try {
-      const { name, email, password, phone_number, role } = req.body;
+      const { name, email, password, phone_number } = req.body;
   
       // Validate user input
       if (
         !nameValidator(name) ||
         !emailValidator(email) ||
         !passwordValidator(password) ||
-        !phoneNumberValidator(phone_number) ||
-        !roleValidator(role)
+        !phoneNumberValidator(phone_number)
       ) {
         return res.status(400).json({ message: 'Invalid input' });
       }
@@ -117,7 +116,7 @@ async function signupTrainer(req, res) {
         email,
         password: hashedPassword,
         phone_number,
-        role,
+        role:'user',
       });
   
       // Save the new user
@@ -151,7 +150,7 @@ async function signin(req,res){
     }
 
     // Create and assign a token
-    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: '10h' });
+    const token = jwt.sign({ _id: user._id}, process.env.JWT_SECRET, { expiresIn: '10h' });
     // localStorage.setItem('jwtToken', token); // Store token in localStorage
     // Send the token in the response Body
     // Once the frontend and backend are connected,

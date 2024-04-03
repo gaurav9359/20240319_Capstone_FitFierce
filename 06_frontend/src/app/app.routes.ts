@@ -7,13 +7,17 @@ import { ProfilePageComponent } from './Pages/user/profile-page/profile-page.com
 import { HistoryPageComponent } from './Pages/user/history-page/history-page.component';
 import { BuyPageComponent } from './Pages/user/buy-page/buy-page.component';
 import { CreateGoalsComponent } from './Pages/user/create-goals/create-goals.component';
+import { ManageExerciseComponent } from './Components/manage-exercise/manage-exercise.component';
+import { SignupUserComponent } from './Pages/signup-user/signup-user.component';
 export const routes: Routes = [
     { path: '', component: HomePageComponent },
     { path: 'signin', component: SigninPageComponent },
-    { path: 'signup', component: SignupPageComponent },
-    { path: 'user', component: UserDashboardComponent },
+    { path: 'signuptrainer', component: SignupPageComponent },
+    { path: 'signup', component: SignupUserComponent },
+    { path: 'user', component: ProfilePageComponent },
     { path: 'profile', component: ProfilePageComponent },
     { path: 'history', component: HistoryPageComponent },
     { path: 'buy', component: BuyPageComponent },
     { path: 'creategoals', component: CreateGoalsComponent },
+    { path: 'managegoal', component: ManageExerciseComponent },
 ];

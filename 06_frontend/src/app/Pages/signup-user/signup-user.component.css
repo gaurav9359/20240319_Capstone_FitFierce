@@ -1,14 +1,77 @@
+.inside-content{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+}
+.create-cause-page{
+    display: flex;
+    justify-content: center;
+    /* margin:30px 0px; */
+}
 
+h1{
+    color: #21695c;
+}
+
+.form-details form{
+    margin: 50px 0px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* signup-user.component.css */
+
+/* Form container */
+.create-cause-page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .inside-content {
+    width: 500px;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px #21695c;
+  }
+  
+  .header {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  /* Form fields */
+  .form-details {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  mat-form-field {
+    margin-bottom: 16px;
+  }
+  
+  /* Submit button */
+  button[type="submit"] {
+    align-self: flex-end;
+  }
+
+  input{
+    padding: 2px;
+  }
+
+  
 .main{
     width: 80%;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-wrap: wrap;
-    height: 100vh;
+    height: 0vh;
 }
 .main-main{
     display: flex;
+    height: 80vh;
     justify-content: center;
 }
 .left-part{
@@ -50,11 +113,11 @@
   padding: 10px 30px 50px 30px;
 }
 
-.wrapper form .field {
+/* .wrapper form .field {
   height: 50px;
   width: 100%;
   position: relative;
-}
+} */
 .wrapper form .field .submit-button {
   height: 100%;
   width: 100%;
@@ -97,7 +160,7 @@ form .signup-link a:hover {
 }
 
 mat-form-field input{
-  height: 40px;
+  height: 0px;
   width: 100%;
   margin: 10px 0px;
 }
@@ -117,6 +180,15 @@ mat-form-field{
 
   .input1{
     margin: 30px 0px 0px 0px;
+    border-radius: 10px;
+  }
+
+  .submit-btn{
+    background-color: #21695c;
+    color: white;
+    padding: 10px;
+    outline: none;
+    border-radius: 5px;
   }
 
 

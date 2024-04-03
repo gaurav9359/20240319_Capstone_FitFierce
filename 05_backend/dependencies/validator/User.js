@@ -68,11 +68,7 @@ function nameValidator(name) {
       return false;
     }
   
-    // Check if password contains at least one uppercase letter, one lowercase letter, and one digit
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,20}$/;
-    if (!passwordRegex.test(password)) {
-      return false;
-    }
+    
     
     return true;
   }

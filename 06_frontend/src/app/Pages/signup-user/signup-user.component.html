@@ -1,0 +1,52 @@
+<div class="signin">
+    <app-navbar></app-navbar>
+    <div class="main-main">
+        <div class="main">
+          <div class="left-part">
+            <div class="create-cause-page">
+                <div class="inside-content">
+                  <div class="header">
+                    <h1>Create User</h1>
+                  </div>
+                  <div class="form-details">
+                    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+                      <!-- Add new fields -->
+                      <mat-form-field appearance="outline">
+                        <!-- <mat-label>Name</mat-label> -->
+                        <input matInput formControlName="name" placeholder="Name" required>
+                        <mat-error *ngIf="(userForm.get('name')?.hasError('required') ?? false)">Name is required</mat-error>
+                      </mat-form-field>
+                      <mat-form-field appearance="outline">
+                        <!-- <mat-label>Email</mat-label> -->
+                        <input matInput formControlName="email" placeholder="Email" required>
+                        <mat-error *ngIf="(userForm.get('email')?.hasError('required') ?? false)">Email is required</mat-error>
+                        <mat-error *ngIf="(userForm.get('email')?.hasError('email') ?? false)">Invalid email format</mat-error>
+                      </mat-form-field>
+                      <mat-form-field appearance="outline">
+                        <!-- <mat-label>Password</mat-label> -->
+                        <input matInput formControlName="password" placeholder="Password" type="password" required>
+                        <mat-error *ngIf="(userForm.get('password')?.hasError('required') ?? false)">Password is required</mat-error>
+                      </mat-form-field>
+                      <mat-form-field appearance="outline">
+                        <!-- <mat-label>Phone Number</mat-label> -->
+                        <input matInput formControlName="phoneNumber" placeholder="Phone Number" required>
+                        <mat-error *ngIf="(userForm.get('phoneNumber')?.hasError('required') ?? false)">Phone number is required</mat-error>
+                        <mat-error *ngIf="(userForm.get('phoneNumber')?.hasError('pattern') ?? false)">Invalid phone number format</mat-error>
+                      </mat-form-field>
+              
+                      
+                      <!-- Other existing fields -->
+              
+                      <button class="submit-btn" type="submit" >Submit</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+          </div>
+          <div class="right-part">
+              <img src="../../../assets/undraw_fingerprint_login_re_t71l.svg" alt="">
+          </div>
+        </div>
+    
+      </div>
+</div>

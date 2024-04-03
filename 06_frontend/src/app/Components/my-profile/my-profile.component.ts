@@ -23,7 +23,6 @@ export class MyProfileComponent {
   email:"",
   phone_number:"",
   role:"",
-  
  };
 
  

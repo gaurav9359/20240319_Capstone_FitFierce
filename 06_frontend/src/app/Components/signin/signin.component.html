@@ -4,17 +4,58 @@
           <div class="wrapper">
               <div class="title">Sign In</div>
               <form action="#">
-                <div class="field">
-                  <input type="text" required />
-                  <label>Email Address</label>
-                </div>
-                <div class="field">
-                  <input type="password" required />
-                  <label>Password</label>
+             <div class="field input1">
+              <mat-form-field class="auth-input">
+                <input
+                  type="email"
+                  matInput
+                  [formControl]="emailFormControl"
+                  [errorStateMatcher]="matcher"
+                  placeholder="Ex. pat@example.com"
+                  (focus)="resetController()"
+                />
+              
+                <mat-hint>Your email address</mat-hint>
+                <mat-error>
+                  {{
+                    emailFormControl.hasError("email")
+                      ? "Not a valid email"
+                      : emailFormControl.hasError("required")
+                      ? "Email is required"
+                      : ""
+                  }}
+                </mat-error>
+              </mat-form-field>
+             </div>
+
+                <div class="field input2">
+                  <mat-form-field class="auth-input">
+                    <input
+                      type="password"
+                      matInput
+                      [formControl]="passwordFormControl"
+                      [errorStateMatcher]="matcher"
+                      placeholder="*********"
+                      (focus)="resetController()"
+                    />
+                    <mat-hint>Your password</mat-hint>
+                    <mat-error>
+                      {{
+                        passwordFormControl.hasError("required")
+                          ? "Password is required"
+                          : passwordFormControl.hasError("minlength")
+                          ? "Password must be at least 8 characters long"
+                          : passwordFormControl.hasError("maxlength")
+                          ? "Password must be at most 20 characters long"
+                          : ""
+                      }}
+                    </mat-error>
+                  </mat-form-field>
+                  
                 </div>
                
-                <div class="field">
-                  <input type="submit" value="Login" />
+                <div class="field ">
+                  <input class="submit-button" (click)="onSubmit()" type="submit" value="Login" />
                 </div>
                 <div class="signup-link">
                   Not registered yet? <a href="#">Signup now</a>
