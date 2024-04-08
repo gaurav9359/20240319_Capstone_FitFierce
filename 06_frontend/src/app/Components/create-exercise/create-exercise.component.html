@@ -25,9 +25,10 @@
                 <button type="button" *ngIf="studentListArray().length > 1" (click)="removeStudent(i)"
                     class="btn btn-sm btn-danger ms-1">Remove Exercise</button>
                </div>
+
                
                   <div class="remove-buttons">
-                    <button type="button" 
+                    <button type="button"  (click)="addStudent(i)"
             class="btn btn-sm btn-primary mt-4 mb-5"
             [disabled]="!activeButton(i)">
       Add New Exercise
@@ -38,6 +39,10 @@
           </div>
         </div>
       </div>
-      <button type="submit"  class="btn save-button btn-sm btn-success mt-4 ms-2 mb-5">Save</button>
+      <button mat-raised-button color="primary" style="background-color: #21695c;" (click)="openSnackBar('Created', 'ok')" type="submit" class="mt-4 ms-2 mb-5">
+        Save
+      </button>
+      
+
     </form>
   </div>

@@ -10,9 +10,11 @@
     width: 10%;
 }
 .right-side{
-    padding-top: 90px;
+    padding-top: 40px;
     width: 60%;
 }
+
+
 
 
 
@@ -22,7 +24,8 @@ color: #21695c;
 }
 
 .goal-section{
-    margin-top: 100px;
+    margin: 100px 0px;
+    
 }
 
 @media (max-width:1080px) {

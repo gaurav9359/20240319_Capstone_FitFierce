@@ -6,10 +6,13 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {FormsModule} from '@angular/forms';
 import { HttpClient,HttpHeaders } from '@angular/common/http';
 
+import {MatSnackBar} from '@angular/material/snack-bar';
+import { MatButton, MatButtonModule } from '@angular/material/button';
+
 @Component({
   selector: 'app-create-diet',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule,FormsModule, MatFormFieldModule, MatInputModule],
+  imports: [CommonModule, ReactiveFormsModule,FormsModule, MatFormFieldModule, MatInputModule,MatButton],
   templateUrl: './create-diet.component.html',
   styleUrl: './create-diet.component.css'
 })
@@ -22,7 +25,13 @@ export class CreateDietComponent {
     this.studentForm.reset(this.getInitialFormValues()); // Reset with initial values
   
 }
-constructor(private http: HttpClient){}
+constructor(private http: HttpClient,private _snackBar:MatSnackBar){}
+
+openSnackBar(message: string, action: string) {
+  this._snackBar.open(message, action, {
+    duration: 1500  // Set duration to 5 seconds (5000 milliseconds)
+  });
+}
 
 getInitialFormValues(): { studentList: FormGroup[] } {
   return { studentList: [this.getStudentFields()] }; // Provide initial values

@@ -3,19 +3,26 @@ import { FormArray, FormControl, FormGroup, ReactiveFormsModule ,Validators} fro
 import { CommonModule } from '@angular/common';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatButton, MatButtonModule } from '@angular/material/button';
 import {FormsModule} from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-create-exercise',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule,FormsModule, MatFormFieldModule, MatInputModule],
+  imports: [CommonModule, ReactiveFormsModule,FormsModule, MatFormFieldModule, MatInputModule,MatButton],
   templateUrl: './create-exercise.component.html',
   styleUrl: './create-exercise.component.css'
 })
 export class CreateExerciseComponent {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,private _snackBar:MatSnackBar) { }
 
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 1500  // Set duration to 5 seconds (5000 milliseconds)
+    });
+  }
 
   clearForm() {
       this.studentForm.reset(this.getInitialFormValues()); // Reset with initial values
@@ -59,6 +66,10 @@ let object= tempStudentFormData.studentList[i]
     this.studentListArray().removeAt(i);
   }
 
+  addStudent(i:number) {
+    this.studentListArray().push(this.getStudentFields());
+  }
+
 
   getFormData() {
     let serverData: any = [],
@@ -83,6 +94,8 @@ let object= tempStudentFormData.studentList[i]
 
       }
     });
+
+    
     
     console.log(serverData)
     if(serverData){
