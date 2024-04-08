@@ -1,0 +1,42 @@
+.example-full-width {
+    margin: 0px 10px;
+   }
+  
+  
+    .add-new button{
+      margin-right: 10px;
+    }
+    
+    .set-add-remove{
+      display: flex;
+      justify-content: end;
+      width: 100%;
+      display: flex;
+    }
+
+    .form-input{
+      display: flex;
+    }
+  
+    .save-button{
+      color: rgb(0, 0, 0);
+      padding: 10px;
+      border-radius: 4px;
+      padding: 8px 15px;
+      border: none;
+      border: 1px solid rgb(235, 229, 229);
+      box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+      font-weight: bold;
+      text-decoration: none;
+    }
+  
+    .save-button:hover{
+      background-color: #21695c;
+      border-radius: 4px;
+      color: white;
+    }
+  
+  
+   
+  
+   

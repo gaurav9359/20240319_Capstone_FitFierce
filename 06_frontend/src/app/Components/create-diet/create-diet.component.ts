@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {FormsModule} from '@angular/forms';
+import { HttpClient,HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-create-diet',
@@ -21,6 +22,7 @@ export class CreateDietComponent {
     this.studentForm.reset(this.getInitialFormValues()); // Reset with initial values
   
 }
+constructor(private http: HttpClient){}
 
 getInitialFormValues(): { studentList: FormGroup[] } {
   return { studentList: [this.getStudentFields()] }; // Provide initial values
@@ -28,10 +30,10 @@ getInitialFormValues(): { studentList: FormGroup[] } {
 
   getStudentFields(): FormGroup {
     return new FormGroup({
-      exercise_name: new FormControl(""),
-      exercise_category: new FormControl(""),
-      exercise_sets:new FormControl(""),
-      exercise_time: new FormControl(""),
+      diet_name: new FormControl(""),
+      calories: new FormControl(""),
+      quantity:new FormControl(""),
+      time_toeat: new FormControl(""),
     });
   }
 
@@ -47,11 +49,12 @@ getInitialFormValues(): { studentList: FormGroup[] } {
     let tempStudentFormData = JSON.parse(JSON.stringify(this.studentForm.value));
 
 let object= tempStudentFormData.studentList[i]
-console.log("boje",object)
-    if(object.exercise_category && object.exercise_name && object.exercise_time && object.exercise_sets){
+console.log(object)
+    if(object.calories && object.diet_name && object.time_toeat && object.quantity){
+      console.log('here')
       return true
     }
-
+console.log('here2')
     return false
   }
 
@@ -65,17 +68,46 @@ console.log("boje",object)
       tempStudentFormData = JSON.parse(JSON.stringify(this.studentForm.value));
     tempStudentFormData.studentList.forEach((element: any) => {
       let tempObj: any = {
-        Diet_Name: element.exercise_name,
-        Diet_Quantity: element.exercise_category,
-        Diet_Calories: element.exercise_sets,
-        Diet_time: element.exercise_time
+        diet_name: element.diet_name,
+        quantity: Number(element.calories),
+        calories: Number(element.quantity),
+        time_toEat: element.time_toeat
       };
       
-      tempObj.subject = JSON.stringify(tempObj.subject);
-      serverData.push(tempObj);
+      if(tempObj.diet_name.trim()===""|| tempObj.time_toEat.trim()===""){
+
+      }
+      else{
+
+        tempObj.subject = JSON.stringify(tempObj.subject);
+        serverData.push(tempObj);
+        console.log(tempObj)
+      }
     });
     
     console.log(serverData);  // This is the variable which contain all the form data
+
+    if(serverData){
+      const formData = serverData;
+      console.log(formData)
+    const token = localStorage.getItem('authToken'); // Get the token from localStorage
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}` // Include the token in the headers
+    });
+    // console.log(typeof(serverData[0].sets))
+
+    this.http.post('http://localhost:3000/diet/createDiet', formData, { headers })
+      .subscribe(
+        (response) => {
+          console.log('Diet created successfully:', response);
+          // Handle the successful response
+        },
+        (error) => {
+          console.error('Error creating exercise:', error);
+          // Handle the error
+        })
+    }
 
     this.clearForm();
   

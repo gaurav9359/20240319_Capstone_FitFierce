@@ -8,13 +8,16 @@
                 <input matInput placeholder="Exercise Name" value="Sushi" type="text"formControlName="exercise_name" >
               </mat-form-field>
             <mat-form-field class="example-full-width">
-                <input matInput placeholder="Exercise Category" value="Sushi" type="text" formControlName="exercise_category" >
+                <input matInput placeholder="Exercise Category" value="Sushi" type="text" formControlName="category" >
               </mat-form-field>
             <mat-form-field class="example-full-width">
-                <input matInput placeholder="Exercise Sets" value="Sushi" type="text" formControlName="exercise_sets">
+                <input matInput placeholder="Exercise Sets" value="Sushi" type="text" formControlName="sets">
+                <mat-error *ngIf="studentForm.get('studentList')?.get('sets')?.hasError('pattern')">
+                  Sets must be a number
+                </mat-error>
               </mat-form-field>
             <mat-form-field class="example-full-width">
-                <input matInput placeholder="Exercise Estimated Time" value="Sushi" type="text" formControlName="exercise_time"> 
+                <input matInput placeholder="Exercise Estimated Time" value="Sushi" type="text" formControlName="estimated_time"> 
               </mat-form-field>
            </div>
            <div class="set-add-remove">
@@ -24,7 +27,7 @@
                </div>
                
                   <div class="remove-buttons">
-                    <button type="button" (click)="addStudent(i)"
+                    <button type="button" 
             class="btn btn-sm btn-primary mt-4 mb-5"
             [disabled]="!activeButton(i)">
       Add New Exercise

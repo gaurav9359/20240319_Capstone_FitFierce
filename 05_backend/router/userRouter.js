@@ -8,6 +8,8 @@ const { verifyJwt, getUserMiddleware, fetchWithAuthorization } = require("../dep
 //create Exercise
 router.get("/getuser", verifyJwt, getUserMiddleware, userController.getUser);
 
+router.get("/getalltrainer",verifyJwt,getUserMiddleware,userController.getallTrainer)
+
 //create Exercise
 router.put("/updateUser", verifyJwt, getUserMiddleware, userController.updateUser);
 

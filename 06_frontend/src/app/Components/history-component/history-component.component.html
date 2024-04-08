@@ -1,77 +1,89 @@
 <div class="history-comp">
-    <div class="exercise-history">
-        <h1>
-            Exercise History
-        </h1>
-        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+  <div class="exercise-history">
+    <h1>Exercise History</h1>
+    <table mat-table [dataSource]="exerciseDataSource" class="mat-elevation-z8">
+      <!-- Date Column -->
+      <!-- <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef>Date</th>
+        <td mat-cell *matCellDef="let exercise">{{ exercise.date | date }}</td>
+      </ng-container> -->
 
-            <!--- Note that these columns can be defined in any order.
-                  The actual rendered columns are set as a property on the row definition" -->
-          
-            <!-- Position Column -->
-            <ng-container matColumnDef="position">
-              <th mat-header-cell *matHeaderCellDef> No. </th>
-              <td mat-cell *matCellDef="let element"> {{element.position}} </td>
-            </ng-container>
-          
-            <!-- Name Column -->
-            <ng-container matColumnDef="name">
-              <th mat-header-cell *matHeaderCellDef> Name </th>
-              <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-            </ng-container>
-          
-            <!-- Weight Column -->
-            <ng-container matColumnDef="weight">
-              <th mat-header-cell *matHeaderCellDef> Weight </th>
-              <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
-            </ng-container>
-          
-            <!-- Symbol Column -->
-            <ng-container matColumnDef="symbol">
-              <th mat-header-cell *matHeaderCellDef> Symbol </th>
-              <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
-            </ng-container>
-          
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-          </table>
-          
-    </div>
+      <!-- Exercise Name Column -->
+      <ng-container matColumnDef="exerciseName">
+        <th mat-header-cell *matHeaderCellDef>Exercise Name</th>
+        <td mat-cell *matCellDef="let exercise">{{ exercise.exercise_name }}</td>
+      </ng-container>
 
-    <div class="diet-history">
-        <h1 class="diet-text">Diet History</h1>
-        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <!-- Category Column -->
+      <ng-container matColumnDef="category">
+        <th mat-header-cell *matHeaderCellDef>Category</th>
+        <td mat-cell *matCellDef="let exercise">{{ exercise.category }}</td>
+      </ng-container>
 
-            <!--- Note that these columns can be defined in any order.
-                  The actual rendered columns are set as a property on the row definition" -->
-          
-            <!-- Position Column -->
-            <ng-container matColumnDef="position">
-              <th mat-header-cell *matHeaderCellDef> No. </th>
-              <td mat-cell *matCellDef="let element"> {{element.position}} </td>
-            </ng-container>
-          
-            <!-- Name Column -->
-            <ng-container matColumnDef="name">
-              <th mat-header-cell *matHeaderCellDef> Name </th>
-              <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-            </ng-container>
-          
-            <!-- Weight Column -->
-            <ng-container matColumnDef="weight">
-              <th mat-header-cell *matHeaderCellDef> Weight </th>
-              <td mat-cell *matCellDef="let element"> {{element.weight}} </td>
-            </ng-container>
-          
-            <!-- Symbol Column -->
-            <ng-container matColumnDef="symbol">
-              <th mat-header-cell *matHeaderCellDef> Symbol </th>
-              <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
-            </ng-container>
-          
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-          </table>
-          
-    </div>
+      <!-- Sets Column -->
+      <ng-container matColumnDef="sets">
+        <th mat-header-cell *matHeaderCellDef>Sets</th>
+        <td mat-cell *matCellDef="let exercise">{{ exercise.sets }}</td>
+      </ng-container>
+
+      <!-- Estimated Time Column -->
+      <ng-container matColumnDef="estimatedTime">
+        <th mat-header-cell *matHeaderCellDef>Estimated Time</th>
+        <td mat-cell *matCellDef="let exercise">{{ exercise.estimated_time }}</td>
+      </ng-container>
+
+      <!-- isDone Column -->
+      <ng-container matColumnDef="isDone">
+        <th mat-header-cell *matHeaderCellDef>Done</th>
+        <td mat-cell *matCellDef="let exercise">{{ exercise.isDone }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="exerciseDisplayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: exerciseDisplayedColumns;"></tr>
+    </table>
+  </div>
+
+  <div class="diet-history">
+    <h1 class="diet-text">Diet History</h1>
+    <table mat-table [dataSource]="dietDataSource" class="mat-elevation-z8">
+      <!-- Date Column -->
+      <!-- <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef>Date</th>
+        <td mat-cell *matCellDef="let diet">{{ diet.date | date }}</td>
+      </ng-container> -->
+
+      <!-- Diet Name Column -->
+      <ng-container matColumnDef="dietName">
+        <th mat-header-cell *matHeaderCellDef>Diet Name</th>
+        <td mat-cell *matCellDef="let diet">{{ diet.diet_name }}</td>
+      </ng-container>
+
+      <!-- Quantity Column -->
+      <ng-container matColumnDef="quantity">
+        <th mat-header-cell *matHeaderCellDef>Quantity</th>
+        <td mat-cell *matCellDef="let diet">{{ diet.quantity }}</td>
+      </ng-container>
+
+      <!-- Calories Column -->
+      <ng-container matColumnDef="calories">
+        <th mat-header-cell *matHeaderCellDef>Calories</th>
+        <td mat-cell *matCellDef="let diet">{{ diet.calories }}</td>
+      </ng-container>
+
+      <!-- Time to Eat Column -->
+      <ng-container matColumnDef="timeToEat">
+        <th mat-header-cell *matHeaderCellDef>Time to Eat</th>
+        <td mat-cell *matCellDef="let diet">{{ diet.time_toEat }}</td>
+      </ng-container>
+
+      <!-- isDone Column -->
+      <ng-container matColumnDef="isDone">
+        <th mat-header-cell *matHeaderCellDef>Done</th>
+        <td mat-cell *matCellDef="let diet">{{ diet.isDone }}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="dietDisplayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: dietDisplayedColumns;"></tr>
+    </table>
+  </div>
 </div>

@@ -1,15 +1,26 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NavbarComponent } from '../../../Components/navbar/navbar.component';
 import { SidebarComponent } from '../../../Components/sidebar/sidebar.component';
 import { SubscriptionBuyCardComponent } from '../../../Components/subscription-buy-card/subscription-buy-card.component';
 import { CommonModule, NgFor } from '@angular/common'; // Both CommonModule and NgFor are imported
 import { FormsModule } from '@angular/forms';
+import { HttpClient } from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
 
 interface NavItem {
   icon: string;
   text: string;
   link: string; // Optional for actual links (replace with #0 for placeholders)
 }
+
+interface trainerDetails{
+  name:string,
+  image: string,
+  trainer_speciality:string,
+  price: number
+}
+
+
 
 @Component({
   selector: 'app-buy-page',
@@ -18,7 +29,7 @@ interface NavItem {
   templateUrl: './buy-page.component.html',
   styleUrl: './buy-page.component.css'
 })
-export class BuyPageComponent {
+export class BuyPageComponent implements OnInit{
   navItems: NavItem[] = [
     { icon: 'fa-solid fa-chart-line', text: 'Home', link: '/' },
     { icon: 'fa-solid fa-bullseye', text: 'Manage Goals', link: '/manage-goals' },
@@ -28,76 +39,36 @@ export class BuyPageComponent {
     { icon: 'fa-solid fa-clock-rotate-left', text: 'History', link: '/history' },
   ];
 
-  trainers = [
-    {
-      name: 'Jon Jones',
-      imageUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4tKYDproiVjI-3KrLHt7grKhRRExL5HS0HQm3HaBlyOZUYrO0q_CmmvauknYZxiRXFvU&usqp=CAU',
-      speciality: ['MMA'],
-      description:
-        "A dad forms a bitter rivalry with his daughter's young rich boyfriend.",
-      year: 2016,
-      rating: 6.2,
-    },
-    {
-      name: 'Jon Jones',
-      imageUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4tKYDproiVjI-3KrLHt7grKhRRExL5HS0HQm3HaBlyOZUYrO0q_CmmvauknYZxiRXFvU&usqp=CAU',
-      speciality: ['MMA'],
-      description:
-        "A dad forms a bitter rivalry with his daughter's young rich boyfriend.",
-      year: 2016,
-      rating: 6.2,
-    },
-    {
-      name: 'Jon Jones',
-      imageUrl:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT4tKYDproiVjI-3KrLHt7grKhRRExL5HS0HQm3HaBlyOZUYrO0q_CmmvauknYZxiRXFvU&usqp=CAU',
-      speciality: ['MMA'],
-      description:
-        "A dad forms a bitter rivalry with his daughter's young rich boyfriend.",
-      year: 2016,
-      rating: 6.2,
-    },
-    {
-      name: "Cristiano ronaldo",
-      imageUrl:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Cristiano_Ronaldo_playing_for_Al_Nassr_FC_against_Persepolis%2C_September_2023_%28cropped%29.jpg/800px-Cristiano_Ronaldo_playing_for_Al_Nassr_FC_against_Persepolis%2C_September_2023_%28cropped%29.jpg',
-        speciality: ['Football'],
-      description:
-        "A group of eccentric assassins are fed up with Gunther, the world's greatest hitman, and decide to kill him.",
-      year: 2017,
-      rating: 4.7,
-    },
-    {
-      name: "Cristiano ronaldo",
-      imageUrl:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Cristiano_Ronaldo_playing_for_Al_Nassr_FC_against_Persepolis%2C_September_2023_%28cropped%29.jpg/800px-Cristiano_Ronaldo_playing_for_Al_Nassr_FC_against_Persepolis%2C_September_2023_%28cropped%29.jpg',
-        speciality: ['Football'],
-      description:
-        "A group of eccentric assassins are fed up with Gunther, the world's greatest hitman, and decide to kill him.",
-      year: 2017,
-      rating: 4.7,
-    },
-    {
-      name: "Cristiano ronaldo",
-      imageUrl:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Cristiano_Ronaldo_playing_for_Al_Nassr_FC_against_Persepolis%2C_September_2023_%28cropped%29.jpg/800px-Cristiano_Ronaldo_playing_for_Al_Nassr_FC_against_Persepolis%2C_September_2023_%28cropped%29.jpg',
-        speciality: ['Football'],
-      description:
-        "A group of eccentric assassins are fed up with Gunther, the world's greatest hitman, and decide to kill him.",
-      year: 2017,
-      rating: 4.7,
-    },
-    {
-      name: "Cristiano ronaldo",
-      imageUrl:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Cristiano_Ronaldo_playing_for_Al_Nassr_FC_against_Persepolis%2C_September_2023_%28cropped%29.jpg/800px-Cristiano_Ronaldo_playing_for_Al_Nassr_FC_against_Persepolis%2C_September_2023_%28cropped%29.jpg',
-        speciality: ['Football'],
-      description:
-        "A group of eccentric assassins are fed up with Gunther, the world's greatest hitman, and decide to kill him.",
-      year: 2017,
-      rating: 4.7,
-    },
-  ]
+  trainers!:any
+
+  constructor(private http: HttpClient) {}
+
+  
+  
+  ngOnInit(): void {
+    this.fetchTrainers();
+  }
+
+  fetchTrainers() {
+    const token = localStorage.getItem("authToken");
+    if(!token){
+      this.trainers=null
+    }
+    else{
+      let headers = new HttpHeaders();
+     headers = headers.set('Authorization', `Bearer ${token}`);
+
+    this.http.get<trainerDetails[]>('http://localhost:3000/user/getalltrainer', { headers })
+      .subscribe(
+        (response) => {
+          this.trainers = response
+        },
+        (error) => {
+          console.error('Error fetching trainers:', error);
+          // Handle the error
+        }
+      );
+    }
+  }
+  
 }

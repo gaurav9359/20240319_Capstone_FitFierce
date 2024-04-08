@@ -1,13 +1,8 @@
 .example-full-width {
-    height: 50px;
-    padding: 15px;
+   margin: 0px 10px;
   }
 
-  mat-label{
-    padding: 15px;
-    font-size: 2px;
-  }
-
+ 
   .add-new button{
     margin-right: 10px;
   }

@@ -48,7 +48,7 @@ const getAllExercises = async (req, res) => {
       } else {
         res.status(400).json({ message: "Invalid user role" });
       }
-  
+      console.log(exerciseToReturn)
       res.status(200).json(exerciseToReturn);
     } catch (error) {
       console.error(error); // Log the error for debugging
@@ -122,21 +122,23 @@ const createExercise = async (req, res) => {
   try {
     // 1. Extract exercise data from request body
     const  exercises  = req.body;
+    console.log(exercises)
 
     // 2. Validate exercise data (assuming you have validator functions)
     const validExercises = exercises.filter((exercise) => {
       const { exercise_name, category, sets, estimated_time } = exercise;
-      return (
+      if(
         exerciseNameValidator(exercise_name) &&
         categoryValidator(category) &&
         setsValidator(sets) &&
         estimatedTimeValidator(estimated_time)
-      );
+      ){
+        return { exercise_name, category, sets, estimated_time }
+      }
+      else{
+        return res.status(400).json({ message: "Invalid exercise data" });
+      }
     });
-
-    if (validExercises.length !== exercises.length) {
-      return res.status(400).json({ message: "Invalid exercise data" });
-    }
 
     // 3. Extract user ID and today's date
     const userId = req.user._id; // Assuming you have user ID in req.user object
@@ -145,13 +147,14 @@ const createExercise = async (req, res) => {
     // 4. Find existing exercise (based on user role)
     let prevExercise;
     if (req.user.role === "user") {
+      console.log("work1")
       prevExercise = await Exercise.findOne({ userid: userId, date });
     } else if (req.user.role === "trainer") {
       prevExercise = await Exercise.findOne({ trainer_id: userId, date });
     } else {
       return res.status(400).json({ message: "Invalid user role" });
     }
-
+    console.log(...validExercises)
     // 5. Update existing exercise or create a new one
     if (prevExercise) {
       prevExercise.exercises.push(...validExercises);
@@ -164,7 +167,9 @@ const createExercise = async (req, res) => {
     }
 
     // 6. Save the exercise (update or create)
+    console.log("work2")
     const savedExercise = await prevExercise.save();
+    console.log(savedExercise)
 
     //save the trainer exercise in all the user's exercise array
     if(req.user.role==='trainer'){

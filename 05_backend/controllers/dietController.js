@@ -66,17 +66,21 @@ const createDietplan = async (req, res) => {
       // 2. Validate meal data (assuming you have validator functions)
       const validMeals = meals.filter((meal) => {
         const { diet_name, quantity, calories, time_toEat } = meal;
-        return (
+        if(
           dietNameValidator(diet_name) &&
           quantityValidator(quantity) &&
           caloriesValidator(calories) &&
           timeToEatValidator(time_toEat)
-        );
+        )
+          {
+            return { diet_name, quantity, calories, time_toEat }
+          }
+          else{
+            return res.status(400).json({ message: "Invalid exercise data" });
+          }
+        
       });
   
-      if (validMeals.length !== meals.length) {
-        return res.status(400).json({ message: "Invalid meal data" });
-      }
   
       // 3. Extract user ID and today's date
       const userId = req.user._id; // Assuming you have user ID in req.user object

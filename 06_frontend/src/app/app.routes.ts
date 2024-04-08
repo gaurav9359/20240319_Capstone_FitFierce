@@ -9,6 +9,7 @@ import { BuyPageComponent } from './Pages/user/buy-page/buy-page.component';
 import { CreateGoalsComponent } from './Pages/user/create-goals/create-goals.component';
 import { ManageExerciseComponent } from './Components/manage-exercise/manage-exercise.component';
 import { SignupUserComponent } from './Pages/signup-user/signup-user.component';
+import { ManageGoalPageComponent } from './Pages/user/manage-goal-page/manage-goal-page.component';
 export const routes: Routes = [
     { path: '', component: HomePageComponent },
     { path: 'signin', component: SigninPageComponent },
@@ -19,5 +20,5 @@ export const routes: Routes = [
     { path: 'history', component: HistoryPageComponent },
     { path: 'buy', component: BuyPageComponent },
     { path: 'creategoals', component: CreateGoalsComponent },
-    { path: 'managegoal', component: ManageExerciseComponent },
+    { path: 'managegoal', component: ManageGoalPageComponent },
 ];

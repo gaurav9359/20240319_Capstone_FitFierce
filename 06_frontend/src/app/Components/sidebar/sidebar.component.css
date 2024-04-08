@@ -4,6 +4,7 @@
 /* Primary Styles */
 *, *::before, *::after {
     box-sizing: border-box;
+    z-index: 2;
  }
  
 em{
@@ -163,7 +164,7 @@ em{
         top: 92px;
         left: 0;
         width:3em;
-        height: 3em;
+        height: 6em;
         background: #21695c;
      }
 
@@ -181,7 +182,7 @@ em{
         top: 90px;
         left: 0;
         width:3em;
-        height: 3em;
+        height: 6em;
         background: #21695c;
         
      }
@@ -194,7 +195,7 @@ em{
         overflow: hidden;
         transition: all .3s ease-in;
         width: 15em;
-        height: 50%;
+        height: 100%;
         background: #21695c;
         color: rgba(255, 255, 255, 0.7);
      }

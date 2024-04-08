@@ -1,25 +1,33 @@
-import { Component } from '@angular/core';
-import {MatTableModule} from '@angular/material/table';
+import { Component, OnInit } from '@angular/core';
+import { MatTableDataSource } from '@angular/material/table';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { MatTableModule } from '@angular/material/table';
 
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
+interface Exercise {
+  _id: string;
+  exercise_name: string;
+  category: string;
+  sets: number;
+  estimated_time: string;
+  isDone: boolean;
 }
 
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-];
+interface UserExercise {
+  _id: string;
+  userid: string;
+  exercises: Exercise[];
+  __v: number;
+}
+
+interface Diet {
+  _id: string;
+  diet_name: string;
+  quantity: number;
+  calories: number;
+  time_toEat: string;
+  isDone: boolean;
+  date: Date;
+}
 
 @Component({
   selector: 'app-history-component',
@@ -28,7 +36,55 @@ const ELEMENT_DATA: PeriodicElement[] = [
   templateUrl: './history-component.component.html',
   styleUrl: './history-component.component.css'
 })
-export class HistoryComponentComponent {
-  displayedColumns: string[] = ['position', 'name', 'weight', 'symbol'];
-  dataSource = ELEMENT_DATA;
+export class HistoryComponentComponent implements OnInit{
+  exerciseDisplayedColumns: string[] = ['date', 'exerciseName', 'category', 'sets', 'estimatedTime', 'isDone'];
+  exerciseDataSource: MatTableDataSource<Exercise> = new MatTableDataSource<Exercise>([]);
+
+  dietDisplayedColumns: string[] = ['dietName', 'quantity', 'calories', 'timeToEat', 'isDone'];
+  dietDataSource: MatTableDataSource<Diet> = new MatTableDataSource<Diet>([]);
+
+  constructor(private http: HttpClient) {}
+
+  ngOnInit(): void {
+    // this.fetchExerciseHistory();
+    this.fetchDietHistory();
+  }
+
+  fetchExerciseHistory(): void {
+    const token = localStorage.getItem('authToken');
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+
+    this.http.get<any>('http://localhost:3000/exercise/readExercise', { headers }).subscribe(
+      (response) => {
+        console.log(response)
+        // const exercises: Exercise[] = response.userExercises.flatMap(userExercise => userExercise.exercises.map(exercise => ({
+        //   ...exercise,
+        //   // date: new Date(userExercise.date)
+        // })));
+        // this.exerciseDataSource.data = exercises;
+      },
+      (error) => {
+        console.error('Error fetching exercise history:', error);
+      }
+    );
+  }
+
+  fetchDietHistory(): void {
+    const token = localStorage.getItem('authToken');
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+
+    this.http.get<{ userDietPlan: { meals: Diet[] } }>('http://localhost:3000/diet/getDietToday', { headers }).subscribe(
+      (response) => {
+        const diets = response.userDietPlan.meals.map(meal => ({
+          ...meal,
+          // date: new Date(response.userDietPlan.date)
+        }));
+        this.dietDataSource.data = diets;
+        console.log(this.dietDataSource.data)
+      },
+      (error) => {
+        console.error('Error fetching diet history:', error);
+      }
+    );
+  }
 }

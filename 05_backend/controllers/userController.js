@@ -145,5 +145,16 @@ const updateUser=async (req,res)=>{
     // take name,email,phone_number,image,banner,description,trainer_speciality,price,validity_days if the role is trainer
 }
 
+const getallTrainer=async (req,res)=>{
+  try {
+    const trainers = await User.find({ role: 'trainer' }, { image: 1, name: 1, trainer_speciality: 1, price: 1, _id: 0 });
 
-module.exports={getUser,updateUser}
+
+    res.status(200).json(trainers);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
+
+module.exports={getUser,updateUser,getallTrainer}

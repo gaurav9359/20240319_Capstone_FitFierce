@@ -1,1 +1,16 @@
-<p>manage-goal-page works!</p>
+<app-navbar></app-navbar>
+<div class="history">
+    <div class="left-side">
+        <app-sidebar [navItems]="navItems"></app-sidebar>
+    </div>
+    <div class="right-side">
+        <div class="exercise-section">
+            <h1>Manage Exercise</h1>
+        <app-manage-exercise></app-manage-exercise>
+        </div>
+        <div class="goal-section">
+            <h1>Manage Diet</h1>
+        <app-manage-diet></app-manage-diet>
+        </div>
+    </div>
+</div>

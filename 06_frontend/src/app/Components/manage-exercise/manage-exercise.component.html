@@ -1,20 +1,29 @@
 <div class="d-flex justify-content-center">
     <form [formGroup]="studentForm" (ngSubmit)="getFormData()" class="mt-5 w-50">
       <div class="border border-info p-5" formArrayName="studentList">
-        <div *ngFor="let student of studentListArray().controls; let i = index">
+        <div *ngFor="let student of values; let i = index">
           <div [formGroupName]="i" class="border border-dark my-2 p-5" ngClass="">
            <div class="form-input">
             <mat-form-field class="example-full-width">
-                <input matInput placeholder="Exercise Name" value="Sushi" type="text"formControlName="exercise_name" >
+                <input matInput readonly="true" placeholder="{{student.exercise_name}}"  type="text">
               </mat-form-field>
             <mat-form-field class="example-full-width">
-                <input matInput placeholder="Exercise Category" value="Sushi" type="text" formControlName="exercise_category" >
+                <input matInput readonly="true" placeholder="{{student.category}}"  type="text" >
               </mat-form-field>
             <mat-form-field class="example-full-width">
-                <input matInput placeholder="Exercise Sets" value="Sushi" type="text" formControlName="exercise_sets">
+                <input matInput readonly="true" placeholder="{{student.sets}}" type="text">
               </mat-form-field>
             <mat-form-field class="example-full-width">
-                <input matInput placeholder="Exercise Estimated Time" value="Sushi" type="text" formControlName="exercise_time"> 
+                <input matInput readonly="true" placeholder="{{student.estimated_time}}" type="text" > 
+              </mat-form-field>
+              <mat-form-field class="example-full-width">
+                <mat-label>Select Status</mat-label>
+                <mat-select [(ngModel)]="status">
+                  
+                    <mat-option [value]="status">Done</mat-option>
+                    <mat-option [value]="status">Pending</mat-option>
+                  
+                </mat-select>
               </mat-form-field>
            </div>
            <div class="set-add-remove">
@@ -22,14 +31,8 @@
                 <button type="button" *ngIf="studentListArray().length > 1" (click)="removeStudent(i)"
                     class="btn btn-sm btn-danger ms-1">Remove Exercise</button>
                </div>
-               
-                  <div class="remove-buttons">
-                    <button type="button" (click)="addStudent(i)"
-            class="btn btn-sm btn-primary mt-4 mb-5"
-            [disabled]="!activeButton(i)">
-      Add New Exercise
-    </button>
-           </div>
+              
+                
               </div>
 
           </div>

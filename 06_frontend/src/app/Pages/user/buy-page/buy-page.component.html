@@ -5,6 +5,12 @@
     </div>
     <!-- <div *ngFor="let trainer of trainers"> <p> {{ trainer.name }} </p>  </div> -->
     <div class="right-side">
-    <app-subscription-buy-card class="cards" *ngFor="let trainer of trainers" [trainer]="trainer"></app-subscription-buy-card>
+    <div *ngIf="!trainers;else showtrainer">
+        No Trainer is there
+    </div>
+
+    <ng-template #showtrainer>
+        <app-subscription-buy-card class="cards" *ngFor="let trainer of trainers" [trainer]="trainer"></app-subscription-buy-card>
+    </ng-template>
     </div>
 </div>

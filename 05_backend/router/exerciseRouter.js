@@ -12,7 +12,7 @@ router.post("/createExercise", verifyJwt, getUserMiddleware, exerciseController.
 router.get("/readExercisei", verifyJwt, getUserMiddleware, exerciseController.getAllExercises);
 
 //Read Exercise
-router.get("/readExercise/", verifyJwt, getUserMiddleware, exerciseController.getExerciseToday);
+router.get("/readExercise", verifyJwt, getUserMiddleware, exerciseController.getExerciseToday);
 
 //Update Exercise
 router.put("/updateExercise", verifyJwt, getUserMiddleware, exerciseController.updateExercise);
