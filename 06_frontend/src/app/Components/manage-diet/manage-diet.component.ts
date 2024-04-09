@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import {
   FormArray,
   FormControl,
@@ -28,19 +28,21 @@ import {MatSelectModule} from '@angular/material/select';
   styleUrls: ['./manage-diet.component.css'],
 })
 export class ManageDietComponent implements OnInit {
+  @Input() status: string = '';
   studentForm: FormGroup = new FormGroup({
     studentList: new FormArray([this.getStudentFields()]),
   });
+  filteredData: any[] = [];
+  updateStatus:any[]=[]
 
   getInitialFormValues(): { studentList: FormGroup[] } {
     return { studentList: [this.getStudentFields()] }; // Provide initial values
   }
 
   values: any = [];
-  getValues(){
-    return this.values
+  getValues() {
+    return this.filteredData;
   }
-  status=false
 
   constructor(private http: HttpClient, private ngZone: NgZone) {}
 
@@ -50,11 +52,18 @@ export class ManageDietComponent implements OnInit {
       categories: new FormControl(''),
       quantity: new FormControl(''),
       time_toeat: new FormControl(''),
+      status: new FormControl("")
     });
   }
 
+  selectedStatus: string = 'done';
+
   ngOnInit(): void {
     let dataReceived!: any;
+    this.fetchData()
+  }
+
+  fetchData(){
     const token = localStorage.getItem('authToken');
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
   
@@ -63,18 +72,19 @@ export class ManageDietComponent implements OnInit {
       .subscribe(
         (response) => {
           console.log(response);
-          dataReceived = response;
+          let dataReceived:any = response;
           console.log(dataReceived);
           if (dataReceived === null) {
             // Handle the case when no data is received
           } else {
+            this.values=[]
             // Loop through received meals and create form groups
             this.ngZone.run(() => {
               for (const meal of dataReceived.userDietPlan.meals) {
                 console.log(meal);
                 this.values.push(meal);
               }
-              console.log(this.values);
+              this.filterData();
             });
           }
         },
@@ -83,6 +93,22 @@ export class ManageDietComponent implements OnInit {
         }
       );
   }
+
+  
+  filterData() {
+    switch (this.status) {
+      case 'pending':
+        this.filteredData = this.values.filter((item: any) => !item.isDone);
+        break;
+      case 'completed':
+        this.filteredData = this.values.filter((item: any) => item.isDone);
+        break;
+      default:
+        this.filteredData = this.values;
+        break;
+    }
+  }
+
 
   studentListArray() {
     return this.studentForm.get('studentList') as FormArray;
@@ -101,6 +127,41 @@ export class ManageDietComponent implements OnInit {
   }
 
   getFormData() {
-    // ... existing logic to handle form data submission ...
+    const token = localStorage.getItem('authToken');
+    const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
+  
+
+    this.http.put(`http://localhost:3000/diet/updateDietStatus`, this.updateStatus, { headers })
+      .subscribe(
+        (response) => {
+          console.log('Exercise status updated successfully:', response);
+          
+          // Fetch the latest data from the server
+          this.fetchData();
+          
+          // Clear the updateStatus array after successful updates
+          this.updateStatus = [];
+        },
+        (error) => {
+          console.error('Error updating exercise status:', error);
+          // Handle errors (display error message, retry logic)
+        }
+      );
+  
+    // Reset the form or perform other actions
+    this.studentForm.reset();
+  }
+
+  onStatusChange(student:any,event:any){
+    let selectedValue=(event.value=='done')?true:false
+    console.log(selectedValue)
+    console.log(student.isDone)
+    if(student.isDone!==selectedValue){
+      this.updateStatus.push({
+          mealId: student._id,
+          isDone: selectedValue
+      })
+    }
+    
   }
 }

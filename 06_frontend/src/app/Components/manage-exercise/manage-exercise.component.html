@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-center">
     <form [formGroup]="studentForm" (ngSubmit)="getFormData()" class="mt-5 w-50">
       <div class="border border-info p-5" formArrayName="studentList">
-        <div *ngFor="let student of values; let i = index">
+        <div *ngFor="let student of getValues(); let i = index">
           <div [formGroupName]="i" class="border border-dark my-2 p-5" ngClass="">
            <div class="form-input">
             <mat-form-field class="example-full-width">
@@ -16,13 +16,18 @@
             <mat-form-field class="example-full-width">
                 <input matInput readonly="true" placeholder="{{student.estimated_time}}" type="text" > 
               </mat-form-field>
-              <mat-form-field class="example-full-width">
-                <mat-label>Select Status</mat-label>
-                <mat-select [(ngModel)]="status">
-                  
-                    <mat-option [value]="status">Done</mat-option>
-                    <mat-option [value]="status">Pending</mat-option>
-                  
+              <mat-form-field class="example-full-width" >
+                
+                  <mat-label *ngIf="student.isDone===false; else: notDone " style="color: purple; font-weight:500;">Status Pending</mat-label>
+
+                  <ng-template #notDone >
+                    <mat-label style="color: green; font-weight:500;">Status Done</mat-label>
+                  </ng-template>
+              
+                
+                <mat-select [(ngModel)]="selectedStatus" (selectionChange)="onStatusChange(student,$event)">
+                  <mat-option value="pending">Pending</mat-option>
+                  <mat-option value="done">Done</mat-option>
                 </mat-select>
               </mat-form-field>
            </div>

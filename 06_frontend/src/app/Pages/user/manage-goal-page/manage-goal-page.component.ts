@@ -3,6 +3,7 @@ import { ManageDietComponent } from '../../../Components/manage-diet/manage-diet
 import { ManageExerciseComponent } from '../../../Components/manage-exercise/manage-exercise.component';
 import { NavbarComponent } from '../../../Components/navbar/navbar.component';
 import { SidebarComponent } from '../../../Components/sidebar/sidebar.component';
+import {MatTabsModule} from '@angular/material/tabs';
 
 interface NavItem {
   icon: string;
@@ -13,7 +14,7 @@ interface NavItem {
 @Component({
   selector: 'app-manage-goal-page',
   standalone: true,
-  imports: [ManageDietComponent,ManageExerciseComponent,NavbarComponent,SidebarComponent],
+  imports: [ManageDietComponent,ManageExerciseComponent,NavbarComponent,SidebarComponent,MatTabsModule],
   templateUrl: './manage-goal-page.component.html',
   styleUrl: './manage-goal-page.component.css'
 })
@@ -26,4 +27,15 @@ export class ManageGoalPageComponent {
     { icon: 'fa-solid fa-user', text: 'My Profile', link: '/profile' },
     { icon: 'fa-solid fa-clock-rotate-left', text: 'History', link: '/history' }
   ];
+
+  status:string="pending";
+
+
+  getStatus():string{
+    return status
+  }
+
+  
+
+  
 }

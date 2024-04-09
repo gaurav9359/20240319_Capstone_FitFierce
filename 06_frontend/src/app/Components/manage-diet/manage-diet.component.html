@@ -18,12 +18,17 @@
             </mat-form-field>
 
             <mat-form-field class="example-full-width">
-              <mat-label>Select Status</mat-label>
-              <mat-select [(ngModel)]="status">
-                
-                  <mat-option [value]="status">Done</mat-option>
-                  <mat-option [value]="status">Pending</mat-option>
-                
+              
+              <mat-label *ngIf="student.isDone===false; else: notDone " style="color: purple; font-weight:500;">Status Pending</mat-label>
+
+              <ng-template #notDone>
+                <mat-label style="color: green; font-weight:500;">Status Done</mat-label>
+              </ng-template>
+          
+            
+              <mat-select [(ngModel)]="selectedStatus" (selectionChange)="onStatusChange(student,$event)">
+                <mat-option value="pending">Pending</mat-option>
+                <mat-option value="done">Done</mat-option>
               </mat-select>
             </mat-form-field>
          </div>
