@@ -9,7 +9,7 @@ const { verifyJwt, getUserMiddleware, fetchWithAuthorization } = require("../dep
 router.post("/createExercise", verifyJwt, getUserMiddleware, exerciseController.createExercise);
 
 //Read Exercise
-router.get("/readExercisei", verifyJwt, getUserMiddleware, exerciseController.getAllExercises);
+router.get("/getAllExercise", verifyJwt, getUserMiddleware, exerciseController.getAllExercises);
 
 //Read Exercise
 router.get("/readExercise", verifyJwt, getUserMiddleware, exerciseController.getExerciseToday);

@@ -10,15 +10,23 @@ import { CreateGoalsComponent } from './Pages/user/create-goals/create-goals.com
 import { ManageExerciseComponent } from './Components/manage-exercise/manage-exercise.component';
 import { SignupUserComponent } from './Pages/signup-user/signup-user.component';
 import { ManageGoalPageComponent } from './Pages/user/manage-goal-page/manage-goal-page.component';
+import { CreateGoalsTrainerComponent } from './Pages/trainer/create-goals-trainer/create-goals-trainer.component';
+import { HistoryTrainerComponent } from './Pages/trainer/history-trainer/history-trainer.component';
+import { SubscribedUserComponent } from './Components/subscribed-user/subscribed-user.component';
+
 export const routes: Routes = [
     { path: '', component: HomePageComponent },
     { path: 'signin', component: SigninPageComponent },
     { path: 'signuptrainer', component: SignupPageComponent },
     { path: 'signup', component: SignupUserComponent },
     { path: 'user', component: ProfilePageComponent },
+    { path: 'trainer', component: CreateGoalsTrainerComponent },
     { path: 'profile', component: ProfilePageComponent },
     { path: 'history', component: HistoryPageComponent },
+    { path: 'historytrainer', component: HistoryTrainerComponent },
     { path: 'buy', component: BuyPageComponent },
     { path: 'creategoals', component: CreateGoalsComponent },
     { path: 'managegoal', component: ManageGoalPageComponent },
+    { path: 'subscribers', component: SubscribedUserComponent },
+
 ];

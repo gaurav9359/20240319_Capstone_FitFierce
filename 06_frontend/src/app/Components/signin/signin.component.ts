@@ -63,7 +63,12 @@ export class SigninComponent {
           if(response.role==='user'){
             this.router.navigateByUrl('/user')
           }
+          else{
+            this.router.navigateByUrl('/trainer')
+          }
           this.authService.setToken(response.token);
+          console.log("response",response)
+          this.authService.setRole(response.role);
         },
         (error) => {
           console.error('Error signing in:', error);

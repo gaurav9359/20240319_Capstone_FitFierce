@@ -18,38 +18,60 @@ const getAllExercises = async (req, res) => {
       // Handle user role
       if (req.user.role === 'user') {
         // Get all exercises created by user
-        const userExercises = await Exercise.find({ userid: userId });
+        const userExercises = await Exercise.find({ userid: userId }, { trainer_id: 0 });
   
-        // Find active subscriptions for the user
-        const activeSubscriptions = await Subscription.find({
-          user_id: userId // Replace with a dynamic trainer ID if needed
-        });
-  
-        // Extract trainer IDs from active subscriptions
-        const trainerIds = activeSubscriptions.map((subscription) => subscription.trainer_id);
-  
-        // Fetch exercises from trainers (if any)
-        const trainerExercises = await Promise.all(
-          trainerIds.map(async (trainerId) => {
-            return await Exercise.find({ trainer_id: trainerId });
-          })
-        );
-  
-        // Combine exercises from user and trainers
-        exerciseToReturn = {
-          userExercises: userExercises,
-          trainerExercises: [].concat(...trainerExercises), // Flatten array
-        };
+        let exerciseToReturn={
+          exercises:[]
+        }
+
+        userExercises.forEach(exercise => {
+          exercise.exercises.forEach(exercise1 => {
+            let new_exercise={exercise_name: exercise1.exercise_name,
+            category: exercise1.category,
+            sets: exercise1.sets,
+            estimated_time: exercise1.estimated_time,
+            isDone: exercise1.isDone,
+            _id: exercise1._id,
+            date: exercise.date
+          }
+              exerciseToReturn.exercises.push(new_exercise);
+          });
+      });
+       // Reverse the order of exercises before returning
+       exerciseToReturn.exercises.reverse();
+
+      res.status(200).json(exerciseToReturn);
         // console.log(exerciseToReturn)
       } else if (req.user.role === 'trainer') {
         // Get all exercises created by the trainer
-        const userExercise = await Exercise.find({ trainerId: userId });
-        exerciseToReturn = userExercise;
+        const userExercise = await Exercise.find({ trainer_id: new mongoose.Types.ObjectId(userId)});
+        
+        let exerciseToReturn={
+          exercises:[]
+        }
+console.log(userExercise)
+        userExercise.forEach(exercise => {
+          exercise.exercises.forEach(exercise1 => {
+            let new_exercise={exercise_name: exercise1.exercise_name,
+            category: exercise1.category,
+            sets: exercise1.sets,
+            estimated_time: exercise1.estimated_time,
+            isDone: exercise1.isDone,
+            _id: exercise1._id,
+            date: exercise.date
+          }
+              exerciseToReturn.exercises.push(new_exercise);
+          });
+      });
+
+      // Reverse the order of exercises before returning
+      exerciseToReturn.exercises.reverse();
+      console.log(exerciseToReturn)
+
+      res.status(200).json(exerciseToReturn);
       } else {
         res.status(400).json({ message: "Invalid user role" });
       }
-      console.log(exerciseToReturn)
-      res.status(200).json(exerciseToReturn);
     } catch (error) {
       console.error(error); // Log the error for debugging
       res.status(500).json({ message: 'Internal server error' });
@@ -106,6 +128,7 @@ const getExerciseToday = async (req, res) => {
       // Trainer can only see exercises created by themselves
       const userExercise = await Exercise.findOne({ trainerId: userId, date });
       exerciseToReturn = userExercise;
+
     } else {
       res.status(400).json({ message: "Invalid user role" });
     }
@@ -357,20 +380,28 @@ const updateStatus=async (req,res)=>{
         return res.status(403).json({ message: "Unauthorized operation" });
       }
 
-      const exerciseToUpdate = await Exercise.findOneAndUpdate(
+      const exerciseToUpdate = await Exercise.find(
         {
           userid: userId,
           date, // Filter by user ID and today's date
-          "exercises._id": exerciseId, // Nested query to find exercise by ID in exercises array
-        },
-        { $z: { "exercises.$[exercise].isDone": isDone } }, // Update isDone using update operator
-        { arrayFilters: [{ "exercise._id": exerciseId }] } // Filter to match specific exercise
+        }
       );
+
+      console.log(exerciseToUpdate)
+        exerciseToUpdate[0].exercises.map((exercise)=>{
+          if(exercise._id.toString()===exerciseId){
+            exercise.isDone=isDone
+          }
+        })
+
+        const updatedSuccessfull=await exerciseToUpdate[0].save()
+      
 
       // No need to track updated count here (optional)
     });
 
     await Promise.all(updatePromises); // Wait for all update operations to complete
+
 
     // 5. Send successful response
     res.status(200).json({ message: "Exercise statuses updated successfully" });

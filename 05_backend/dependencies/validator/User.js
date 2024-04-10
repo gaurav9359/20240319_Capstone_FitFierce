@@ -15,11 +15,7 @@ function nameValidator(name) {
       return false;
     }
   
-    // Check if name contains only alphabets and spaces
-    const nameRegex = /^[a-zA-Z\s]+$/;
-    if (!nameRegex.test(name)) {
-      return false;
-    }
+   
     
    
     return true;

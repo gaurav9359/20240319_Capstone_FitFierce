@@ -1,0 +1,45 @@
+<app-navbar></app-navbar>
+<div class="history">
+    <div class="left-side">
+        <app-sidebar [navItems]="navItems"></app-sidebar>
+    </div>
+        <div class="right-side">
+            <div class="subscription-history">
+                <h1>Subscription History</h1>
+                <table mat-table [dataSource]="subscriptionDataSource" class="mat-elevation-z8">
+                  <!-- User Name Column -->
+                  <ng-container matColumnDef="userName">
+                    <th mat-header-cell *matHeaderCellDef>User Name</th>
+                    <td mat-cell *matCellDef="let subscription">{{ subscription.userName }}</td>
+                  </ng-container>
+              
+                  <!-- Email Column -->
+                  <ng-container matColumnDef="email">
+                    <th mat-header-cell *matHeaderCellDef>Email</th>
+                    <td mat-cell *matCellDef="let subscription">{{ subscription.email }}</td>
+                  </ng-container>
+              
+                  <!-- Phone Number Column -->
+                  <ng-container matColumnDef="phoneNumber">
+                    <th mat-header-cell *matHeaderCellDef>Phone Number</th>
+                    <td mat-cell *matCellDef="let subscription">{{ subscription.phoneNumber }}</td>
+                  </ng-container>
+              
+                  <!-- Start Date Column -->
+                  <ng-container matColumnDef="startDate">
+                    <th mat-header-cell *matHeaderCellDef>Start Date</th>
+                    <td mat-cell *matCellDef="let subscription">{{ subscription.startDate }}</td>
+                  </ng-container>
+              
+                  <!-- End Date Column -->
+                  <ng-container matColumnDef="endDate">
+                    <th mat-header-cell *matHeaderCellDef>End Date</th>
+                    <td mat-cell *matCellDef="let subscription">{{ subscription.endDate }}</td>
+                  </ng-container>
+              
+                  <tr mat-header-row *matHeaderRowDef="subscriptionDisplayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: subscriptionDisplayedColumns;"></tr>
+                </table>
+              </div>
+    </div>
+</div>

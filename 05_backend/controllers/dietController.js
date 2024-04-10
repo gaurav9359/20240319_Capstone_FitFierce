@@ -19,37 +19,64 @@ const getAllDiet = async (req, res) => {
       // Handle user role
       if (req.user.role === 'user') {
         // Get all diets created by user
-        const userDiets = await Dietplan.find({ user_id: new mongoose.Types.ObjectId(userId) });
+        const userDiets = await Dietplan.find({ user_id: new mongoose.Types.ObjectId(userId) }, { trainer_id: 0 });
+
   
-        // Find active subscriptions for the user
-        const activeSubscriptions = await Subscription.find({
-          user_id: userId, // Replace with a dynamic trainer ID if needed
-        });
-  
-        // Extract trainer IDs from active subscriptions
-        const trainerIds = activeSubscriptions.map((subscription) => subscription.trainer_id);
-  
-        // Fetch diets from trainers (if any)
-        const trainerDiets = await Promise.all(
-          trainerIds.map(async (trainerId) => {
-            return await Dietplan.find({ trainer_id: trainerId });
-          })
-        );
-  
-        // Combine diets from user and trainers
-        dietToReturn = {
-          userDiets: userDiets,
-          trainerDiets: [].concat(...trainerDiets), // Flatten array
-        };
+      
+        let dietToReturn = {
+          meals: []
+      };
+      
+      userDiets.forEach(diet => {
+          diet.meals.forEach(meal => {
+            let new_meal={diet_name: meal.diet_name,
+            quantity: meal.quantity,
+            calories: meal.calories,
+            time_toEat: meal.time_toEat,
+            isDone: meal.isDone,
+            _id: meal._id,
+            date: diet.date
+          }
+
+              dietToReturn.meals.push(new_meal);
+          });
+      });
+
+      dietToReturn.meals.reverse()
+      
+      res.status(200).json(dietToReturn);
       } else if (req.user.role === 'trainer') {
         // Get all diets created by the trainer
         const userDiets = await Dietplan.find({ trainer_id: new mongoose.Types.ObjectId(userId) });
-        dietToReturn = userDiets;
+
+         let dietToReturn = {
+          meals: []
+      };
+      
+      userDiets.forEach(diet => {
+          diet.meals.forEach(meal => {
+            let new_meal={diet_name: meal.diet_name,
+            quantity: meal.quantity,
+            calories: meal.calories,
+            time_toEat: meal.time_toEat,
+            isDone: meal.isDone,
+            _id: meal._id,
+            date: diet.date
+          }
+
+              dietToReturn.meals.push(new_meal);
+          });
+      });
+
+      dietToReturn.meals.reverse()
+      res.status(200).json(dietToReturn);
+
+
       } else {
         res.status(400).json({ message: "Invalid user role" });
       }
   
-      res.status(200).json(dietToReturn);
+      // res.status(200).json(dietToReturn);
     } catch (error) {
       console.error(error); // Log the error for debugging
       res.status(500).json({ message: 'Internal server error' });
@@ -125,7 +152,7 @@ const createDietplan = async (req, res) => {
       const userExercise = await Promise.all(
         userIds.map(async (user_Id) => {
           let user_object= new mongoose.Types.ObjectId(user_Id.toString())
-          let diet_array= await Dietplan.findOne({user_id: user_object} );
+          let diet_array= await Dietplan.findOne({user_id: user_object,date:newDate} );
           if(diet_array){
             diet_array.meals.push(...validMeals)
           }
@@ -342,15 +369,22 @@ const deleteDiet = async (req, res) => {
           return res.status(403).json({ message: "Unauthorized operation" });
         }
   
-        const dietToUpdate = await Dietplan.findOneAndUpdate(
+        const dietToUpdate = await Dietplan.find(
           {
             user_id: userId,
             date, // Filter by user ID and today's date
-            "meals._id": mealId, // Nested query to find meal by ID in meals array
-          },
-          { $set: { "meals.$[meal].isDone": isDone } }, // Update isDone using update operator
-          { arrayFilters: [{ "meal._id": mealId }] } // Filter to match specific meal
+          }
         );
+
+  
+          dietToUpdate[0].meals.map((meal)=>{
+            if(meal._id.toString()===mealId){
+              meal.isDone=isDone
+            }
+          })
+  
+          const updatedSuccessfull=await dietToUpdate[0].save()
+        
   
         // No need to track updated count here (optional)
       });

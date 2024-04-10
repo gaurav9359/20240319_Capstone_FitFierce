@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 export class AuthServiceService {
   private apiUrl = 'http://localhost:3000'; // Replace with your API's base URL
   private tokenKey = 'authToken'; // Key for storing the token in localStorage
+  public role=''
 
   constructor(private http: HttpClient) { }
 
@@ -30,12 +31,23 @@ export class AuthServiceService {
   logout(): void {
     // Remove the token from localStorage
     localStorage.removeItem(this.tokenKey);
+    localStorage.removeItem('role');
+
     // You can add additional logic here, such as clearing user data or navigating to the login page
   }
 
   getToken(): string | null {
     // Retrieve the token from localStorage
     return localStorage.getItem(this.tokenKey);
+  }
+
+  setRole(role:string):void{
+    localStorage.setItem('role', role);
+  }
+
+  getRole(){
+    this.role = localStorage.getItem('role')||'';
+    return this.role;
   }
 
   setToken(token: string): void {

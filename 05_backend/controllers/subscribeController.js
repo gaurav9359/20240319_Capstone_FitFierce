@@ -81,4 +81,40 @@ const subscribePlan = async (req, res) => {
   }
 };
 
-module.exports={subscribePlan}
+const getSubscribedUsers = async (req, res) => {
+  try {
+    console.log('1');
+    const userId = req.user._id.toString();
+
+    if (req.user.role === 'user') {
+      console.log('3');
+      res.status(500).json("Not authorized to do this operation");
+      return;
+    }
+
+    console.log('4');
+    let subscribedUsers = await Subscription.find({ trainer_id: userId });
+    console.log(subscribedUsers);
+
+    let result = await Promise.all(
+      subscribedUsers.map(async (subscription) => {
+        let user_details = await User.findById(new mongoose.Types.ObjectId(subscription.user_id));
+        return {
+          name: user_details.name,
+          email: user_details.email,
+          phone_number: user_details.phone_number,
+          start_date: subscription.start_date,
+          end_date: subscription.end_date,
+        };
+      })
+    );
+
+    console.log(result);
+    res.status(200).json(result);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+module.exports={subscribePlan,getSubscribedUsers}

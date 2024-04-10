@@ -7,6 +7,7 @@ import { MatButton, MatButtonModule } from '@angular/material/button';
 import {FormsModule} from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import { AuthServiceService } from '../../Services/authService/auth-service.service';
 
 @Component({
   selector: 'app-create-exercise',
@@ -16,7 +17,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
   styleUrl: './create-exercise.component.css'
 })
 export class CreateExerciseComponent {
-  constructor(private http: HttpClient,private _snackBar:MatSnackBar) { }
+  constructor(private http: HttpClient,private _snackBar:MatSnackBar,private auth:AuthServiceService) { }
 
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action, {
@@ -107,7 +108,11 @@ let object= tempStudentFormData.studentList[i]
     });
     console.log(typeof(serverData[0].sets))
 
-    this.http.post('http://localhost:3000/exercise/createExercise', formData, { headers })
+    function getApiUrl(){
+      return "http://localhost:3000/exercise/createExercise"
+    }
+
+    this.http.post(getApiUrl(), formData, { headers })
       .subscribe(
         (response) => {
           console.log('Exercise created successfully:', response);
