@@ -240,6 +240,9 @@ footer {
 	.about p {
 		font-size: 0.9rem;
 	}
+  .oreno{
+    width: 50px!important;
+  }
 
 	.about-info {
 		flex-direction: column;

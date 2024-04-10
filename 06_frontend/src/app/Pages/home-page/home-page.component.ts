@@ -3,6 +3,7 @@ import { AuthServiceService } from '../../Services/authService/auth-service.serv
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
+import { faUser, faShieldHalved, faHeadset } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-home-page',
@@ -12,6 +13,10 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrl: './home-page.component.css'
 })
 export class HomePageComponent {
+  
+  faUser = faUser;
+  faShieldHalved = faShieldHalved;
+  faHeadset = faHeadset;
   token!:string|null
   constructor(private authService: AuthServiceService,private router: Router){}
 
