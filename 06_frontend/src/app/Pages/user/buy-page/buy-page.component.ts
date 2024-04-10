@@ -32,7 +32,7 @@ interface trainerDetails{
 export class BuyPageComponent implements OnInit{
   navItems: NavItem[] = [
     { icon: 'fa-solid fa-chart-line', text: 'Home', link: '/' },
-    { icon: 'fa-solid fa-bullseye', text: 'Manage Goals', link: '/manage-goals' },
+    { icon: 'fa-solid fa-bullseye', text: 'Manage Goals', link: '/managegoal' },
     { icon: 'fa-solid fa-plus', text: 'Create Goals', link: '/creategoals' },
     { icon: 'fa-solid fa-cart-shopping', text: 'Buy Subscription', link: '/buy' },
     { icon: 'fa-solid fa-user', text: 'My Profile', link: '/profile' },

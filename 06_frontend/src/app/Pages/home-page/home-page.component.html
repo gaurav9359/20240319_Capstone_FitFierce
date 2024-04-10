@@ -6,14 +6,33 @@
                   Fit Fierce
                   </div>
                 <ul class="nav-links">
+
+                  
                     
-                    
-                    <li ><a href="#">
+                  <div *ngIf="token;else Logop" class="conditional">
+                    <div *ngIf="getRole()==='user';else trainer">
+                      <li><a href="/user">Dashboard</a></li>
+                    </div>
+  
+                    <ng-template #trainer>
+                      <li><a href="/trainer">Dashboard</a></li>
+                    </ng-template>
+                    <button mat-stroked-button class="logout" (click)="logout()" color="warn">LogOut</button>
+                  </div>
+
+                  
+                  <ng-template #Logop>
+                    <li ><a href="/signin">
                       Login</a>
                       </li>
-                    <li><a href="#">
+                    <li><a href="/signup">
                       Sign Up</a>
                       </li>
+                    <li><a href="/signuptrainer">
+                      Sign Up As Trainer</a>
+                      </li>
+                  </ng-template>
+                    
                 </ul>
             </nav>
         </header>
@@ -29,9 +48,13 @@
     "../../../assets/undraw_fitness_tracker_3033.svg" alt="Geeksforgeeks">
                 </div>
                 <div>
-                <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Et soluta necessitatibus voluptatum ducimus neque deserunt voluptate, dignissimos ipsa dolores inventore laudantium fugiat repellendus accusamus voluptatibus assumenda quas animi eum optio recusandae sed est. Quae?
+                <p> 
+
+                  For fitness  that empowers users to achieve their health and wellness goals. Whether you're a fitness enthusiast looking to subscribe to a personal trainer or an individual aiming to track your own fitness journey, Fit-Fierce has got you covered.
+                  
+                  At Fit-Fierce, we understand the importance of personalized guidance and support in reaching your fitness milestones.
                 </p>
-                    <button>Get Started</button>
+                    <button class="get_started">Get Started</button>
                 </div>
             </div>
         </section>
@@ -56,9 +79,7 @@
                             </div>
                             <h3>User Friendly</h3>
                             <p>
-                              Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis
-                              asperiores natus ad molestiae aliquid explicabo. Iste eaque quo et
-                              commodi.
+                              Fit-Fierce is designed with the user in mind, offering an intuitive and seamless experience that makes it easy to navigate and access the features you need
                             </p>
                           </div>
                         </div>
@@ -68,11 +89,9 @@
                             <div class="icon">
                               <i class="fa-solid fa-shield-halved"></i>
                             </div>
-                            <h3>Super Secure</h3>
+                            <h3>Personalized Approach</h3>
                             <p>
-                              Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis
-                              asperiores natus ad molestiae aliquid explicabo. Iste eaque quo et
-                              commodi.
+                              At Fit-Fierce, we understand that every individual has unique fitness needs and preferences. That's why our platform offers a personalized approach.
                             </p>
                           </div>
                         </div>
@@ -82,11 +101,9 @@
                             <div class="icon">
                               <i class="fa-solid fa-headset"></i>
                             </div>
-                            <h3>Quick Support</h3>
+                            <h3>Comprehensive Tracking</h3>
                             <p>
-                              Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis
-                              asperiores natus ad molestiae aliquid explicabo. Iste eaque quo et
-                              commodi.
+                              Fit-Fierce provides a comprehensive suite of tracking tools to help you monitor your progress and stay motivated.
                             </p>
                           </div>
                         </div>
@@ -95,10 +112,10 @@
                 
               </section>
               
-            <section>
+            <section class="health-benifit">
                 <div class="row-header">
                     <div class="row">
-                        <h1>Our Features</h1>
+                        <h1>Workout Benifits</h1>
                       </div>
                 </div>
                 <div class="main-row">
@@ -110,11 +127,9 @@
                             <div class="icon">
                               <i class="fa-solid fa-user"></i>
                             </div>
-                            <h3>User Friendly</h3>
+                            <h3>Enhanced Flexibility and Mobility</h3>
                             <p>
-                              Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis
-                              asperiores natus ad molestiae aliquid explicabo. Iste eaque quo et
-                              commodi.
+                              Fit-Fierce recognizes the importance of flexibility and mobility in achieving a well-rounded fitness routine. Our platform includes guided stretching and mobility exercises
                             </p>
                           </div>
                         </div>
@@ -124,11 +139,9 @@
                             <div class="icon">
                               <i class="fa-solid fa-shield-halved"></i>
                             </div>
-                            <h3>Super Secure</h3>
+                            <h3>Balanced Nutrition</h3>
                             <p>
-                              Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis
-                              asperiores natus ad molestiae aliquid explicabo. Iste eaque quo et
-                              commodi.
+                              Alongside our comprehensive workout plans, Fit-Fierce provides expert-curated nutritional guidance to support your fitness journey.
                             </p>
                           </div>
                         </div>
@@ -138,11 +151,9 @@
                             <div class="icon">
                               <i class="fa-solid fa-headset"></i>
                             </div>
-                            <h3>Quick Support</h3>
+                            <h3>Improved Cardiovascular Health</h3>
                             <p>
-                              Lorem ipsum dolor sit amet consectetur adipisicing elit. Officiis
-                              asperiores natus ad molestiae aliquid explicabo. Iste eaque quo et
-                              commodi.
+                              Maintaining a healthy cardiovascular system is crucial for overall well-being, and Fit-Fierce is here to help.
                             </p>
                           </div>
                         </div>
@@ -156,40 +167,35 @@
               
                     <div class="footer-left">
               
-                      <h3>Company<span>logo</span></h3>
+                      <h3>Fit<span>Fierce</span></h3>
               
                       <p class="footer-links">
                         <a href="#" class="link-1">Home</a>
                         
-                        <a href="#">Blog</a>
-                      
-                        <a href="#">Pricing</a>
-                      
-                        <a href="#">About</a>
-                        
-                        <a href="#">Faq</a>
-                        
-                        <a href="#">Contact</a>
+                        <a href="/signin" class="link-1">| Login</a>
+                        <a href="/signup" class="link-1">| Signp As User</a>
+                        <a href="/signuptrainer" class="link-1">| Signup As Trainer</a>
                       </p>
               
-                      <p class="footer-company-name">Company Name © 2015</p>
+                      <p class="footer-company-name">FitFierce © 2024</p>
                     </div>
               
                     <div class="footer-center">
               
                       <div>
                         <i class="fa fa-map-marker"></i>
-                        <p><span>444 S. Cedros Ave</span> Solana Beach, California</p>
+                        <p><span>Hitech City</span> Hyderabad, India</p>
                       </div>
               
                       <div>
                         <i class="fa fa-phone"></i>
-                        <p>+1.555.555.5555</p>
+                        <p>+202020202020</p>
                       </div>
               
                       <div>
-                        <i class="fa fa-envelope"></i>
-                        <p><a href="mailto:support@company.com">supportcompany.com</a></p>
+                        <i class="fa fa-envelope "></i>
+                        <p><a href="mailto:rogername07@gmail.com" class="mail-link">rogername07 <span>&#64;</span>
+                          gmail.com</a></p>
                       </div>
               
                     </div>
@@ -198,17 +204,17 @@
               
                       <p class="footer-company-about">
                         <span>About the company</span>
-                        Lorem ipsum dolor sit amet, consectateur adispicing elit. Fusce euismod convallis velit, eu auctor lacus vehicula sit amet.
+                        Fit-Fierce provides a comprehensive suite of tracking tools to help you monitor your progress and stay motivated.
                       </p>
               
-                      <div class="footer-icons">
+                      <!-- <div class="footer-icons">
               
                         <a href="#"><i class="fa fa-facebook"></i></a>
                         <a href="#"><i class="fa fa-twitter"></i></a>
                         <a href="#"><i class="fa fa-linkedin"></i></a>
                         <a href="#"><i class="fa fa-github"></i></a>
               
-                      </div>
+                      </div> -->
               
                     </div>
               

@@ -1,62 +1,77 @@
 * {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
-  }
- 
-
-
-  /* top section */
-
-
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
 
 /* Header */
 
 header {
-	background-color: white;
-	color: rgb(0, 0, 0);
-	padding: 10px 0;
-	position: fixed;
-	width: 100%;
-	z-index: 100;
-	box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
+background-color: white;
+color: rgb(0, 0, 0);
+padding: 10px 0;
+  
+
+width: 100%;
+z-index: 100;
+box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
 }
 
 nav {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	margin: 5px auto;
-	padding: 0 20px;
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin: 5px auto;
+padding: 0 20px;
 }
 
 .logo {
-	font-size: 1.5rem;
-	font-weight: bold;
-	color: #21695c;
+font-size: 1.5rem;
+font-weight: bold;
+color: #21695c;
 }
 
 .nav-links {
-	list-style: none;
-	display: flex;
+list-style: none;
+display: flex;
 }
 
 .nav-links li {
-	margin-right: 20px;
+margin-right: 20px;
 }
 
 .nav-links a {
-	color: rgb(0, 0, 0);
-	padding: 10px;
-	font-weight: bold;
-	text-decoration: none;
+color: rgb(0, 0, 0);
+padding: 10px;
+font-weight: bold;
+text-decoration: none;
 }
 
 .nav-links a:hover {
-	background-color: #21695c;
-	border-radius: 4px;
-	color: white;
+background-color: #21695c;
+border-radius: 4px;
+color: white;
+}
+
+
+@media (max-width: 768px) {
+nav {
+  display: block;
+}
+
+.logo {
+  text-align: center;
+}
+
+.nav-links {
+  margin-top: 1rem;
+  justify-content: space-between;
+}
+
+.nav-links li {
+  margin-right: 0;
+}
 }
 
 /* About Section */
@@ -107,7 +122,7 @@ nav {
 	text-align: justify;
 }
 
-button {
+.get_started {
 	border: none;
 	outline: 0;
 	padding: 10px;
@@ -352,21 +367,27 @@ footer {
     }
   }
 
+  .health-benifit{
+    margin-top: 20px;
+  }
+
   /* footer */
   
 .sectiona {
+  margin-top: 50px;
     width: 100%;
     display: inline-block;
-    background: #333;
+    background: #303f3c;;
     text-align: center;
+    color: white;
     font-size: 22px;
     font-weight: 700;
     text-decoration: underline;
   }
   
   .footer-distributed{
-    background: #666;
-    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
+    background:linear-gradient(360deg, #162421 0%, #21695c 100%);
+    box-shadow: 0 1px 1px 0 #56dbc3;;
     box-sizing: border-box;
     width: 100%;
     text-align: left;
@@ -406,6 +427,10 @@ footer {
     margin: 20px 0 12px;
     padding: 0;
   }
+
+  .logout{
+    margin: 10px;
+  }
   
   .footer-distributed .footer-links a{
     display:inline-block;
@@ -416,7 +441,7 @@ footer {
   }
   
   .footer-distributed .footer-company-name{
-    color:  #222;
+    color:  grey;
     font-size: 14px;
     font-weight: normal;
     margin: 0;
@@ -428,6 +453,10 @@ footer {
     width: 35%;
   }
   
+  .conditional{
+    align-items: center;
+    display: flex;
+  }
   .footer-distributed .footer-center i{
     background-color:  #33383b;
     color: #ffffff;

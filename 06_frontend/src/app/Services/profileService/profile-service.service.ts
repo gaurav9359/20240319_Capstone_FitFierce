@@ -30,12 +30,12 @@ export class ProfileServiceService {
 
   constructor(private http: HttpClient) {}
 
-  getUserProfilee(): Observable<UserProfilee> {
+  getUserProfilee(): Observable<any> {
     const headers = new HttpHeaders({ 'Authorization': `Bearer ${this.bearerToken}` });
-    return this.http.get<UserProfilee>(this.apiUrl, { headers })
+    return this.http.get<any>(this.apiUrl, { headers })
       .pipe(
         map(response => response), // Optionally modify the response data if needed
-        catchError(this.handleError<UserProfilee>('getUserProfilee'))
+        catchError(this.handleError<any>('getUserProfilee'))
       );
   }
 

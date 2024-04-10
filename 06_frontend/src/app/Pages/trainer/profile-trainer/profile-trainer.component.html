@@ -1,0 +1,30 @@
+<app-navbar></app-navbar>
+<div class="middle-part">
+    <div class="left-side">
+        <app-sidebar [navItems]="navItems" 
+></app-sidebar>
+    </div>
+<div class="right-side">
+    <div class="card">
+        <img
+          src="../../../assets/undraw_pic_profile_re_7g2h.svg"
+          alt="John"
+          style="width: 200px"
+        />
+        <div class="Details">
+            <p><span class="key">Name:</span> <span class="value">{{ userProfile.name }}</span></p>
+            <p><span class="key">Email:</span> <span class="value">{{ userProfile.email }}</span></p>
+            <p><span class="key">Phone Number:</span> <span class="value">{{ userProfile.phone_number }}</span></p>
+            <p><span class="key">Role:</span> <span class="value">{{ userProfile.role }}</span></p>
+            <p><span class="key">Image URL:</span> <span class="value">{{ userProfile.image }}</span></p>
+            <p><span class="key">Banner URL:</span> <span class="value">{{ userProfile.banner }}</span></p>
+            <p><span class="key">Description:</span> <span class="value">{{ userProfile.description }}</span></p>
+            <p><span class="key">Trainer Speciality:</span> <span class="value">{{ userProfile.trainer_speciality }}</span></p>
+            <p><span class="key">Price:</span> <span class="value">{{ userProfile.price }}</span></p>
+            <p><span class="key">Validity Days:</span> <span class="value">{{ userProfile.validity_days }}</span></p>
+          </div>
+      
+    
+    </div>
+
+</div>

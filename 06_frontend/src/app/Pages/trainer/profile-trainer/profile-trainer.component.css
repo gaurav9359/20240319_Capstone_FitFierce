@@ -1,3 +1,39 @@
+.middle-part{
+    /* height: fit-content; */
+    
+    align-items: center;
+    display: flex;
+}
+.left-side{
+    width: 25%;
+}
+.right-side{
+    padding-top: 90px;
+    width: 65%;
+}
+.Details {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  
+  .key {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .value {
+    margin-left: 5px;
+    color: #666;
+  }
+
+.table{
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+.plans{
+    margin-top: 2%;
+    margin-bottom: 50px;
+}
 .card {
     font-family: poppins;
     padding: 20px;
@@ -18,20 +54,7 @@
 
     font-size:1%em;
  }
- .Details {
-  font-size: 16px;
-  line-height: 1.5;
-}
-
-.key {
-  font-weight: bold;
-  color: #333;
-}
-
-.value {
-  margin-left: 5px;
-  color: #666;
-}
+  
   button {
     border: none;
     outline: 0;
@@ -64,3 +87,16 @@
     justify-content: center;
   }
  
+.plans h1{
+    color: #21695c;
+}
+@media (max-width:1080px) {
+    .left-side{
+        width: 10%;
+    }
+    .right-side{
+        width: 80%;
+        margin-top: 2%;
+    }
+
+}

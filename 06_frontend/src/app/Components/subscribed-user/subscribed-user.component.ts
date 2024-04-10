@@ -35,7 +35,7 @@ export class SubscribedUserComponent {
   navItems: NavItem[] = [
     { icon: 'fa-solid fa-plus', text: 'Create Goals', link: '/trainer' },
     { icon: 'fa-solid fa-cart-shopping', text: 'Subscribed Users', link: '/subscribers' },
-    { icon: 'fa-solid fa-user', text: 'My Profile', link: '/profile' },
+    { icon: 'fa-solid fa-user', text: 'My Profile', link: '/trainerprofile' },
     { icon: 'fa-solid fa-clock-rotate-left', text: 'History', link: '/historytrainer' }
   ];
 

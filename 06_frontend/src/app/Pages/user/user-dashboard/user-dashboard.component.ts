@@ -19,9 +19,9 @@ interface NavItem {
 export class UserDashboardComponent {
   navItems: NavItem[] = [
     { icon: 'fa-solid fa-chart-line', text: 'Home', link: '/' },
-    { icon: 'fa-solid fa-bullseye', text: 'Manage Goals', link: '/manage-goals' },
+    { icon: 'fa-solid fa-bullseye', text: 'Manage Goals', link: '/managegoal' },
     { icon: 'fa-solid fa-plus', text: 'Create Goals', link: '/creategoals' },
-    { icon: 'fa-solid fa-cart-shopping', text: 'Buy Subscription', link: '/buy-subscription' },
+    { icon: 'fa-solid fa-cart-shopping', text: 'Buy Subscription', link: '/buy' },
     { icon: 'fa-solid fa-user', text: 'My Profile', link: '/profile' },
     { icon: 'fa-solid fa-clock-rotate-left', text: 'History', link: '/history' },
     

@@ -13,6 +13,7 @@ import { ManageGoalPageComponent } from './Pages/user/manage-goal-page/manage-go
 import { CreateGoalsTrainerComponent } from './Pages/trainer/create-goals-trainer/create-goals-trainer.component';
 import { HistoryTrainerComponent } from './Pages/trainer/history-trainer/history-trainer.component';
 import { SubscribedUserComponent } from './Components/subscribed-user/subscribed-user.component';
+import { ProfileTrainerComponent } from './Pages/trainer/profile-trainer/profile-trainer.component';
 
 export const routes: Routes = [
     { path: '', component: HomePageComponent },
@@ -21,6 +22,7 @@ export const routes: Routes = [
     { path: 'signup', component: SignupUserComponent },
     { path: 'user', component: ProfilePageComponent },
     { path: 'trainer', component: CreateGoalsTrainerComponent },
+    { path: 'trainerprofile', component: ProfileTrainerComponent },
     { path: 'profile', component: ProfilePageComponent },
     { path: 'history', component: HistoryPageComponent },
     { path: 'historytrainer', component: HistoryTrainerComponent },
