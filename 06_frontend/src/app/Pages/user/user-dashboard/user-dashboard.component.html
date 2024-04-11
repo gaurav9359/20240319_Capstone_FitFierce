@@ -5,7 +5,16 @@
 ></app-sidebar>
     </div>
 <div class="right-side">
-    <app-my-profile></app-my-profile>
+    <div class="chart-container" style="width: 60%;">
+        <div class="exercise-chart">
+            <h1>Exercise Completion Graph</h1>
+            <canvas id="MyChart">{{ chart }}</canvas>
+        </div>
+        <div class="diet-chart">
+            <h1>Diet Completion Graph</h1>
+            <canvas id="MyChart2">{{ chart2 }}</canvas>
+        </div>
+    </div>
 </div>
 </div>
 

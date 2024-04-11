@@ -19,7 +19,7 @@ interface NavItem {
 })
 export class CreateGoalsComponent {
   navItems: NavItem[] = [
-    { icon: 'fa-solid fa-chart-line', text: 'Home', link: '/' },
+    { icon: 'fa-solid fa-chart-line', text: 'Home', link: '/home' },
     { icon: 'fa-solid fa-bullseye', text: 'Manage Goals', link: '/managegoal' },
     { icon: 'fa-solid fa-plus', text: 'Create Goals', link: '/creategoals' },
     { icon: 'fa-solid fa-cart-shopping', text: 'Buy Subscription', link: '/buy' },

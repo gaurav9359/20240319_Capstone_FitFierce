@@ -1,13 +1,18 @@
 .middle-part{
-    height: 100vh;
-    align-items: center;
-    display: flex;
+    width: 100%;
 }
 .left-side{
-    width: 40%;
+    width: 10%;
 }
 .right-side{
-    height: 70%;
+    width: 100%;
+    display: flex;
+    margin-top: 2%;
+    justify-content: center;
+}
+
+.diet-chart{
+    margin: 50px 0px;
 }
 
 @media (max-width:1080px) {
@@ -16,7 +21,6 @@
     }
     .right-side{
         width: 80%;
-        margin-top: 2%;
     }
 
 }

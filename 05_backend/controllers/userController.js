@@ -156,5 +156,27 @@ const getallTrainer=async (req,res)=>{
   }
 }
 
+const getTrainerById=async (req,res)=>{
+  const trainer_id=req.query.id;
 
-module.exports={getUser,updateUser,getallTrainer}
+  if(req.user.role!=='user'){
+    res.send(500).send({message: "not authorized"})
+  }
+
+  try{
+    const trainer_details= await User.findOne({_id:new mongoose.Types.ObjectId(trainer_id)})
+
+    if(!trainer_details){
+      res.send(500).status({message:"trainer not found"})
+    }
+
+    res.send(trainer_details)
+
+  }
+  catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+}
+
+
+module.exports={getUser,updateUser,getallTrainer,getTrainerById}

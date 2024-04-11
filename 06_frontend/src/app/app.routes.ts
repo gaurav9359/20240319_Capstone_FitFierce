@@ -30,5 +30,6 @@ export const routes: Routes = [
     { path: 'creategoals', component: CreateGoalsComponent },
     { path: 'managegoal', component: ManageGoalPageComponent },
     { path: 'subscribers', component: SubscribedUserComponent },
+    { path: 'home', component: UserDashboardComponent },
 
 ];

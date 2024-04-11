@@ -10,6 +10,8 @@ router.get("/getuser", verifyJwt, getUserMiddleware, userController.getUser);
 
 router.get("/getalltrainer",verifyJwt,getUserMiddleware,userController.getallTrainer)
 
+router.get("/gettrainerbyid",verifyJwt, getUserMiddleware, userController.getTrainerById)
+
 //create Exercise
 router.put("/updateUser", verifyJwt, getUserMiddleware, userController.updateUser);
 

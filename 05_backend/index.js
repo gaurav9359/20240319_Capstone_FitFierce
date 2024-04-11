@@ -8,6 +8,7 @@ const exercise=require("./router/exerciseRouter")
 const user= require("./router/userRouter")
 const diet=require("./router/dietRouter")
 const subscribeController= require("./router/subscribeRouter")
+const dashboard=require("./router/dashboardRouter")
 
 // Database connection
 const { connectToDatabase } = require("./database/db");
@@ -25,6 +26,7 @@ app.use("/exercise",exercise);
 app.use("/user",user);
 app.use("/diet",diet);
 app.use("/subscription",subscribeController);
+app.use("/dashboard",dashboard)
 
 
 
