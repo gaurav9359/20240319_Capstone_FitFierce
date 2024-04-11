@@ -244,6 +244,8 @@ footer {
     width: 50px!important;
   }
 
+  
+
 	.about-info {
 		flex-direction: column;
 		text-align: center;
@@ -270,7 +272,9 @@ footer {
 }
 
 
-
+.mail-link{
+  display: flex;
+}
 /* section */
 
 .row-header{
@@ -389,7 +393,7 @@ footer {
   }
   
   .footer-distributed{
-    background:linear-gradient(360deg, #162421 0%, #21695c 100%);
+    background: #25635b;
     box-shadow: 0 1px 1px 0 #56dbc3;;
     box-sizing: border-box;
     width: 100%;

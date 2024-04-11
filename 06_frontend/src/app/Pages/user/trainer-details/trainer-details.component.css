@@ -1,0 +1,244 @@
+/* Import the font */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+.middle-part{
+    width: 100%;
+}
+.left-side{
+    width: 10%;
+}
+.right-side{
+    width: 100%;
+    display: flex;
+    margin-top: 2%;
+    flex-direction: column;
+    align-items: center;
+}
+
+.diet-chart{
+    margin: 50px 0px;
+}
+img{
+    width: 400px;
+}
+
+.main{
+    width: 60%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+
+
+.product-configuration{
+    width: 50%;
+}
+
+h1{
+    margin-bottom: 7px;
+}
+.badge {
+    background-color: red;
+    color: white;
+    padding: 4px 8px;
+    height:fit-content;
+    text-align: center;
+    border-radius: 5px;
+    
+}
+.badga{
+    background-color: red;
+    color: white;
+    padding: 10px 8px;
+    height:fit-content;
+    text-align: center;
+    border-radius: 5px;
+}
+.description{
+    margin-top: 50px;
+}
+
+.cable-config{
+    display: flex;
+}
+.mail a{
+    text-decoration: none;
+}
+
+.product-price{
+    display: flex;
+    margin-top: 10px;
+}
+
+.verified{
+    font-weight: 600;
+}
+
+.product-price button{
+    color: rgb(0, 0, 0);
+	padding: 10px;
+	font-weight: bold;
+	text-decoration: none;
+    margin: 0px 10px;
+}
+.product-price button:hover{
+    background-color: #21695c;
+	border-radius: 4px;
+	color: white;
+}
+  /* Style the counter cards */
+  .card {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    padding: 16px;
+    text-align: center;
+    background-color: #f1f1f1;
+    width: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 120px;
+  }
+  .card h3{
+    color: #1e2436;
+    font-weight: bold;
+    
+  }
+.right-column{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.column{
+    margin: 0px 50px;
+}
+
+.bottom{
+    margin-top: 100px;
+    display: flex;
+    width: 100%;
+    justify-content: center;
+}
+@media (max-width:1080px) {
+    .left-side{
+        width: 10%;
+    }
+    .right-side{
+        width: 100%;
+    }
+    
+
+}
+
+@media (max-width:1522px){
+    .main{
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+    }
+    .right-column{
+        margin-left: 0px;
+        margin-top: 30px;
+    }
+}
+
+.right-column {
+    background-color: #f5f5f5;
+    padding: 20px;
+    width: 50%;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  .product-description {
+    margin-bottom: 20px;
+  }
+  
+  .name h1 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .name span {
+    font-weight: bold;
+  }
+  
+
+  .description {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  
+  .description span {
+    font-weight: bold;
+  }
+  
+  .product-configuration {
+    margin-bottom: 20px;
+  }
+  
+  .cable-config {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .cable-config span {
+    font-weight: bold;
+    margin-right: 10px;
+  }
+  
+  .cable-choose p {
+    position: relative;
+    top: 5px;
+    font-size: 16px;
+  }
+  
+  .trainer_name{
+    margin-left: 5px;
+    color:#21695c;
+  }
+  .mail {
+    display: flex;
+    align-items: center;
+  }
+  
+  .mail span {
+    font-weight: bold;
+    margin-right: 10px;
+  }
+  
+  .mail a {
+    color: #2196f3;
+    text-decoration: none;
+  }
+  
+  .mail a:hover {
+    text-decoration: underline;
+  }
+  
+  .product-price {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+
+  
+  .buy-now-btn {
+    background-color: #2196f3;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 3px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  .buy-now-btn:hover {
+    background-color: #1976d2;
+  }

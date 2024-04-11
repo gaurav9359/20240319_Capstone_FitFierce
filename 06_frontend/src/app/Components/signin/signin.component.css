@@ -49,6 +49,9 @@
 .wrapper form {
   padding: 10px 30px 50px 30px;
 }
+.auth-input{
+  padding: 0px;
+}
 
 .wrapper form .field {
   height: 50px;
@@ -97,9 +100,7 @@ form .signup-link a:hover {
 }
 
 mat-form-field input{
-  height: 40px;
   width: 100%;
-  margin: 10px 0px;
 }
 mat-form-field{
   width: 80%;

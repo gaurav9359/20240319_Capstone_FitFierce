@@ -10,7 +10,7 @@
     </div>
 
     <ng-template #showtrainer>
-        <app-subscription-buy-card class="cards" *ngFor="let trainer of trainers" [trainer]="trainer"></app-subscription-buy-card>
+        <app-subscription-buy-card class="cards" *ngFor="let trainer of trainers" [trainer]="trainer" [payment_details]="trainer"></app-subscription-buy-card>
     </ng-template>
     </div>
 </div>

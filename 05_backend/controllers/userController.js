@@ -11,7 +11,8 @@ const {
     trainerSpecialityValidator,
     priceValidator,
     validityDaysValidator,
-}= require("../dependencies/validator/User")
+}= require("../dependencies/validator/User");
+const Subscription = require('../models/Subscription');
 
 
 //get user 
@@ -147,9 +148,9 @@ const updateUser=async (req,res)=>{
 
 const getallTrainer=async (req,res)=>{
   try {
-    const trainers = await User.find({ role: 'trainer' }, { image: 1, name: 1, trainer_speciality: 1, price: 1, _id: 0 });
+    const trainers = await User.find({ role: 'trainer' }, {_id:1, image: 1, name: 1, trainer_speciality: 1, price: 1 });
 
-
+    console.log(trainers)
     res.status(200).json(trainers);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -157,8 +158,8 @@ const getallTrainer=async (req,res)=>{
 }
 
 const getTrainerById=async (req,res)=>{
+  console.log("here")
   const trainer_id=req.query.id;
-
   if(req.user.role!=='user'){
     res.send(500).send({message: "not authorized"})
   }
@@ -170,7 +171,21 @@ const getTrainerById=async (req,res)=>{
       res.send(500).status({message:"trainer not found"})
     }
 
-    res.send(trainer_details)
+    const subscribedUserCount=await Subscription.find({trainer_id:trainer_id})
+
+    const detailsToReturn={ _id: trainer_details._id,
+      name: trainer_details.name,
+      email: trainer_details.email,
+      // Include other desired properties from trainer_details
+      phone_number: trainer_details.phone_number,
+      role: trainer_details.role,
+      image: trainer_details.image,
+      banner: trainer_details.banner,
+      description: trainer_details.description,
+      trainer_speciality: trainer_details.trainer_speciality,
+      price: trainer_details.price,
+      validity_days: trainer_details.validity_days,usersCount:subscribedUserCount.length}
+    res.send(detailsToReturn)
 
   }
   catch (error) {

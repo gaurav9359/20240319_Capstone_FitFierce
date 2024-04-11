@@ -12,6 +12,6 @@
     
   </div>
   <div class="buttons-buy">
-    <button class="buy-button">Buy</button>
-    <button class="info-button">Info</button>
+    <app-payment-component [trainer_details]="payment_details"></app-payment-component>
+    <button class="info-button" (click)="navigateToTrainerDetails()">Info</button>
   </div>

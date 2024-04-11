@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { faUser, faShieldHalved, faHeadset } from '@fortawesome/free-solid-svg-icons';
 
+
 @Component({
   selector: 'app-home-page',
   standalone: true,
@@ -30,5 +31,9 @@ export class HomePageComponent {
   }
   getRole(){
     return this.authService.getRole()
+  }
+
+  getStarted(){
+    this.router.navigateByUrl('/signin')
   }
 }

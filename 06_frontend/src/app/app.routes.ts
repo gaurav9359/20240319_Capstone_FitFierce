@@ -14,6 +14,10 @@ import { CreateGoalsTrainerComponent } from './Pages/trainer/create-goals-traine
 import { HistoryTrainerComponent } from './Pages/trainer/history-trainer/history-trainer.component';
 import { SubscribedUserComponent } from './Components/subscribed-user/subscribed-user.component';
 import { ProfileTrainerComponent } from './Pages/trainer/profile-trainer/profile-trainer.component';
+import { TrainerDetailsComponent } from './Pages/user/trainer-details/trainer-details.component';
+import { NotFoundPageComponent } from './Pages/not-found-page/not-found-page.component';
+
+import { SuccessPageComponent } from './Pages/success-page/success-page.component';
 
 export const routes: Routes = [
     { path: '', component: HomePageComponent },
@@ -31,5 +35,8 @@ export const routes: Routes = [
     { path: 'managegoal', component: ManageGoalPageComponent },
     { path: 'subscribers', component: SubscribedUserComponent },
     { path: 'home', component: UserDashboardComponent },
+    {path:'trainerdetail',component:TrainerDetailsComponent},
+    {path:'success',component:SuccessPageComponent},
+    {path:'**', component:NotFoundPageComponent}
 
 ];

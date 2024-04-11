@@ -1,0 +1,16 @@
+.buy-now-btn {
+    color: rgb(0, 0, 0);
+	padding: 10px;
+    border-radius: 4px;
+    padding: 8px 15px;
+    border: none;
+    border: 1px solid rgb(235, 229, 229);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+	font-weight: bold;
+	text-decoration: none;
+  }
+  
+  .buy-now-btn:hover {
+    background-color:#21695c;
+    color: white;
+  }

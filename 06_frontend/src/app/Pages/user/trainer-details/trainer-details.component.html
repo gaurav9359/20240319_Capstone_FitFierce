@@ -1,0 +1,76 @@
+<app-navbar></app-navbar>
+<div class="middle-part">
+    <div class="left-side">
+        <app-sidebar [navItems]="navItems"
+></app-sidebar>
+    </div>
+<div class="right-side">
+<!-- Left Column / Headphones Image -->
+    <div class="main">
+        <div class="left-column">
+            <img data-image="red" class="active" src="{{trainer_details.image}}" alt="">
+        </div>
+ 
+ 
+ 
+  <!-- Right Column -->
+  <div class="right-column">
+ 
+    <!-- Product Description -->
+    <div class="product-description">
+        <div class="name">
+            <h1><span>Trainer Name:</span><span class="trainer_name">{{trainer_details.name}}</span></h1>
+       <p><span>Speciality: </span> <span class="badge">{{trainer_details.trainer_speciality}} Trainer</span></p>
+        </div>
+      <p class="description"><span>About Trainer:</span><span>{{trainer_details.description}}</span></p>
+    </div>
+ 
+    <!-- Product Configuration -->
+    <div class="product-configuration">
+ 
+      
+ 
+      <!-- Cable Configuration -->
+      <div class="cable-config">
+        <span>Validity Days: </span>
+ 
+        <div class="cable-choose">
+          <p>{{trainer_details.validity_days}} Days</p>
+        </div>
+ 
+        
+    </div>
+    <div class="mail">
+        <span>Mail: </span>
+        <a href="mailto:{{trainer_details.email}}">{{trainer_details.email}}</a>
+    </div>
+    </div>
+ 
+    <!-- Product Pricing -->
+    <div class="product-price">
+      <span class="badga">148$</span>
+      <app-payment-component [trainer_details]="payment_details"></app-payment-component>
+    </div>
+  </div>
+    </div>
+
+    <div class="bottom">
+        <div class="column">
+            <div class="card">
+              <h3>Enrolled Users</h3>
+              <p>{{trainer_details.usersCount}}</p>
+            </div>
+          </div>
+        <div class="column">
+            <div class="card">
+              <h3>FitFierce badge</h3>
+              <div class="badge-verfication">
+                <img style="width: 50px;" src="../../../../assets/verify.png" alt="">
+              <p class="verified">verified</p>
+              </div>
+            </div>
+          </div>
+    </div>
+</div>
+</div>
+
