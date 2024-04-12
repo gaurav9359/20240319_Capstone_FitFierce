@@ -30,7 +30,7 @@ export class SigninComponent {
 
   passwordFormControl = new FormControl('', [
     Validators.required,
-    Validators.minLength(8),
+    Validators.minLength(7),
     Validators.maxLength(20),
   ]);
 
@@ -61,7 +61,7 @@ export class SigninComponent {
           console.log('User signed in successfully:', response);
           // Store the token in localStorage
           if(response.role==='user'){
-            this.router.navigateByUrl('/user')
+            this.router.navigateByUrl('/home')
           }
           else{
             this.router.navigateByUrl('/trainer')

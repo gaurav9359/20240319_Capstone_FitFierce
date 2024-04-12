@@ -5,43 +5,90 @@
         <div class="title">SignUp As Trainer</div>
         <form [formGroup]="trainerForm" (ngSubmit)="onSubmit()">
           <div class="field">
-            <input type="text" formControlName="name" required />
-            <label>Name</label>
+            <mat-form-field appearance="outline">
+              <mat-label>Name</mat-label>
+              <input matInput formControlName="name" required />
+              <mat-error *ngIf="trainerForm.get('name')?.hasError('required')">Name is required</mat-error>
+              <mat-error *ngIf="trainerForm.get('name')?.hasError('minlength')">Name must be at least 2 characters long</mat-error>
+              <mat-error *ngIf="trainerForm.get('name')?.hasError('maxlength')">Name cannot be more than 50 characters long</mat-error>
+            </mat-form-field>
           </div>
           <div class="field">
-            <input type="tel" formControlName="phone_number" required />
-            <label>Phone Number</label>
+            <mat-form-field appearance="outline">
+              <mat-label>Phone Number</mat-label>
+              <input matInput formControlName="phone_number" type="tel" required />
+              <mat-error *ngIf="trainerForm.get('phone_number')?.hasError('required')">Phone number is required</mat-error>
+              <mat-error *ngIf="trainerForm.get('phone_number')?.hasError('minlength')">Phone number must be at least 2 characters long</mat-error>
+              <mat-error *ngIf="trainerForm.get('phone_number')?.hasError('maxlength')">Phone number cannot be more than 15 characters long</mat-error>
+            </mat-form-field>
           </div>
           <div class="field">
-            <input type="email" formControlName="email" required />
-            <label>Email Address</label>
+            <mat-form-field appearance="outline">
+              <mat-label>Email Address</mat-label>
+              <input matInput formControlName="email" type="email" required />
+              <mat-error *ngIf="trainerForm.get('email')?.hasError('required')">Email is required</mat-error>
+              <mat-error *ngIf="trainerForm.get('email')?.hasError('email')">Invalid email format</mat-error>
+              <mat-error *ngIf="trainerForm.get('email')?.hasError('minlength')">Email must be at least 6 characters long</mat-error>
+              <mat-error *ngIf="trainerForm.get('email')?.hasError('maxlength')">Email cannot be more than 255 characters long</mat-error>
+            </mat-form-field>
           </div>
           <div class="field">
-            <input type="password" formControlName="password" required />
-            <label>Password</label>
+            <mat-form-field appearance="outline">
+              <mat-label>Password</mat-label>
+              <input matInput formControlName="password" type="password" required />
+              <mat-error *ngIf="trainerForm.get('password')?.hasError('required')">Password is required</mat-error>
+              <mat-error *ngIf="trainerForm.get('password')?.hasError('minlength')">Password must be at least 7 characters long</mat-error>
+              <mat-error *ngIf="trainerForm.get('password')?.hasError('maxlength')">Password cannot be more than 20 characters long</mat-error>
+            </mat-form-field>
           </div>
           <div class="two-field">
-            <input type="number" class="number_input" formControlName="price" placeholder="Rate" required>
-            <input type="number" class="number_input days" formControlName="validity_days" placeholder="Validity Duration" required>
-            <select formControlName="trainer_speciality" id="fitness-trainer-category" required>
-              <option value="">Select a Specialization</option>
-              <option value="strength-and-conditioning">Strength & Conditioning</option>
+            <mat-form-field appearance="outline" class="number_input">
+              <mat-label>Rate</mat-label>
+              <input matInput formControlName="price" type="number" required />
+              <mat-error *ngIf="trainerForm.get('price')?.hasError('required')">Rate is required</mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="number_input days">
+              <mat-label>Validity Duration</mat-label>
+              <input matInput formControlName="validity_days" type="number" required />
+              <mat-error *ngIf="trainerForm.get('validity_days')?.hasError('required')">Validity Duration is required</mat-error>
+            </mat-form-field>
+          </div>
+          <mat-form-field appearance="outline">
+            <mat-label>Specialization</mat-label>
+            <mat-select formControlName="trainer_speciality" required>
+              <mat-option value="">Select a Specialization</mat-option>
+              <mat-option value="strength-and-conditioning">Strength & Conditioning</mat-option>
               <!-- Add other options as needed -->
-            </select>
+            </mat-select>
+            <mat-error *ngIf="trainerForm.get('trainer_speciality')?.hasError('required')">Specialization is required</mat-error>
+          </mat-form-field>
+          <div class="field">
+            <mat-form-field appearance="outline">
+              <mat-label>Profile Link</mat-label>
+              <input matInput formControlName="image" required />
+              <mat-error *ngIf="trainerForm.get('image')?.hasError('required')">Profile link is required</mat-error>
+              <mat-error *ngIf="trainerForm.get('image')?.hasError('maxlength')">Profile link cannot be more than 200 characters long</mat-error>
+            </mat-form-field>
           </div>
           <div class="field">
-            <input type="text" formControlName="image" required />
-            <label>Profile Link</label>
-          </div>
-          <div class="field">
-            <input type="text" formControlName="banner" required />
-            <label>Banner Link</label>
+            <mat-form-field appearance="outline">
+              <mat-label>Banner Link</mat-label>
+              <input matInput formControlName="banner" required />
+              <mat-error *ngIf="trainerForm.get('banner')?.hasError('required')">Banner link is required</mat-error>
+              <mat-error *ngIf="trainerForm.get('banner')?.hasError('maxlength')">Banner link cannot be more than 200 characters long</mat-error>
+            </mat-form-field>
           </div>
           <div class="oreno">
-            <textarea formControlName="description" required cols="20" rows="8"></textarea>
+            <mat-form-field appearance="outline">
+              <mat-label>Description</mat-label>
+              <textarea matInput formControlName="description" rows="8" required></textarea>
+              <mat-error *ngIf="trainerForm.get('description')?.hasError('required')">Description is required</mat-error>
+              <mat-error *ngIf="trainerForm.get('description')?.hasError('minlength')">Description must be at least 10 characters long</mat-error>
+              <mat-error *ngIf="trainerForm.get('description')?.hasError('maxlength')">Description cannot be more than 500 characters long</mat-error>
+            </mat-form-field>
           </div>
           <div class="field">
-            <input type="submit" value="SignUp" />
+            <button class="submit-btn" type="submit" >SignUp</button>
           </div>
           <div class="signup-link">
             Already Have an Account? <a href="/signin">SignIn now</a>

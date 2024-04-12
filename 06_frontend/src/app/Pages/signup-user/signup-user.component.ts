@@ -26,23 +26,24 @@ import { Router } from '@angular/router';
 export class SignupUserComponent {
   userForm = new FormGroup({
     // Add new form controls
-    name: new FormControl('', Validators.required),
+    name: new FormControl('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]),
     email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', Validators.required),
+    password: new FormControl('', [Validators.required, Validators.minLength(7), Validators.maxLength(20)]),
     phoneNumber: new FormControl('', [
       Validators.required,
-      Validators.pattern(/^\d{10}$/)
+      Validators.pattern(/^\d{10}$/) // Ensures 10 digits for phone number
     ]),
-    // Existing form controls
+    // Existing form controls (unchanged)
     causeName: new FormControl('', Validators.required),
     fundsRequired: new FormControl('', [
       Validators.required,
-      Validators.pattern(/^\d+(\.\d{1,2})?$/)
+      Validators.pattern(/^\d+(\.\d{1,2})?$/) // Ensures valid decimal format
     ]),
     category: new FormControl('', Validators.required),
     description: new FormControl('', Validators.required),
     imageUrl: new FormControl('', Validators.required)
   });
+  
 
   categories = ['Health', 'Education', 'Environment', 'Social', 'Other'];
 

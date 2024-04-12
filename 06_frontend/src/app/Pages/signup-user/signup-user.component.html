@@ -14,7 +14,15 @@
                       <mat-form-field appearance="outline">
                         <!-- <mat-label>Name</mat-label> -->
                         <input matInput formControlName="name" placeholder="Name" required>
-                        <mat-error *ngIf="(userForm.get('name')?.hasError('required') ?? false)">Name is required</mat-error>
+                        <mat-error *ngIf="(userForm.get('name')?.hasError('required') ?? false)">
+                          Name is required
+                        </mat-error>
+                        <mat-error *ngIf="(userForm.get('name')?.hasError('minlength') ?? false)">
+                          Name must be between 3 and 50 characters long
+                        </mat-error>
+                        <mat-error *ngIf="(userForm.get('name')?.hasError('maxlength') ?? false)">
+                          Name must be between 3 and 50 characters long
+                        </mat-error>
                       </mat-form-field>
                       <mat-form-field appearance="outline">
                         <!-- <mat-label>Email</mat-label> -->
@@ -26,6 +34,12 @@
                         <!-- <mat-label>Password</mat-label> -->
                         <input matInput formControlName="password" placeholder="Password" type="password" required>
                         <mat-error *ngIf="(userForm.get('password')?.hasError('required') ?? false)">Password is required</mat-error>
+                        <mat-error *ngIf="(userForm.get('password')?.hasError('minlength') ?? false)">
+                          Password must be between 7 and 20 characters long
+                        </mat-error>
+                        <mat-error *ngIf="(userForm.get('password')?.hasError('maxlength') ?? false)">
+                          Password must be between 7 and 20 characters long
+                        </mat-error>
                       </mat-form-field>
                       <mat-form-field appearance="outline">
                         <!-- <mat-label>Phone Number</mat-label> -->
@@ -40,14 +54,13 @@
                         Already Have an Account? <a href="/signin">SignIn now</a>
                       </div>
               
-                      <button class="submit-btn" type="submit" >Submit</button>
+                      <button class="submit-btn" type="submit" >SignUp</button>
                     </form>
                   </div>
                 </div>
               </div>
           </div>
           <div class="right-part">
-              <img src="../../../assets/undraw_fingerprint_login_re_t71l.svg" alt="">
           </div>
         </div>
     

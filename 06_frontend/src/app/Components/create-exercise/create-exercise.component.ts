@@ -5,6 +5,8 @@ import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatButton, MatButtonModule } from '@angular/material/button';
 import {FormsModule} from '@angular/forms';
+
+import { MatSelectModule } from '@angular/material/select';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { AuthServiceService } from '../../Services/authService/auth-service.service';
@@ -12,7 +14,7 @@ import { AuthServiceService } from '../../Services/authService/auth-service.serv
 @Component({
   selector: 'app-create-exercise',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule,FormsModule, MatFormFieldModule, MatInputModule,MatButton],
+  imports: [CommonModule, ReactiveFormsModule,FormsModule, MatFormFieldModule, MatInputModule,MatButton,MatSelectModule],
   templateUrl: './create-exercise.component.html',
   styleUrl: './create-exercise.component.css'
 })

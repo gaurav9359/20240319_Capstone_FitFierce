@@ -7,8 +7,14 @@
             <mat-form-field class="example-full-width">
                 <input matInput placeholder="Exercise Name" value="Sushi" type="text"formControlName="exercise_name" >
               </mat-form-field>
-            <mat-form-field class="example-full-width">
-                <input matInput placeholder="Exercise Category" value="Sushi" type="text" formControlName="category" >
+              <mat-form-field appearance="outline">
+                <mat-label>Specialization</mat-label>
+                <mat-select formControlName="category" required>
+                  <mat-option value="">Select a Specialization</mat-option>
+              <mat-option value="strength-and-conditioning">Strength & Conditioning</mat-option>
+                  <!-- Add other options as needed -->
+                </mat-select>
+                
               </mat-form-field>
             <mat-form-field class="example-full-width">
                 <input matInput placeholder="Exercise Sets" value="Sushi" type="text" formControlName="sets">

@@ -4,16 +4,20 @@
         <div *ngFor="let student of getValues(); let i = index">
           <div [formGroupName]="i" class="border border-dark my-2 p-5" ngClass="">
            <div class="form-input">
-            <mat-form-field class="example-full-width">
+            <mat-form-field class="example-full-width" floatLabel="always">
+              <mat-label>Exercise Name</mat-label>
                 <input matInput readonly="true" placeholder="{{student.exercise_name}}"  type="text">
               </mat-form-field>
-            <mat-form-field class="example-full-width">
+            <mat-form-field class="example-full-width" floatLabel="always">
+              <mat-label>Exercise Category</mat-label>
                 <input matInput readonly="true" placeholder="{{student.category}}"  type="text" >
               </mat-form-field>
-            <mat-form-field class="example-full-width">
+            <mat-form-field class="example-full-width" floatLabel="always">
+              <mat-label>Sets in Number</mat-label>
                 <input matInput readonly="true" placeholder="{{student.sets}}" type="text">
               </mat-form-field>
-            <mat-form-field class="example-full-width">
+            <mat-form-field class="example-full-width" floatLabel="always">
+              <mat-label>Time To Complete</mat-label>
                 <input matInput readonly="true" placeholder="{{student.estimated_time}}" type="text" > 
               </mat-form-field>
               <mat-form-field class="example-full-width" >
