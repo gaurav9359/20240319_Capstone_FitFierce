@@ -63,4 +63,10 @@
     align-items: flex-start;
     justify-content: center;
   }
+
+  .edit-icon{
+    width: 100%;
+    display: flex;
+    justify-content: end;
+  }
  

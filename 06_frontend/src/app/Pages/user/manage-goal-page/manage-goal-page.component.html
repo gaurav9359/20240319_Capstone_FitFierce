@@ -1,42 +1,42 @@
 <app-navbar></app-navbar>
 <div class="history">
-    <div class="left-side">
-        <app-sidebar [navItems]="navItems"></app-sidebar>
-    </div>
-    <div class="right-side">
-        <mat-tab-group>
-            <mat-tab label="Pending">
-                <div class="exercise-section">
-                    <h1>Manage Exercise</h1>
-                <app-manage-exercise [status]="'pending'">
-                </app-manage-exercise>
-                </div>
-                <div class="goal-section">
-                    <h1>Manage Diet</h1>
-                <app-manage-diet [status]="'pending'"></app-manage-diet>
-                </div>
-            </mat-tab>
-            <mat-tab label="Completed">
-                <div class="exercise-section">
-                    <h1>Manage Exercise</h1>
-                <app-manage-exercise [status]="'completed'"></app-manage-exercise>
-                </div>
-                <div class="goal-section">
-                    <h1>Manage Diet</h1>
-                <app-manage-diet [status]="'completed'"></app-manage-diet>
-                </div>
-            </mat-tab>
-            <mat-tab label="All"> 
-                <div class="exercise-section">
-                    <h1>Manage Exercise</h1>
-                <app-manage-exercise [status]="'all'"></app-manage-exercise>
-                </div>
-                <div class="goal-section">
-                    <h1>Manage Diet</h1>
-                <app-manage-diet [status]="'all'"></app-manage-diet>
-                </div>
-            </mat-tab>
-          </mat-tab-group>
-        
-    </div>
+  <div class="left-side">
+    <app-sidebar [navItems]="navItems"></app-sidebar>
+  </div>
+  <div class="right-side">
+    
+    <mat-tab-group (selectedTabChange)="onTabChange($event)">
+      <mat-tab label="Pending">
+        <div class="exercise-section">
+          <h1>Manage Exercise</h1>
+          
+          <app-manage-exercise [status]="status"></app-manage-exercise>
+        </div>
+        <div class="goal-section">
+          <h1>Manage Diet</h1>
+          <app-manage-diet [status]="status"></app-manage-diet>
+        </div>
+      </mat-tab>
+      <mat-tab label="Completed">
+        <div class="exercise-section">
+          <h1>Manage Exercise</h1>
+          <app-manage-exercise [status]="status"></app-manage-exercise>
+        </div>
+        <div class="goal-section">
+          <h1>Manage Diet</h1>
+          <app-manage-diet [status]="status"></app-manage-diet>
+        </div>
+      </mat-tab>
+      <mat-tab label="All">
+        <div class="exercise-section">
+          <h1>Manage Exercise</h1>
+          <app-manage-exercise [status]="status"></app-manage-exercise>
+        </div>
+        <div class="goal-section">
+          <h1>Manage Diet</h1>
+          <app-manage-diet [status]="status"></app-manage-diet>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
 </div>

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import { FormArray, FormControl, FormGroup, ReactiveFormsModule } from "@angular/forms";
 import { CommonModule } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
@@ -8,15 +8,15 @@ import { MatSelectModule } from '@angular/material/select';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { NgZone } from '@angular/core';
 import { Router } from '@angular/router';
-
+import { MatProgressBar } from '@angular/material/progress-bar';
 @Component({
   selector: 'app-manage-exercise',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, MatFormFieldModule, MatInputModule, MatSelectModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, MatFormFieldModule, MatInputModule, MatSelectModule,MatProgressBar],
   templateUrl: './manage-exercise.component.html',
   styleUrls: ['./manage-exercise.component.css']
 })
-export class ManageExerciseComponent implements OnInit {
+export class ManageExerciseComponent implements OnInit,OnChanges {
   @Input() status: string = '';
   studentForm: FormGroup = new FormGroup({
     studentList: new FormArray([this.getStudentFields()])
@@ -42,11 +42,17 @@ export class ManageExerciseComponent implements OnInit {
     return this.filteredData;
   }
 
+  
   ngOnInit(): void {
     let dataReceived!: any;
     this.fetchData()
   }
-
+  
+  ngOnChanges(changes: { [key: string]: any }) {
+    if (changes['status']) {
+      this.fetchData();
+    }
+  }
   fetchData(){
     const token = localStorage.getItem('authToken');
     const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });

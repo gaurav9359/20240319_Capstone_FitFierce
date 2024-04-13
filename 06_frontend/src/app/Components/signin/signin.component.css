@@ -132,3 +132,8 @@ mat-form-field{
         display: none;
     }
 }
+
+.customsnackbar {
+  color: yellow;
+top: 500px; /* Adjust the value as needed */
+}

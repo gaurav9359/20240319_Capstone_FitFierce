@@ -1,4 +1,5 @@
 <div class="d-flex justify-content-center">
+  
     <form [formGroup]="studentForm" (ngSubmit)="getFormData()" class="mt-5 w-50">
       <div class="border border-info p-5" formArrayName="studentList">
         <div *ngFor="let student of getValues(); let i = index">

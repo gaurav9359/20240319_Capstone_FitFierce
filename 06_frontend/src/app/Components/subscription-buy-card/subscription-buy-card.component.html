@@ -3,7 +3,7 @@
       [src]="trainer.image"
       alt="{{ trainer.name }}"
       class="trainer-image"
-      routerLink="/trainerdetails"
+      (click)="navigateToTrainerDetails()"
     />
     <div class="trainer-details">
       <h3 class="trainer-name">{{ trainer.name }}</h3>

@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MyErrorStateMatcher } from '../../classes'; 
 import { AuthServiceService } from '../../Services/authService/auth-service.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 
 @Component({
@@ -36,7 +37,7 @@ export class SigninComponent {
 
   matcher = new MyErrorStateMatcher();
 
-  constructor(private authService: AuthServiceService,private router: Router){}
+  constructor(private authService: AuthServiceService,private router: Router,public _snackbar:MatSnackBar){}
 
 
   resetController() {
@@ -71,6 +72,11 @@ export class SigninComponent {
           this.authService.setRole(response.role);
         },
         (error) => {
+          this._snackbar.open("Incorrect email or password", "", {
+            duration: 1500,
+            verticalPosition: 'top',
+            panelClass: 'customsnackbar'
+          });
           console.error('Error signing in:', error);
           // Handle the error
         }

@@ -3,7 +3,9 @@ import { ManageDietComponent } from '../../../Components/manage-diet/manage-diet
 import { ManageExerciseComponent } from '../../../Components/manage-exercise/manage-exercise.component';
 import { NavbarComponent } from '../../../Components/navbar/navbar.component';
 import { SidebarComponent } from '../../../Components/sidebar/sidebar.component';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 import {MatTabsModule} from '@angular/material/tabs';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 interface NavItem {
   icon: string;
@@ -14,7 +16,7 @@ interface NavItem {
 @Component({
   selector: 'app-manage-goal-page',
   standalone: true,
-  imports: [ManageDietComponent,ManageExerciseComponent,NavbarComponent,SidebarComponent,MatTabsModule],
+  imports: [ManageDietComponent,ManageExerciseComponent,NavbarComponent,SidebarComponent,MatTabsModule,MatProgressBarModule],
   templateUrl: './manage-goal-page.component.html',
   styleUrl: './manage-goal-page.component.css'
 })
@@ -33,6 +35,20 @@ export class ManageGoalPageComponent {
 
   getStatus():string{
     return status
+  }
+
+  onTabChange(event: MatTabChangeEvent) {
+    switch (event.index) {
+      case 0:
+        this.status = 'pending';
+        break;
+      case 1:
+        this.status = 'completed';
+        break;
+      case 2:
+        this.status = 'all';
+        break;
+    }
   }
 
   
