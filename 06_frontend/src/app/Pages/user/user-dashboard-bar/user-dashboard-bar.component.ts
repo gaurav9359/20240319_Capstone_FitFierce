@@ -4,22 +4,21 @@ import { AuthServiceService } from '../../../Services/authService/auth-service.s
 import { HttpClient } from '@angular/common/http';
 import { MyProfileComponent } from '../../../Components/my-profile/my-profile.component';
 import { SidebarComponent } from '../../../Components/sidebar/sidebar.component';
-import { Router } from '@angular/router';
 import { Chart } from 'chart.js/auto';
+import { Router } from '@angular/router';
 interface NavItem {
   icon: string;
   text: string;
   link: string; // Optional for actual links (replace with #0 for placeholders)
 }
-
 @Component({
-  selector: 'app-user-dashboard',
+  selector: 'app-user-dashboard-bar',
   standalone: true,
   imports: [NavbarComponent,SidebarComponent,MyProfileComponent],
-  templateUrl: './user-dashboard.component.html',
-  styleUrl: './user-dashboard.component.css'
+  templateUrl: './user-dashboard-bar.component.html',
+  styleUrl: './user-dashboard-bar.component.css'
 })
-export class UserDashboardComponent {
+export class UserDashboardBarComponent {
   navItems: NavItem[] = [
     { icon: 'fa-solid fa-chart-line', text: 'Home', link: '/home' },
     { icon: 'fa-solid fa-bullseye', text: 'Manage Goals', link: '/managegoal' },
@@ -130,7 +129,7 @@ export class UserDashboardComponent {
   createChartExercise() {
 
     this.chart = new Chart("MyChart", {
-      type: 'line', //this denotes tha type of chart
+      type: 'bar', //this denotes tha type of chart
 
       data: {// values on X-Axis
         labels: this.labelsExercise,
@@ -172,7 +171,7 @@ export class UserDashboardComponent {
   createChartDiet() {
 
     this.chart2= new Chart("MyChart2", {
-      type: 'line', //this denotes tha type of chart
+      type: 'bar', //this denotes tha type of chart
 
       data: {// values on X-Axis
         labels: this.labelsDiet,
@@ -213,6 +212,10 @@ export class UserDashboardComponent {
   }
 
   handleBarClick(){
-    this.router.navigateByUrl('/dashboard')
+
   }
+  handleLineClick(){
+    this.router.navigateByUrl('/home')
+  }
+
 }

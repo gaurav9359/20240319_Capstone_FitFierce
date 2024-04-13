@@ -4,18 +4,33 @@
         <div *ngFor="let student of studentListArray().controls; let i = index">
           <div [formGroupName]="i" class="border border-dark my-2 p-5" ngClass="">
            <div class="form-input">
-            <mat-form-field class="example-full-width">
+            <mat-form-field class="example-full-width" floatLabel="always">
+              
+              <mat-label>Diet Name</mat-label>
                 <input matInput placeholder="Diet Name" [readonly]="false"  type="text"formControlName="diet_name" >
               </mat-form-field>
-            <mat-form-field class="example-full-width">
-                <input matInput placeholder="Diet Quantity"  type="text" formControlName="quantity" >
+            <mat-form-field class="example-full-width" floatLabel="always">
+              <mat-label>Diet Quantity</mat-label>
+                <input matInput placeholder="Diet Quantity"  type="number" formControlName="quantity" >
               </mat-form-field>
-            <mat-form-field class="example-full-width">
-                <input matInput placeholder="Diet Calories"  type="text" formControlName="calories">
+            <mat-form-field class="example-full-width" floatLabel="always"> 
+              <mat-label>Calories</mat-label>
+                <input matInput placeholder="Diet Calories"  type="number" formControlName="calories">
               </mat-form-field>
-            <mat-form-field class="example-full-width">
-                <input matInput placeholder="Diet Time"  type="text" formControlName="time_toeat"> 
+              <mat-form-field appearance="outline" floatLabel="always" class="custom-select example-full-width">
+                
+              <mat-label>Time To Eat</mat-label>
+                <mat-select formControlName="time_toeat" required>
+                  <mat-option value="" class="custom-option">Select Time</mat-option>
+                  <mat-option value="morning" class="custom-option">Morning</mat-option>
+                  <mat-option value="evening" class="custom-option">Evening</mat-option>
+                  <mat-option value="night" class="custom-option">Night</mat-option>
+                 
+                  <!-- Add other options as needed -->
+                </mat-select>
               </mat-form-field>
+              
+                
            </div>
            <div class="set-add-remove">
             <div class="add-new">

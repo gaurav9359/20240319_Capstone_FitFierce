@@ -4,19 +4,27 @@
         <div *ngFor="let student of studentListArray().controls; let i = index">
           <div [formGroupName]="i" class="border border-dark my-2 p-5" ngClass="">
            <div class="form-input">
-            <mat-form-field class="example-full-width">
+             <mat-form-field class="example-full-width" >
                 <input matInput placeholder="Exercise Name" value="Sushi" type="text"formControlName="exercise_name" >
               </mat-form-field>
-              <mat-form-field appearance="outline">
-                <mat-label>Specialization</mat-label>
+              <mat-form-field appearance="outline" floatLabel="always" class="custom-select">
+                <mat-label>Exercise Category</mat-label>
                 <mat-select formControlName="category" required>
-                  <mat-option value="">Select a Specialization</mat-option>
-              <mat-option value="strength-and-conditioning">Strength & Conditioning</mat-option>
+                  <mat-option value="" class="custom-option">Select a Category</mat-option>
+                  <mat-option value="strength-and-conditioning" class="custom-option">Strength & Conditioning</mat-option>
+                  <mat-option value="yoga" class="custom-option">Yoga</mat-option>
+                  <mat-option value="pilates" class="custom-option">Pilates</mat-option>
+                  <mat-option value="cardio" class="custom-option">Cardio</mat-option>
+                  <mat-option value="dance" class="custom-option">Dance</mat-option>
+                  <mat-option value="martial-arts" class="custom-option">Martial Arts</mat-option>
+                  <mat-option value="zumba" class="custom-option">Zumba</mat-option>
+                  <mat-option value="mindfulness" class="custom-option">Mindfulness</mat-option>
+                  <mat-option value="mobility" class="custom-option">Mobility</mat-option>
+                  <mat-option value="prenatal-and-postnatal" class="custom-option">Prenatal and Postnatal</mat-option>
                   <!-- Add other options as needed -->
                 </mat-select>
-                
               </mat-form-field>
-            <mat-form-field class="example-full-width">
+            <mat-form-field class="example-full-width" >
                 <input matInput placeholder="Exercise Sets" value="Sushi" type="text" formControlName="sets">
                 <mat-error *ngIf="studentForm.get('studentList')?.get('sets')?.hasError('pattern')">
                   Sets must be a number

@@ -5,14 +5,14 @@ import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {FormsModule} from '@angular/forms';
 import { HttpClient,HttpHeaders } from '@angular/common/http';
-
+import { MatSelectModule } from '@angular/material/select';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { MatButton, MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-create-diet',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule,FormsModule, MatFormFieldModule, MatInputModule,MatButton],
+  imports: [CommonModule, ReactiveFormsModule,FormsModule, MatFormFieldModule, MatInputModule,MatButton,MatSelectModule],
   templateUrl: './create-diet.component.html',
   styleUrl: './create-diet.component.css'
 })
