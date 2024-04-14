@@ -12,6 +12,9 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { NgZone } from '@angular/core';
 import {MatSelectModule} from '@angular/material/select';
+import { MatIcon } from '@angular/material/icon';
+import { Router } from '@angular/router';
+import { MatButton } from '@angular/material/button';
 
 @Component({
   selector: 'app-manage-diet',
@@ -22,7 +25,9 @@ import {MatSelectModule} from '@angular/material/select';
     FormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatSelectModule
+    MatSelectModule,
+    MatIcon,
+    MatButton
   ],
   templateUrl: './manage-diet.component.html',
   styleUrls: ['./manage-diet.component.css'],
@@ -44,7 +49,7 @@ export class ManageDietComponent implements OnInit {
     return this.filteredData;
   }
 
-  constructor(private http: HttpClient, private ngZone: NgZone) {}
+  constructor(private http: HttpClient, private ngZone: NgZone,private router:Router) {}
 
   getStudentFields(): FormGroup {
     return new FormGroup({
@@ -163,5 +168,12 @@ export class ManageDietComponent implements OnInit {
       })
     }
     
+  }
+
+  addDiet(){
+    this.router.navigateByUrl('/creategoals')
+  }
+  addTrainer(){
+    this.router.navigateByUrl('/buy')
   }
 }

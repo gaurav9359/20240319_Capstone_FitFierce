@@ -37,5 +37,19 @@
   flex-wrap: wrap;
  }
 
+.creation-exercise{
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  margin-top: 40px;
+}
 
+.creation-exercise button{
+  margin: 0px 15px;
+}
+
+.pending-text{
+  font-size: 20px;
+}
 

@@ -1,3 +1,23 @@
+<div class="manage-diet">
+  <div *ngIf="getValues().length===0;else showDietData">
+    <div class="creation-diet">
+      <div *ngIf="status === 'pending'" class="pending-text">No Pending Diet</div>
+      <div *ngIf="status === 'completed'" class="pending-text">No Diet to Complete</div>
+      <div *ngIf="status === 'all'" class="pending-text">No Diet to Show</div>
+    
+    <div class="btn-create">
+      <button mat-stroked-button color="primary" (click)="addDiet()">
+        <mat-icon class="fa fa-add"></mat-icon>
+        <span>Add Diet</span></button></div>
+    <div class="btn-subscribe">
+      <button mat-stroked-button color="primary" (click)="addTrainer()">
+        <mat-icon class="fa fa-add"></mat-icon>
+        <span>Subscribe Trainer</span></button></div>
+    </div>
+      </div>
+
+      <ng-template #showDietData>
+        
 <div class="d-flex justify-content-center">
   <form [formGroup]="studentForm" (ngSubmit)="getFormData()" class="mt-5 w-50">
     <div class="border border-info p-5" formArrayName="studentList">
@@ -16,6 +36,7 @@
             <mat-label>Calories</mat-label>
               <input matInput placeholder="{{student.calories}}"  type="text"  readonly="true">
             </mat-form-field>
+            
           <mat-form-field class="example-full-width" floatLabel="always">
             <mat-label>Time To Eat</mat-label>
               <input matInput placeholder="{{student.time_toEat}}"  type="text" readonly="true"> 
@@ -50,4 +71,6 @@
     </div>
     <button type="submit" class="btn save-button btn-sm btn-success mt-4 ms-2 mb-5">Save</button>
   </form>
+</div>
+      </ng-template>
 </div>

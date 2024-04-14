@@ -8,11 +8,12 @@ import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { MatSelectModule } from '@angular/material/select';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { MatButton, MatButtonModule } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
   selector: 'app-create-diet',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule,FormsModule, MatFormFieldModule, MatInputModule,MatButton,MatSelectModule],
+  imports: [CommonModule, ReactiveFormsModule,FormsModule, MatFormFieldModule, MatInputModule,MatButton,MatSelectModule,MatIcon],
   templateUrl: './create-diet.component.html',
   styleUrl: './create-diet.component.css'
 })
@@ -60,10 +61,8 @@ getInitialFormValues(): { studentList: FormGroup[] } {
 let object= tempStudentFormData.studentList[i]
 console.log(object)
     if(object.calories && object.diet_name && object.time_toeat && object.quantity){
-      console.log('here')
       return true
     }
-console.log('here2')
     return false
   }
 
@@ -120,4 +119,37 @@ console.log('here2')
 
     this.clearForm();
   
-}}
+}
+async getCalories(i: number) {
+  const studentFormArray = this.studentForm.get('studentList') as FormArray;
+  const studentFormGroup = studentFormArray.at(i) as FormGroup;
+
+  
+  let query:string= `${studentFormGroup.value.quantity} ${studentFormGroup.value.diet_name}`
+  console.log("fruit",query)
+  let caloriesToPut=await this.getNutritionData(query)
+  
+  console.log("caloriesto",caloriesToPut)
+  // Set the calories value manually
+  studentFormGroup.patchValue({
+    calories: caloriesToPut
+  });
+}
+
+async getNutritionData(query: string): Promise<any> {
+  const apiUrl = 'https://api.api-ninjas.com/v1/nutrition?query=' + query;
+  const apiKey = 'whji1LpxIo/Eb+jR/MuSdQ==6toI28xFkjwFiX2d';
+
+  const headers = new HttpHeaders({
+    'X-Api-Key': apiKey
+  });
+
+  try {
+    const response = await this.http.get<any>(apiUrl, { headers }).toPromise();
+    return response[0]===''?'':response[0].calories;
+  } catch (error) {
+    console.error('Request failed:', error);
+    throw error;
+  }
+}
+}

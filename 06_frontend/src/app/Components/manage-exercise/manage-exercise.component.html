@@ -1,53 +1,76 @@
-<div class="d-flex justify-content-center">
+<div class="manage-exercise">
+  <div *ngIf="getValues().length===0;else showData">
+<div class="creation-exercise">
+  <div *ngIf="status === 'pending'" class="pending-text">No Pending Exercise</div>
+  <div *ngIf="status === 'completed'" class="pending-text">No Exercise to Complete</div>
+  <div *ngIf="status === 'all'" class="pending-text">No Exercise to Show</div>
+
+<div class="btn-create">
+  <button mat-stroked-button color="primary" (click)="addExercise()">
+    <mat-icon class="fa fa-add"></mat-icon>
+    <span>Add Exercise</span></button></div>
+<div class="btn-subscribe">
+  <button mat-stroked-button color="primary" (click)="addTrainer()">
+    <mat-icon class="fa fa-add"></mat-icon>
+    <span>Subscribe Trainer</span></button></div>
+</div>
+  </div>
+
+  <ng-template #showData>
+    <div class="d-flex justify-content-center">
   
-    <form [formGroup]="studentForm" (ngSubmit)="getFormData()" class="mt-5 w-50">
-      <div class="border border-info p-5" formArrayName="studentList">
-        <div *ngFor="let student of getValues(); let i = index">
-          <div [formGroupName]="i" class="border border-dark my-2 p-5" ngClass="">
-           <div class="form-input">
-            <mat-form-field class="example-full-width" floatLabel="always">
-              <mat-label>Exercise Name</mat-label>
-                <input matInput readonly="true" placeholder="{{student.exercise_name}}"  type="text">
-              </mat-form-field>
-            <mat-form-field class="example-full-width" floatLabel="always">
-              <mat-label>Exercise Category</mat-label>
-                <input matInput readonly="true" placeholder="{{student.category}}"  type="text" >
-              </mat-form-field>
-            <mat-form-field class="example-full-width" floatLabel="always">
-              <mat-label>Sets in Number</mat-label>
-                <input matInput readonly="true" placeholder="{{student.sets}}" type="text">
-              </mat-form-field>
-            <mat-form-field class="example-full-width" floatLabel="always">
-              <mat-label>Time To Complete</mat-label>
-                <input matInput readonly="true" placeholder="{{student.estimated_time}}" type="text" > 
-              </mat-form-field>
-              <mat-form-field class="example-full-width" >
+      <form [formGroup]="studentForm" (ngSubmit)="getFormData()" class="mt-5 w-50">
+        <div class="border border-info p-5" formArrayName="studentList">
+          <div *ngFor="let student of getValues(); let i = index">
+            <div [formGroupName]="i" class="border border-dark my-2 p-5" ngClass="">
+             <div class="form-input">
+              <mat-form-field class="example-full-width" floatLabel="always">
+                <mat-label>Exercise Name</mat-label>
+                  <input matInput readonly="true" placeholder="{{student.exercise_name}}"  type="text">
+                </mat-form-field>
+              <mat-form-field class="example-full-width" floatLabel="always">
+                <mat-label>Exercise Category</mat-label>
+                  <input matInput readonly="true" placeholder="{{student.category}}"  type="text" >
+                </mat-form-field>
+              <mat-form-field class="example-full-width" floatLabel="always">
+                <mat-label>Sets in Number</mat-label>
+                  <input matInput readonly="true" placeholder="{{student.sets}}" type="text">
+                </mat-form-field>
+              <mat-form-field class="example-full-width" floatLabel="always">
+                <mat-label>Time To Complete</mat-label>
+                  <input matInput readonly="true" placeholder="{{student.estimated_time}}" type="text" > 
+                </mat-form-field>
+                <mat-form-field class="example-full-width" >
+                  
+                    <mat-label *ngIf="student.isDone===false; else: notDone " style="color: purple; font-weight:500;">Status Pending</mat-label>
+  
+                    <ng-template #notDone >
+                      <mat-label style="color: green; font-weight:500;">Status Done</mat-label>
+                    </ng-template>
                 
-                  <mat-label *ngIf="student.isDone===false; else: notDone " style="color: purple; font-weight:500;">Status Pending</mat-label>
-
-                  <ng-template #notDone >
-                    <mat-label style="color: green; font-weight:500;">Status Done</mat-label>
-                  </ng-template>
-              
+                  
+                  <mat-select [(ngModel)]="selectedStatus" (selectionChange)="onStatusChange(student,$event)">
+                    <mat-option value="pending">Pending</mat-option>
+                    <mat-option value="done">Done</mat-option>
+                  </mat-select>
+                </mat-form-field>
+             </div>
+             <div class="set-add-remove">
+              <div class="add-new">
+                  <button type="button" *ngIf="studentListArray().length > 1" (click)="removeStudent(i)"
+                      class="btn btn-sm btn-danger ms-1">Remove Exercise</button>
+                 </div>
                 
-                <mat-select [(ngModel)]="selectedStatus" (selectionChange)="onStatusChange(student,$event)">
-                  <mat-option value="pending">Pending</mat-option>
-                  <mat-option value="done">Done</mat-option>
-                </mat-select>
-              </mat-form-field>
-           </div>
-           <div class="set-add-remove">
-            <div class="add-new">
-                <button type="button" *ngIf="studentListArray().length > 1" (click)="removeStudent(i)"
-                    class="btn btn-sm btn-danger ms-1">Remove Exercise</button>
-               </div>
-              
-                
-              </div>
-
+                  
+                </div>
+  
+            </div>
           </div>
         </div>
-      </div>
-      <button type="submit" class="btn save-button btn-sm btn-success mt-4 ms-2 mb-5">Save</button>
-    </form>
-  </div>
+        <button type="submit" class="btn save-button btn-sm btn-success mt-4 ms-2 mb-5">Save</button>
+      </form>
+    </div>
+  
+  </ng-template>
+  
+</div>

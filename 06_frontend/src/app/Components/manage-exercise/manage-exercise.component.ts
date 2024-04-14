@@ -9,10 +9,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { NgZone } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatProgressBar } from '@angular/material/progress-bar';
+import {MatButtonModule} from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 @Component({
   selector: 'app-manage-exercise',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, FormsModule, MatFormFieldModule, MatInputModule, MatSelectModule,MatProgressBar],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule, MatFormFieldModule, MatInputModule, MatSelectModule,MatProgressBar,MatButtonModule,MatIcon],
   templateUrl: './manage-exercise.component.html',
   styleUrls: ['./manage-exercise.component.css']
 })
@@ -150,6 +152,13 @@ export class ManageExerciseComponent implements OnInit,OnChanges {
       })
     }
     
+  }
+
+  addExercise(){
+    this.router.navigateByUrl('/creategoals')
+  }
+  addTrainer(){
+    this.router.navigateByUrl('/buy')
   }
   
 }
