@@ -4,6 +4,7 @@ const {
     dietNameValidator,
     quantityValidator,
     caloriesValidator,
+    measurementValidator,
     timeToEatValidator,
 } = require("../dependencies/validator/Diet");
 
@@ -31,6 +32,7 @@ const getAllDiet = async (req, res) => {
           diet.meals.forEach(meal => {
             let new_meal={diet_name: meal.diet_name,
             quantity: meal.quantity,
+            measurement:meal.measurement,
             calories: meal.calories,
             time_toEat: meal.time_toEat,
             isDone: meal.isDone,
@@ -58,6 +60,7 @@ const getAllDiet = async (req, res) => {
             let new_meal={diet_name: meal.diet_name,
             quantity: meal.quantity,
             calories: meal.calories,
+            measurement:meal.measurement,
             time_toEat: meal.time_toEat,
             isDone: meal.isDone,
             _id: meal._id,
@@ -92,15 +95,16 @@ const createDietplan = async (req, res) => {
   
       // 2. Validate meal data (assuming you have validator functions)
       const validMeals = meals.filter((meal) => {
-        const { diet_name, quantity, calories, time_toEat } = meal;
+        const { diet_name, quantity,measurement, calories, time_toEat } = meal;
         if(
           dietNameValidator(diet_name) &&
           quantityValidator(quantity) &&
+          measurementValidator(measurement)&&
           caloriesValidator(calories) &&
           timeToEatValidator(time_toEat)
         )
           {
-            return { diet_name, quantity, calories, time_toEat }
+            return { diet_name, quantity,measurement, calories, time_toEat }
           }
           else{
             return res.status(400).json({ message: "Invalid exercise data" });
@@ -159,7 +163,7 @@ const createDietplan = async (req, res) => {
           else{
             diet_array = new Dietplan({
               user_id: user_Id,
-              exercises: validMeals,
+              meals: validMeals,
               date,
             });
           }

@@ -13,13 +13,27 @@
               <mat-label>Diet Quantity</mat-label>
                 <input matInput placeholder="Diet Quantity"  type="number" formControlName="quantity" >
               </mat-form-field>
+              <!-- kg,pc -->
+              <mat-form-field appearance="outline" floatLabel="always" class="custom-select example-full-width selection-element weight-select">
+                
+                <mat-label>Measure</mat-label>
+                  <mat-select formControlName="measurement" required>
+                    <mat-option value="" class="custom-option">Select Scale</mat-option>
+                    <mat-option value="Kg" class="custom-option">Kilogram(kg)</mat-option>
+                    <mat-option value="gm" class="custom-option">Gram(gm)</mat-option>
+                    <mat-option value="pc" class="custom-option">Piece(pc)</mat-option>
+                   
+                    <!-- Add other options as needed -->
+                  </mat-select>
+                </mat-form-field>
+
               <mat-icon class="fa fa-refresh" (click)="getCalories(i)"></mat-icon>
             <mat-form-field class="example-full-width" floatLabel="always"> 
               <mat-label>Calories</mat-label>
                 <input matInput placeholder="Diet Calories"  type="number" formControlName="calories" (focus)="getCalories(i)">
               </mat-form-field>
               
-              <mat-form-field appearance="outline" floatLabel="always" class="custom-select example-full-width">
+              <mat-form-field appearance="outline" floatLabel="always" class="custom-select example-full-width selection-element">
                 
               <mat-label>Time To Eat</mat-label>
                 <mat-select formControlName="time_toeat" required>
@@ -37,14 +51,14 @@
            <div class="set-add-remove">
             <div class="add-new">
                 <button type="button" *ngIf="studentListArray().length > 1" (click)="removeStudent(i)"
-                    class="btn btn-sm btn-danger ms-1">Remove Diet</button>
+                    class="btn btn-sm btn-danger ms-1"><mat-icon fontSet="material-icons" style="color: #173b35;">delete</mat-icon></button>
                </div>
                
                   <div class="remove-buttons">
                     <button type="button" (click)="addStudent(i)"
             class="btn btn-sm btn-primary mt-4 mb-5"
             [disabled]="!activeButton(i)">
-      Add New Diet
+            <mat-icon class="fa fa-add" style="color: #173b35;"></mat-icon>
     </button>
            </div>
               </div>

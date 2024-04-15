@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnInit } from '@angular/core';
 import {
   FormArray,
   FormControl,
@@ -15,6 +15,10 @@ import {MatSelectModule} from '@angular/material/select';
 import { MatIcon } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { MatButton } from '@angular/material/button';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { DietDetailsComponent } from '../diet-details/diet-details.component';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+
 
 @Component({
   selector: 'app-manage-diet',
@@ -27,12 +31,12 @@ import { MatButton } from '@angular/material/button';
     MatInputModule,
     MatSelectModule,
     MatIcon,
-    MatButton
+    MatButton,
   ],
   templateUrl: './manage-diet.component.html',
   styleUrls: ['./manage-diet.component.css'],
 })
-export class ManageDietComponent implements OnInit {
+export class ManageDietComponent implements OnInit,OnChanges {
   @Input() status: string = '';
   studentForm: FormGroup = new FormGroup({
     studentList: new FormArray([this.getStudentFields()]),
@@ -49,7 +53,7 @@ export class ManageDietComponent implements OnInit {
     return this.filteredData;
   }
 
-  constructor(private http: HttpClient, private ngZone: NgZone,private router:Router) {}
+  constructor(private http: HttpClient, private ngZone: NgZone,private router:Router,public _snackbar:MatSnackBar,private dialog: MatDialog) {}
 
   getStudentFields(): FormGroup {
     return new FormGroup({
@@ -66,6 +70,12 @@ export class ManageDietComponent implements OnInit {
   ngOnInit(): void {
     let dataReceived!: any;
     this.fetchData()
+  }
+
+  ngOnChanges(changes: { [key: string]: any }) {
+    if (changes['status']) {
+      this.fetchData();
+    }
   }
 
   fetchData(){
@@ -140,7 +150,9 @@ export class ManageDietComponent implements OnInit {
       .subscribe(
         (response) => {
           console.log('Exercise status updated successfully:', response);
-          
+          this._snackbar.open("Exercise Status Updated Successfully","",{
+            duration:1500
+          })
           // Fetch the latest data from the server
           this.fetchData();
           
@@ -176,4 +188,42 @@ export class ManageDietComponent implements OnInit {
   addTrainer(){
     this.router.navigateByUrl('/buy')
   }
-}
+
+  async showInfo(i:number){
+    const dietPlan= this.getValues()
+    
+    let query:string= `${dietPlan[i].quantity} ${dietPlan[i].measurement} ${dietPlan[i].diet_name}`
+
+    let dietDetails:any=await this.getDietDetails(query)
+    console.log(dietDetails)
+    if(dietDetails===''){
+      this._snackbar.open("No Details Found For This Diet","Ok",{
+        duration:1500
+      })
+    }
+    else{
+   const dialogRef=this.dialog.open(DietDetailsComponent, {
+     data: { dietDetails }
+   });
+    }
+  }
+
+  async getDietDetails(query:string){
+    const apiUrl = 'https://api.api-ninjas.com/v1/nutrition?query=' + query;
+    const apiKey = 'whji1LpxIo/Eb+jR/MuSdQ==6toI28xFkjwFiX2d';
+  
+    const headers = new HttpHeaders({
+      'X-Api-Key': apiKey
+    });
+  
+    try {
+      const response = await this.http.get<any>(apiUrl, { headers }).toPromise();
+      console.log("reno",response)
+      return response.length===0?'':response[0];
+    } catch (error) {
+      console.error('Request failed:', error);
+      throw error;
+    }
+  }
+  }
+

@@ -30,7 +30,7 @@
           </mat-form-field>
           <mat-form-field class="example-full-width" floatLabel="always">
             <mat-label>Quantity in Numbers</mat-label>
-              <input matInput placeholder="{{student.quantity}}"  type="text"  readonly="true">
+              <input matInput placeholder="{{student.quantity+student.measurement}}"  type="text"  readonly="true">
             </mat-form-field>
           <mat-form-field class="example-full-width" floatLabel="always">
             <mat-label>Calories</mat-label>
@@ -56,6 +56,8 @@
                 <mat-option value="done">Done</mat-option>
               </mat-select>
             </mat-form-field>
+
+            <mat-icon fontSet="fa" (click)="showInfo(i)" fontIcon="fa-info-circle"></mat-icon>
          </div>
          <div class="set-add-remove">
           <div class="add-new">

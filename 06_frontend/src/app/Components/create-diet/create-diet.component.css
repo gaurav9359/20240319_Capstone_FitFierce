@@ -14,6 +14,15 @@
     display: flex;
   }
 
+  .selection-element{
+    position: relative;
+    bottom: 8px;
+  }
+
+  .weight-select{
+    width: 151px;
+  }
+
   .save-button{
     color: rgb(0, 0, 0);
 	padding: 10px;

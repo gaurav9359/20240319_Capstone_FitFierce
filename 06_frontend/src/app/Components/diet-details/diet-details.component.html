@@ -1,0 +1,14 @@
+<div class="diet-details">
+    <h1 mat-dialog-title>Diet Data</h1>
+<div mat-dialog-content>
+  <div class="diet-data-container">
+    <div *ngFor="let item of dietData | keyvalue" class="diet-data-item">
+      <div class="diet-data-label">{{ item.key }}:</div>
+      <div class="diet-data-value">{{ item.value }}</div>
+    </div>
+  </div>
+</div>
+<div mat-dialog-actions class="close-button">
+  <button mat-button mat-dialog-close (click)="handleClose()">Close</button>
+</div>
+</div>

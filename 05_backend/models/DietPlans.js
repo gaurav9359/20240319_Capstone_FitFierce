@@ -25,6 +25,10 @@ const dietplanSchema = new mongoose.Schema({
       type: Number,
       required: true,
     },
+    measurement:{
+      type:String,
+      required:true
+    },
     calories: {
       type: Number,
       required: true,

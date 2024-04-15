@@ -30,10 +30,18 @@ function dietNameValidator(dietName) {
     }
     return true;
   }
+
+  function measurementValidator(measurement){
+    if(measurement==='gm' || measurement==='kg'|| measurement==='pc'){
+      return true
+    }
+    return false
+  }
   
   module.exports = {
     dietNameValidator,
     quantityValidator,
     caloriesValidator,
+    measurementValidator,
     timeToEatValidator,
   };

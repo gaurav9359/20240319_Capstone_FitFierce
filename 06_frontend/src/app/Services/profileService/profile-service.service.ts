@@ -26,7 +26,7 @@ interface UserProfilee {
 
 export class ProfileServiceService {
   private apiUrl = 'http://localhost:3000/user/getuser';
-  private bearerToken = localStorage.getItem("authToken"); // Replace with your actual token
+  private bearerToken = localStorage.getItem("authToken"); 
 
   constructor(private http: HttpClient) {}
 
@@ -34,15 +34,14 @@ export class ProfileServiceService {
     const headers = new HttpHeaders({ 'Authorization': `Bearer ${this.bearerToken}` });
     return this.http.get<any>(this.apiUrl, { headers })
       .pipe(
-        map(response => response), // Optionally modify the response data if needed
+        map(response => response), 
         catchError(this.handleError<any>('getUserProfilee'))
       );
   }
 
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-      console.error(error); // Log the error to the console
-      // Return an empty result or a user-facing error message
+      console.error(error); 
       return of(result as T);
     };
   }

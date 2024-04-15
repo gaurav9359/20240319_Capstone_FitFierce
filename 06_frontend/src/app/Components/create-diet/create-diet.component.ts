@@ -43,6 +43,7 @@ getInitialFormValues(): { studentList: FormGroup[] } {
       diet_name: new FormControl(""),
       calories: new FormControl(""),
       quantity:new FormControl(""),
+      measurement:new FormControl(""),
       time_toeat: new FormControl(""),
     });
   }
@@ -60,7 +61,7 @@ getInitialFormValues(): { studentList: FormGroup[] } {
 
 let object= tempStudentFormData.studentList[i]
 console.log(object)
-    if(object.calories && object.diet_name && object.time_toeat && object.quantity){
+    if(object.calories && object.diet_name && object.time_toeat && object.quantity&& object.measurement){
       return true
     }
     return false
@@ -79,7 +80,8 @@ console.log(object)
         diet_name: element.diet_name,
         quantity: Number(element.calories),
         calories: Number(element.quantity),
-        time_toEat: element.time_toeat
+        time_toEat: element.time_toeat,
+        measurement: element.measurement
       };
       
       if(tempObj.diet_name.trim()===""|| tempObj.time_toEat.trim()===""){
@@ -125,7 +127,7 @@ async getCalories(i: number) {
   const studentFormGroup = studentFormArray.at(i) as FormGroup;
 
   
-  let query:string= `${studentFormGroup.value.quantity} ${studentFormGroup.value.diet_name}`
+  let query:string= `${studentFormGroup.value.quantity}${studentFormGroup.value.measurement} ${studentFormGroup.value.diet_name}`
   console.log("fruit",query)
   let caloriesToPut=await this.getNutritionData(query)
   
