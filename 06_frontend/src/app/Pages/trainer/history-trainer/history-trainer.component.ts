@@ -21,4 +21,14 @@ export class HistoryTrainerComponent {
     { icon: 'fa-solid fa-user', text: 'My Profile', link: '/trainerprofile' },
     { icon: 'fa-solid fa-clock-rotate-left', text: 'History', link: '/historytrainer' }
   ];
+
+  exerciseHistory:boolean=true
+
+  handleExerciseClick(){
+    this.exerciseHistory=true;
+  }
+
+  handleDietClick(){
+    this.exerciseHistory=false
+  }
 }

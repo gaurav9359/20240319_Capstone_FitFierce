@@ -4,6 +4,10 @@
         <app-sidebar [navItems]="navItems"></app-sidebar>
     </div>
     <div class="right-side">
-    <app-history-component></app-history-component>
+        <div class="btn-group">
+            <button (click)="handleExerciseClick()"  class="exercise-btn" handle>Exercise History</button>
+            <button (click)="handleDietClick()">Diet History</button>
+          </div>
+    <app-history-component [exerciseHistory]="exerciseHistory"></app-history-component>
     </div>
 </div>
