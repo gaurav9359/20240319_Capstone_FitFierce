@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatTableModule } from '@angular/material/table';
@@ -43,6 +43,8 @@ interface Diet {
   styleUrl: './history-component.component.css'
 })
 export class HistoryComponentComponent implements OnInit{
+  @Input() exerciseHistory:boolean=true
+
   getRole():any{
     console.log("oreno",this.auth.getRole())
     if(this.auth.getRole()==='user'){

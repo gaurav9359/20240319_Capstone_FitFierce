@@ -20,6 +20,11 @@
     font-weight: bold;
     color: #333;
   }
+  .edit-icon {
+    width: 100%;
+    display: flex;
+justify-content: end;
+  }
   
   .value {
     margin-left: 5px;

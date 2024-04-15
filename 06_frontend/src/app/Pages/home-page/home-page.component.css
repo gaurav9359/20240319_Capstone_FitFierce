@@ -11,7 +11,7 @@ header {
 background-color: white;
 color: rgb(0, 0, 0);
 padding: 10px 0;
-  
+border-bottom: 3px solid black;
 
 width: 100%;
 z-index: 100;
@@ -43,6 +43,7 @@ margin-right: 20px;
 
 .nav-links a {
 color: rgb(0, 0, 0);
+border-right: 0.3px solid black;
 padding: 10px;
 font-weight: bold;
 text-decoration: none;
@@ -135,6 +136,8 @@ nav {
 	width: 15rem;
 	border-radius: 4px;
 }
+
+
 
 button:hover {
 	background-color: #1e2e2b;

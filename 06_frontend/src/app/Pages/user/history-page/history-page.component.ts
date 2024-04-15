@@ -26,4 +26,14 @@ export class HistoryPageComponent {
     { icon: 'fa-solid fa-clock-rotate-left', text: 'History', link: '/history' },
     
   ];
+
+  exerciseHistory:boolean=true
+
+  handleExerciseClick(){
+    this.exerciseHistory=true;
+  }
+
+  handleDietClick(){
+    this.exerciseHistory=false
+  }
 }

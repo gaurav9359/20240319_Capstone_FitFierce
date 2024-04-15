@@ -5,6 +5,10 @@ import { Router, RouterModule } from '@angular/router'; // Optional for routing
 import { NavbarComponent } from '../../../Components/navbar/navbar.component';
 import { SidebarComponent } from '../../../Components/sidebar/sidebar.component';
 import { ProfileServiceService } from '../../../Services/profileService/profile-service.service';
+import { MatIcon } from '@angular/material/icon';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { EditProfileComponent } from '../../../Components/edit-profile/edit-profile.component';
 interface NavItem {
   icon: string;
   text: string;
@@ -15,7 +19,7 @@ interface NavItem {
 @Component({
   selector: 'app-profile-trainer',
   standalone: true,
-  imports: [CommonModule,RouterModule,NavbarComponent,SidebarComponent],
+  imports: [CommonModule,RouterModule,NavbarComponent,SidebarComponent,MatIcon],
   templateUrl: './profile-trainer.component.html',
   styleUrl: './profile-trainer.component.css'
 })
@@ -30,7 +34,8 @@ export class ProfileTrainerComponent {
   userProfile!: any;
   
   
-  constructor(private ProfileService: ProfileServiceService){
+  constructor(private ProfileService: ProfileServiceService,private dialog: MatDialog,
+    private _snackBar:MatSnackBar){
 
   }
   userProfily!: any;
@@ -64,7 +69,33 @@ export class ProfileTrainerComponent {
       );
   }
 
-  
+  openIcon() {
+    // let dataToPass:any=this.userProfile
+    //  const dialogRef=this.dialog.open(EditProfileComponent, {
+    //    data: { dataToPass }
+    //  });
+     
+    //  dialogRef.afterClosed().subscribe((result:any) => {
+    //   console.log(result)
+    //   if(result){
+        
+    //     console.log(result)
+    //   this.userProfile.name=result.name
+    //   this.userProfile.email=result.email
+    //   this.userProfile.phone_number=result.phone_number
 
   
+    //   this._snackBar.open("Info Updated Successfully", "ok", {
+    //     duration: 1500  // Set duration to 5 seconds (5000 milliseconds)
+    //   });
+    //   }
+    //   else{
+    //     this._snackBar.open("Email already exist or server error", "ok", {
+    //       duration: 1500  // Set duration to 5 seconds (5000 milliseconds)
+    //     });
+    //   }
+      
+  
+    // });
+  }
 }
