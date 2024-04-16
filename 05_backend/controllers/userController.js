@@ -138,7 +138,7 @@ const updateUser=async (req,res)=>{
         catch(error){
             res.status(500).json({message: error})
         }
-        res.status(200).json({newdata:{name: updatedData}})
+        res.status(200).json({newdata:{updatedData: updatedData}})
 
     }
 

@@ -4,6 +4,7 @@ import { SidebarComponent } from '../../../Components/sidebar/sidebar.component'
 import { CreateExerciseComponent } from '../../../Components/create-exercise/create-exercise.component';
 import { CreateDietComponent } from '../../../Components/create-diet/create-diet.component';
 import { ManageExerciseComponent } from '../../../Components/manage-exercise/manage-exercise.component';
+import { MatIcon } from '@angular/material/icon';
 interface NavItem {
   icon: string;
   text: string;
@@ -13,7 +14,7 @@ interface NavItem {
 @Component({
   selector: 'app-create-goals',
   standalone: true,
-  imports: [NavbarComponent,SidebarComponent,CreateExerciseComponent,CreateDietComponent],
+  imports: [NavbarComponent,SidebarComponent,CreateExerciseComponent,CreateDietComponent,MatIcon],
   templateUrl: './create-goals.component.html',
   styleUrl: './create-goals.component.css'
 })

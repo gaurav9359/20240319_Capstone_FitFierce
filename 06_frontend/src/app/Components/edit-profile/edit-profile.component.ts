@@ -37,7 +37,7 @@ export class EditProfileComponent implements OnInit{
     private authService: AuthServiceService,
     private router: Router,
     public dialogRef: MatDialogRef<EditProfileComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: {dataToPass:profileDetails},
+    @Inject(MAT_DIALOG_DATA) public data: {dataToPass:any},
     public http:HttpClient,
   ) {
     
@@ -45,14 +45,34 @@ export class EditProfileComponent implements OnInit{
     this.trainerForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
       phone_number: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(15)]],
-      email: ['', [Validators.required, Validators.email, Validators.minLength(6), Validators.maxLength(255)]]
+      email: ['', [Validators.required, Validators.email, Validators.minLength(6), Validators.maxLength(255)]],
+      price: ['', Validators.required],
+      validity_days: ['', Validators.required],
+      trainer_speciality: ['', Validators.required],
+      role: 'trainer',
+      image: ['', [Validators.required, Validators.maxLength(200)]],
+      banner: ['', [Validators.required, Validators.maxLength(200)]],
+      description: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(500)]]
     });
+  }
+
+  getRole(){
+    return this.authService.getRole()
   }
   
   ngOnInit(): void {
     this.trainerForm.get('name')?.setValue(this.data.dataToPass.name)
     this.trainerForm.get('email')?.setValue(this.data.dataToPass.email)
     this.trainerForm.get('phone_number')?.setValue(this.data.dataToPass.phone_number)
+
+    if(this.authService.getRole()==='trainer'){
+      this.trainerForm.get('trainer_speciality')?.setValue(this.data.dataToPass.trainer_speciality)
+      this.trainerForm.get('image')?.setValue(this.data.dataToPass.image);
+      this.trainerForm.get('banner')?.setValue(this.data.dataToPass.banner);
+      this.trainerForm.get('description')?.setValue(this.data.dataToPass.description);
+      this.trainerForm.get('price')?.setValue(this.data.dataToPass.price);
+      this.trainerForm.get('validity_days')?.setValue(this.data.dataToPass.validity_days);
+    }
     
   }
 
@@ -71,12 +91,28 @@ export class EditProfileComponent implements OnInit{
       }}).subscribe(response=>
           {
 
+           if(this.authService.getRole()==='user'){
             trainerDetailsToReturn={
               name:response.newdata.updatedData.name,
               email:response.newdata.updatedData.email,
               phone_number:response.newdata.updatedData.phone_number,
               role:'user'
             }
+           }
+           else{
+            trainerDetailsToReturn={
+              name:response.newdata.updatedData.name,
+              email:response.newdata.updatedData.email,
+              phone_number:response.newdata.updatedData.phone_number,
+              trainer_speciality: response.newdata.updatedData.trainer_speciality,
+            image: response.newdata.updatedData.image,
+            banner: response.newdata.updatedData.banner,
+            description: response.newdata.updatedData.description,
+            price: response.newdata.updatedData.price,
+            validity_days: response.newdata.updatedData.validity_days,
+              
+            }
+           }
             console.log("oreno",trainerDetailsToReturn)
             this.dialogRef.close(trainerDetailsToReturn);
           }, error => {

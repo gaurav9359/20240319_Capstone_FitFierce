@@ -6,7 +6,7 @@
         <form [formGroup]="trainerForm" (ngSubmit)="onSubmit()">
           <div class="field">
             <mat-form-field appearance="outline">
-              <mat-label>Name</mat-label>
+              <mat-label style="color: black;">Name</mat-label>
               <input matInput formControlName="name" required />
               <mat-error *ngIf="trainerForm.get('name')?.hasError('required')">Name is required</mat-error>
               <mat-error *ngIf="trainerForm.get('name')?.hasError('minlength')">Name must be at least 2 characters long</mat-error>
@@ -58,6 +58,20 @@
             <mat-select formControlName="trainer_speciality" required>
               <mat-option value="">Select a Specialization</mat-option>
               <mat-option value="strength-and-conditioning">Strength & Conditioning</mat-option>
+              <mat-option value="yoga">Yoga</mat-option>
+              <mat-option value="pilates">Pilates</mat-option>
+              <mat-option value="cardio">Cardio</mat-option>
+              <mat-option value="nutrition">Nutrition</mat-option>
+              <mat-option value="sports-performance">Sports Performance</mat-option>
+              <mat-option value="rehabilitation">Rehabilitation</mat-option>
+              <mat-option value="weight-loss">Weight Loss</mat-option>
+              <mat-option value="bodybuilding">Bodybuilding</mat-option>
+              <mat-option value="high-intensity-interval-training">High-Intensity Interval Training (HIIT)</mat-option>
+              <mat-option value="functional-training">Functional Training</mat-option>
+              <mat-option value="endurance-training">Endurance Training</mat-option>
+              <mat-option value="mobility-and-flexibility">Mobility and Flexibility</mat-option>
+              <mat-option value="prenatal-and-postnatal-fitness">Prenatal and Postnatal Fitness</mat-option>
+              <mat-option value="senior-fitness">Senior Fitness</mat-option>
               <!-- Add other options as needed -->
             </mat-select>
             <mat-error *ngIf="trainerForm.get('trainer_speciality')?.hasError('required')">Specialization is required</mat-error>

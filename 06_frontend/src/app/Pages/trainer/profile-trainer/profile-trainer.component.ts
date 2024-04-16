@@ -70,32 +70,39 @@ export class ProfileTrainerComponent {
   }
 
   openIcon() {
-    // let dataToPass:any=this.userProfile
-    //  const dialogRef=this.dialog.open(EditProfileComponent, {
-    //    data: { dataToPass }
-    //  });
+    let dataToPass:any=this.userProfile
+     const dialogRef=this.dialog.open(EditProfileComponent, {
+       data: { dataToPass },
+       minHeight: 'fit-content',
+     });
      
-    //  dialogRef.afterClosed().subscribe((result:any) => {
-    //   console.log(result)
-    //   if(result){
+     dialogRef.afterClosed().subscribe((result:any) => {
+      console.log(result)
+      if(result){
         
-    //     console.log(result)
-    //   this.userProfile.name=result.name
-    //   this.userProfile.email=result.email
-    //   this.userProfile.phone_number=result.phone_number
+        console.log(result)
+      this.userProfile.name=result.name
+      this.userProfile.email=result.email
+      this.userProfile.phone_number=result.phone_number
+      this.userProfile.trainer_speciality=result.trainer_speciality
+      this.userProfile.image=result.image
+      this.userProfile.banner=result.banner
+      this.userProfile.description=result.description
+      this.userProfile.price=result.price
+      this.userProfile.validity_days=result.validity_days
 
   
-    //   this._snackBar.open("Info Updated Successfully", "ok", {
-    //     duration: 1500  // Set duration to 5 seconds (5000 milliseconds)
-    //   });
-    //   }
-    //   else{
-    //     this._snackBar.open("Email already exist or server error", "ok", {
-    //       duration: 1500  // Set duration to 5 seconds (5000 milliseconds)
-    //     });
-    //   }
+      this._snackBar.open("Info Updated Successfully", "ok", {
+        duration: 1500  // Set duration to 5 seconds (5000 milliseconds)
+      });
+      }
+      else{
+        this._snackBar.open("Email already exist or server error", "ok", {
+          duration: 1500  // Set duration to 5 seconds (5000 milliseconds)
+        });
+      }
       
   
-    // });
+    });
   }
 }
