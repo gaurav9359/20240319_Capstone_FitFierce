@@ -34,6 +34,7 @@
 
  .form-input{
   display: flex;
+  align-items: center;
   flex-wrap: wrap;
  }
 
@@ -53,3 +54,15 @@
   font-size: 20px;
 }
 
+.detail-info{
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  justify-content: center;
+}
+   
+.detail-info mat-icon{
+  display: flex;
+    align-items: center;
+    justify-content: center;
+}

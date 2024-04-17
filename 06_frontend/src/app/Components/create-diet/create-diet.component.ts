@@ -78,8 +78,8 @@ console.log(object)
     tempStudentFormData.studentList.forEach((element: any) => {
       let tempObj: any = {
         diet_name: element.diet_name,
-        quantity: Number(element.calories),
-        calories: Number(element.quantity),
+        quantity: Number(element.quantity),
+        calories: Number(element.calories),
         time_toEat: element.time_toeat,
         measurement: element.measurement
       };
@@ -126,8 +126,10 @@ async getCalories(i: number) {
   const studentFormArray = this.studentForm.get('studentList') as FormArray;
   const studentFormGroup = studentFormArray.at(i) as FormGroup;
 
+  let measurementToSend= studentFormGroup.value.measurement==='pc'?'':studentFormGroup.value.measurement
+
   
-  let query:string= `${studentFormGroup.value.quantity}${studentFormGroup.value.measurement} ${studentFormGroup.value.diet_name}`
+  let query:string= `${studentFormGroup.value.quantity}${measurementToSend} ${studentFormGroup.value.diet_name}`
   console.log("fruit",query)
   let caloriesToPut=await this.getNutritionData(query)
   

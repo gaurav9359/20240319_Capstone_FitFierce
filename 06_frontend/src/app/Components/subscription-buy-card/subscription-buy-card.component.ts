@@ -1,5 +1,5 @@
 
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { Router } from '@angular/router';
 import { PaymentComponentComponent } from '../payment-component/payment-component.component';
@@ -10,7 +10,7 @@ import { PaymentComponentComponent } from '../payment-component/payment-componen
   templateUrl: './subscription-buy-card.component.html',
   styleUrl: './subscription-buy-card.component.css'
 })
-export class SubscriptionBuyCardComponent {
+export class SubscriptionBuyCardComponent{
  
     @Input() trainer: any
      // Input property to receive movie information

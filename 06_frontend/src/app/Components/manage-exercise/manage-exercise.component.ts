@@ -11,6 +11,9 @@ import { Router } from '@angular/router';
 import { MatProgressBar } from '@angular/material/progress-bar';
 import {MatButtonModule} from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
+import { DietDetailsComponent } from '../diet-details/diet-details.component';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-manage-exercise',
   standalone: true,
@@ -28,7 +31,7 @@ export class ManageExerciseComponent implements OnInit,OnChanges {
 
   updateStatus:any[]=[]
 
-  constructor(private http: HttpClient, private ngZone: NgZone,private router:Router) { }
+  constructor(private http: HttpClient, private ngZone: NgZone,private router:Router,public _snackbar:MatSnackBar,private dialog: MatDialog) { }
 
   getStudentFields(): FormGroup {
     return new FormGroup({
@@ -161,4 +164,40 @@ export class ManageExerciseComponent implements OnInit,OnChanges {
     this.router.navigateByUrl('/buy')
   }
   
+  async showInfo(i:any){
+    const exercisePlan=this.getValues()
+
+    let query:string= exercisePlan[i].exercise_name;
+
+    let exerciseDetails:any=await this.getExerciseDetails(query)
+
+    if(exerciseDetails===''){
+      this._snackbar.open("No Details Found For This Diet","Ok",{
+        duration:1500
+      })
+    }
+    else{
+   const dialogRef=this.dialog.open(DietDetailsComponent, {
+     data: { exerciseDetails }
+   });
+    }
+  }
+
+  async getExerciseDetails(query:string){
+    const apiUrl= 'https://api.api-ninjas.com/v1/exercises?name='+query;
+const apiKey = 'whji1LpxIo/Eb+jR/MuSdQ==6toI28xFkjwFiX2d';
+  
+
+  const headers = new HttpHeaders({
+    'X-Api-Key': apiKey
+  });
+  try {
+    const response = await this.http.get<any>(apiUrl, { headers }).toPromise();
+    console.log("reno",response)
+    return response.length===0?'':response[0];
+  } catch (error) {
+    console.error('Request failed:', error);
+    throw error;
+  }
+}
 }

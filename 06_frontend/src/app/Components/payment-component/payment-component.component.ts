@@ -22,6 +22,7 @@ export class PaymentComponentComponent {
   
 
   Purchase() {
+    console.log("orewa",this.trainer_details)
     let payment=this.trainer_details.price
     const options = {
       description: 'Sample Razorpay demo',
@@ -40,13 +41,13 @@ export class PaymentComponentComponent {
       },
       modal: {
         ondismiss: () => {
-          console.log('Payment dismissed',this.trainer_details.id);
+          console.log('Payment dismissed',this.trainer_details._id);
         },
       },
       handler: (response: any) => {
         // Navigate to another page upon successful payment
-        console.log('success for ', this.trainer_details.id);
-        this.handlePaymentSuccess(this.trainer_details.id);
+        console.log('success for ', this.trainer_details._id);
+        this.handlePaymentSuccess(this.trainer_details._id);
       },
     };
     const successCallback = (paymentId: any) => {

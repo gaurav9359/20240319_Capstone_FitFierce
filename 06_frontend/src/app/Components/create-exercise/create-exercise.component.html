@@ -4,10 +4,12 @@
         <div *ngFor="let student of studentListArray().controls; let i = index">
           <div [formGroupName]="i" class="border border-dark my-2 p-5" ngClass="">
            <div class="form-input">
-             <mat-form-field class="example-full-width" >
-                <input matInput placeholder="Exercise Name" value="Sushi" type="text"formControlName="exercise_name" >
+             <mat-form-field class="example-full-width" floatLabel="always">
+              <mat-label>exercise name</mat-label>
+                <input matInput placeholder="ex. pushups" value="Sushi" type="text"formControlName="exercise_name" >
               </mat-form-field>
-              <mat-form-field appearance="outline" floatLabel="always" class="custom-select">
+              <mat-form-field appearance="outline" style="    position: relative;
+              bottom: 8px;" floatLabel="always" class="custom-select">
                 <mat-label>Exercise Category</mat-label>
                 <mat-select formControlName="category" required>
                   <mat-option value="" class="custom-option">Select a Category</mat-option>
@@ -24,14 +26,24 @@
                   <!-- Add other options as needed -->
                 </mat-select>
               </mat-form-field>
-            <mat-form-field class="example-full-width" >
-                <input matInput placeholder="Exercise Sets" value="Sushi" type="text" formControlName="sets">
+            <mat-form-field class="example-full-width" floatLabel="always">
+              <mat-label>Sets</mat-label>
+                <input matInput placeholder="ex. 5" value="Sushi" type="text" formControlName="sets">
                 <mat-error *ngIf="studentForm.get('studentList')?.get('sets')?.hasError('pattern')">
                   Sets must be a number
                 </mat-error>
               </mat-form-field>
-            <mat-form-field class="example-full-width">
-                <input matInput placeholder="Exercise Estimated Time" value="Sushi" type="text" formControlName="estimated_time"> 
+
+            <mat-form-field class="example-full-width" floatLabel="always">
+              <mat-label>Repetitions</mat-label>
+                <input matInput placeholder="ex. 12" value="Sushi" type="text" formControlName="reps">
+                <mat-error *ngIf="studentForm.get('studentList')?.get('reps')?.hasError('pattern')">
+                  Reps must be a number
+                </mat-error>
+              </mat-form-field>
+            <mat-form-field class="example-full-width" floatLabel="always">
+              <mat-label>Exercise Estimated Time</mat-label>
+                <input matInput placeholder="ex. 12min" value="Sushi" type="text" formControlName="estimated_time"> 
               </mat-form-field>
            </div>
            <div class="set-add-remove">

@@ -19,8 +19,14 @@ export class DietDetailsComponent {
   constructor(
     public dialogRef: MatDialogRef<DietDetailsComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any){
-      console.log("dara",data.dietDetails)
-      this.dietData= data.dietDetails
+      console.log("dara",data)
+      if(data.dietDetails){
+        this.dietData= data.dietDetails
+      }
+      else{
+        this.dietData=data.exerciseDetails
+      }
+      console.log(this.dietData)
     }
     
     handleClose(){

@@ -9,6 +9,10 @@ const subscribePlan = async (req, res) => {
     // get user id from middleware and trainer id from query params
     const userId = req.user._id.toString();
     const trainerId = req.query.trainerId.toString();
+    console.log(req.query)
+
+    console.log('user',userId)
+    console.log('trainer',trainerId)
 
     // if role is trainer then don't allow to subscribe
     if(req.user.role==='trainer'){
@@ -18,6 +22,7 @@ const subscribePlan = async (req, res) => {
     // Find the user and trainer documents
     const user = await User.findById(new mongoose.Types.ObjectId(userId));
     const trainer = await User.findById(new mongoose.Types.ObjectId(trainerId));
+    
 
     // if any of them are not present then send a error message
     if (!user || !trainer) {

@@ -39,6 +39,9 @@ const planSchema = new mongoose.Schema({
         type: Number,
         required: true,
       },
+      reps:{
+        type:Number,
+      },
       estimated_time: {
         type: String, 
         required: true, 

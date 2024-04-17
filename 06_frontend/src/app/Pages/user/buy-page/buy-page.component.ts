@@ -68,6 +68,7 @@ export class BuyPageComponent implements OnInit{
         (response) => {
           this.trainers = response
           this.payment_details=response
+          console.log('trainerdetail',response)
         },
         (error) => {
           console.error('Error fetching trainers:', error);

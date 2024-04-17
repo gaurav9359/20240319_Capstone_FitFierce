@@ -36,6 +36,7 @@ const getAllExercises = async (req, res) => {
             let new_exercise={exercise_name: exercise1.exercise_name,
             category: exercise1.category,
             sets: exercise1.sets,
+            reps:exercise1.reps,
             estimated_time: exercise1.estimated_time,
             isDone: exercise1.isDone,
             _id: exercise1._id,
@@ -64,6 +65,7 @@ const getAllExercises = async (req, res) => {
             let new_exercise={exercise_name: exercise1.exercise_name,
             category: exercise1.category,
             sets: exercise1.sets,
+            reps:exercise1.reps,
             estimated_time: exercise1.estimated_time,
             isDone: exercise1.isDone,
             _id: exercise1._id,
@@ -157,7 +159,7 @@ const createExercise = async (req, res) => {
 
     // Validate exercise data 
     const validExercises = exercises.filter((exercise) => {
-      const { exercise_name, category, sets, estimated_time } = exercise;
+      const { exercise_name, category, sets,reps, estimated_time } = exercise;
       if(
         exerciseNameValidator(exercise_name) &&
         categoryValidator(category) &&
@@ -165,7 +167,7 @@ const createExercise = async (req, res) => {
         estimatedTimeValidator(estimated_time)
       ){
         // if validation fails then return this
-        return { exercise_name, category, sets, estimated_time }
+        return { exercise_name, category, sets,reps, estimated_time }
       }
       else{
         return res.status(400).json({ message: "Invalid exercise data" });

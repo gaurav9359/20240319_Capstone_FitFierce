@@ -45,6 +45,7 @@ export class CreateExerciseComponent {
       exercise_name: new FormControl(""),
       category: new FormControl(""),
       sets:new FormControl('', [Validators.pattern(/^[0-9]+$/)]),
+      reps:new FormControl('', [Validators.pattern(/^[0-9]+$/)]),
       estimated_time: new FormControl(""),
     });
   }
@@ -58,7 +59,7 @@ export class CreateExerciseComponent {
     let tempStudentFormData = JSON.parse(JSON.stringify(this.studentForm.value));
 
 let object= tempStudentFormData.studentList[i]
-    if(object.category && object.exercise_name && object.estimated_time && object.sets){
+    if(object.category && object.exercise_name && object.estimated_time && object.sets &&object.reps){
       return true
     }
 
@@ -82,6 +83,7 @@ let object= tempStudentFormData.studentList[i]
         exercise_name: element.exercise_name,
         category: element.category,
         sets: Number(element.sets),
+        reps:Number(element.reps),
         estimated_time: element.estimated_time
       };
 
