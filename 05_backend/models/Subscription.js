@@ -8,7 +8,7 @@ const subscriptionSchema = new mongoose.Schema({
   },
   trainer_id: {
     type: String,
-    required:true, // Reference to the User model (optional trainer)
+    required:true, // Reference to the User model 
   },
   start_date: {
     type: Date,

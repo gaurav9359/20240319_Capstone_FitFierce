@@ -1,3 +1,4 @@
+// get all the dependencies
 const mongoose= require('mongoose')
 const User = require('../models/User')
 
@@ -18,10 +19,12 @@ const Subscription = require('../models/Subscription');
 //get user 
 const getUser=async (req,res)=>{
     try{
+    // get userid from middleware
     const userId = req.user._id;
     let subscribed_plans=req.user.subscribed_plans;
     let subscribed_info=[]
 
+    // to send the info of subscription user have purchased
     for(let trainerId of subscribed_plans){
         let trainerInfo={}
         console.log(trainerId)
@@ -34,9 +37,10 @@ const getUser=async (req,res)=>{
 
         subscribed_info.push(trainerInfo)
     }
-    console.log(subscribed_info)
+    // console.log(subscribed_info)
  
     let response;
+    // if role is user then send all the profile info and subscrbed plans details
     if (req.user.role === 'user') {
       response = {
         id: userId,
@@ -47,6 +51,7 @@ const getUser=async (req,res)=>{
         subscribed_plans: subscribed_info,
       };
     } else if (req.user.role === 'trainer') {
+      // if the role is trainer then only send necessary profile info
       response = {
         id: userId,
         name:req.user.name,
@@ -63,6 +68,8 @@ const getUser=async (req,res)=>{
     } else {
       return res.status(400).json({ message: 'Invalid user role' });
     } 
+
+    // send response
     res.status(200).json(response);
 } catch (error) {
   console.error(error);
@@ -73,17 +80,16 @@ const getUser=async (req,res)=>{
 
 //update userinfo
 const updateUser=async (req,res)=>{
-    //if the user is user
-    // take name,email,phone_number if the role is user
-    // 1. Extract user data from request body
+    //  Extract user data from request body
     const { name, email, phone_number} = req.body;
 
-    // 2. Validate user data (optional)
+    // Validate user data (optional)
     if (
         !nameValidator(name) ||
         !emailValidator(email) ||
         !phoneNumberValidator(phone_number) 
       ) {
+        // if the validation fails then return error with message
         return res.status(400).json({ message: 'Invalid input' });
       }
 
@@ -95,6 +101,7 @@ const updateUser=async (req,res)=>{
             phone_number: phone_number
         }
 
+        // if the user is not found then return error
         try{
             const updatedUser= await User.findByIdAndUpdate(req.user._id,updatedData,{new:true})
         }
@@ -103,8 +110,10 @@ const updateUser=async (req,res)=>{
         }
         res.status(200).json({newdata:{updatedData}})
     }
+    // if the role is trainer
     else if(req.user.role==="trainer"){
-        //take from req.body
+
+        //take information from req.body
         const { name, email, phone_number,image,banner,description,trainer_speciality,price,validity_days} = req.body;
 
         // validate for extra fields
@@ -116,9 +125,11 @@ const updateUser=async (req,res)=>{
             !priceValidator(price) ||
             !validityDaysValidator(validity_days)
           ) {
+            // if validation fails return error
             return res.status(400).json({ message: 'Invalid input' });
           }
 
+          // format updated data and store it in updatedData
           let updatedData={
             name: name,
             email: email,
@@ -131,7 +142,7 @@ const updateUser=async (req,res)=>{
             validity_days:validity_days,
           }
 
-          
+        // update the data if any error occurs then return the message
         try{
             const updatedUser= await User.findByIdAndUpdate(req.user._id,updatedData,{new:true})
         }
@@ -142,37 +153,44 @@ const updateUser=async (req,res)=>{
 
     }
 
-    //if the role is trainer
-    // take name,email,phone_number,image,banner,description,trainer_speciality,price,validity_days if the role is trainer
 }
 
 const getallTrainer=async (req,res)=>{
   try {
+    // get all the trainer's necessary information
     const trainers = await User.find({ role: 'trainer' }, {_id:1, image: 1, name: 1, trainer_speciality: 1, price: 1 });
 
-    console.log(trainers)
+    // console.log(trainers)
     res.status(200).json(trainers);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 }
 
+
 const getTrainerById=async (req,res)=>{
-  console.log("here")
+  // console.log("here")
+  // get the trainer id from query params
   const trainer_id=req.query.id;
+
+  // if the role is trainer then don't allow it
   if(req.user.role!=='user'){
     res.send(500).send({message: "not authorized"})
   }
 
   try{
+    // find the trainer and get it's information
     const trainer_details= await User.findOne({_id:new mongoose.Types.ObjectId(trainer_id)})
 
+    // if the trainer not found then return error
     if(!trainer_details){
       res.send(500).status({message:"trainer not found"})
     }
 
+    // get the count of user subscribed to the trainer
     const subscribedUserCount=await Subscription.find({trainer_id:trainer_id})
 
+    // store all the information to return 
     const detailsToReturn={ _id: trainer_details._id,
       name: trainer_details.name,
       email: trainer_details.email,
@@ -185,6 +203,8 @@ const getTrainerById=async (req,res)=>{
       trainer_speciality: trainer_details.trainer_speciality,
       price: trainer_details.price,
       validity_days: trainer_details.validity_days,usersCount:subscribedUserCount.length}
+
+      // send the response
     res.send(detailsToReturn)
 
   }

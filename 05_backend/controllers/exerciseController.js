@@ -1,3 +1,4 @@
+// import all the necessary dependencies
 const Exercise = require("../models/ExercissePlans");
 const Subscription= require("../models/Subscription")
 const {
@@ -14,16 +15,22 @@ const getAllExercises = async (req, res) => {
     try {
       // Get user ID
       const userId = req.user._id.toString();
-      let exerciseToReturn = {}; // Final object to return
+
+      // Final object to return
+      let exerciseToReturn = {}; 
+
       // Handle user role
       if (req.user.role === 'user') {
+
         // Get all exercises created by user
         const userExercises = await Exercise.find({ userid: userId }, { trainer_id: 0 });
   
+        // initialize the exercise to return object with array 
         let exerciseToReturn={
           exercises:[]
         }
 
+        // push exercise in exerciseToReturn->exercises
         userExercises.forEach(exercise => {
           exercise.exercises.forEach(exercise1 => {
             let new_exercise={exercise_name: exercise1.exercise_name,
@@ -37,7 +44,8 @@ const getAllExercises = async (req, res) => {
               exerciseToReturn.exercises.push(new_exercise);
           });
       });
-       // Reverse the order of exercises before returning
+
+       // Reverse the order of exercises before returning to sort according to date
        exerciseToReturn.exercises.reverse();
 
       res.status(200).json(exerciseToReturn);
@@ -45,11 +53,12 @@ const getAllExercises = async (req, res) => {
       } else if (req.user.role === 'trainer') {
         // Get all exercises created by the trainer
         const userExercise = await Exercise.find({ trainer_id: new mongoose.Types.ObjectId(userId)});
-        
+
+        // initialize the exerciseToReturn object with array 
         let exerciseToReturn={
           exercises:[]
         }
-console.log(userExercise)
+        // console.log(userExercise)
         userExercise.forEach(exercise => {
           exercise.exercises.forEach(exercise1 => {
             let new_exercise={exercise_name: exercise1.exercise_name,
@@ -66,14 +75,14 @@ console.log(userExercise)
 
       // Reverse the order of exercises before returning
       exerciseToReturn.exercises.reverse();
-      console.log(exerciseToReturn)
+      // console.log(exerciseToReturn)
 
       res.status(200).json(exerciseToReturn);
       } else {
         res.status(400).json({ message: "Invalid user role" });
       }
     } catch (error) {
-      console.error(error); // Log the error for debugging
+      console.error(error); 
       res.status(500).json({ message: 'Internal server error' });
     }
   };
@@ -82,48 +91,47 @@ console.log(userExercise)
 
 const getExerciseToday = async (req, res) => {
   try {
-    // Get user ID and today's date in YYYY-MM-DD format
+
+    // Get user ID and get today's date in YYYY-MM-DD format
     const userId = req.user._id.toString();
     const date = new Date().toISOString().slice(0, 10);
-    let exerciseToReturn = {}; // Final object to return
+
+    // Final object to return
+    let exerciseToReturn = {}; 
 
     // Handle user role
     if (req.user.role === 'user') {
       // Get exercises created by user
       const userExercises = await Exercise.find({ userid:userId, date:date });
 
-      console.log(userId)
+      // console.log(userId)
       // Find active subscriptions for the user
       const activeSubscriptions = await Subscription.find({
         user_id: userId
       });
 
-      console.log(activeSubscriptions)
-
-      // activeSubscriptions.filter((subscription) => subscription.user_id === userId)
-
-      // const temp= await Subscription.find({})
       // console.log(activeSubscriptions)
 
       // Extract trainer IDs from active subscriptions
       const trainerIds = activeSubscriptions.map((subscription) => subscription.trainer_id);
 
-      console.log(trainerIds)
+      // console.log(trainerIds)
 
-      // Fetch exercises from trainers (if any)
+      // Fetch exercises from trainers 
       const trainerExercises = await Promise.all(
         trainerIds.map(async (trainerId) => {
           return await Exercise.find({ trainer_id:trainerId, date:date });
         })
       );
-        console.log(trainerExercises)
+        // console.log(trainerExercises)
+
       // Combine exercises from user and trainers
       exerciseToReturn = {
         userExercises: userExercises,
         trainerExercises: [].concat(...trainerExercises), // Flatten array
       };
 
-      console.log(exerciseToReturn)
+      // console.log(exerciseToReturn)
     } else if (req.user.role === 'trainer') {
       // Trainer can only see exercises created by themselves
       const userExercise = await Exercise.findOne({ trainerId: userId, date });
@@ -143,11 +151,11 @@ const getExerciseToday = async (req, res) => {
 
 const createExercise = async (req, res) => {
   try {
-    // 1. Extract exercise data from request body
+    // Extract exercise data from request body
     const  exercises  = req.body;
-    console.log(exercises)
+    // console.log(exercises)
 
-    // 2. Validate exercise data (assuming you have validator functions)
+    // Validate exercise data 
     const validExercises = exercises.filter((exercise) => {
       const { exercise_name, category, sets, estimated_time } = exercise;
       if(
@@ -156,6 +164,7 @@ const createExercise = async (req, res) => {
         setsValidator(sets) &&
         estimatedTimeValidator(estimated_time)
       ){
+        // if validation fails then return this
         return { exercise_name, category, sets, estimated_time }
       }
       else{
@@ -163,22 +172,24 @@ const createExercise = async (req, res) => {
       }
     });
 
-    // 3. Extract user ID and today's date
-    const userId = req.user._id; // Assuming you have user ID in req.user object
+    // Extract user ID and today's date
+    const userId = req.user._id; 
+
     const date = new Date().toISOString().slice(0, 10); // YYYY-MM-DD format
 
-    // 4. Find existing exercise (based on user role)
+    //  Find existing exercise based on user role
     let prevExercise;
     if (req.user.role === "user") {
-      console.log("work1")
+      // console.log("work1")
       prevExercise = await Exercise.findOne({ userid: userId, date });
     } else if (req.user.role === "trainer") {
       prevExercise = await Exercise.findOne({ trainer_id: userId, date });
     } else {
       return res.status(400).json({ message: "Invalid user role" });
     }
-    console.log(...validExercises)
-    // 5. Update existing exercise or create a new one
+    // console.log(...validExercises)
+
+    // Update existing exercise or create a new one
     if (prevExercise) {
       prevExercise.exercises.push(...validExercises);
     } else {
@@ -189,7 +200,7 @@ const createExercise = async (req, res) => {
       });
     }
 
-    // 6. Save the exercise (update or create)
+    //Save the exercise (update or create)
     console.log("work2")
     const savedExercise = await prevExercise.save();
     console.log(savedExercise)
@@ -203,17 +214,15 @@ const createExercise = async (req, res) => {
 
     // Extract trainer IDs from active subscriptions
     const userIds = activeSubscriptions.map((subscription) => subscription.user_id);
-    console.log(userIds)
+    // console.log(userIds)
     const newDate= new Date(date);
-    // Fetch exercises from trainers (if any)
+
+    // Fetch exercises from trainers
     const userExercise = await Promise.all(
       userIds.map(async (user_Id) => {
         let user_object= new mongoose.Types.ObjectId(user_Id.toString())
         let exercise_array= await Exercise.findOne({userid: user_object,date:newDate} );
-        console.log(exercise_array)
-        if(exercise_array){
-          console.log("onreo")
-        }
+        // console.log(exercise_array)
         if(exercise_array){
           exercise_array.exercises.push(...validExercises)
         }
@@ -224,6 +233,7 @@ const createExercise = async (req, res) => {
             date,
           });
         }
+
         const savedExerciseUser=await exercise_array.save();
 
         // console.log(savedExerciseUser)
@@ -360,34 +370,34 @@ const deleteExercise = async (req, res) => {
 
 const updateStatus=async (req,res)=>{
   try {
-    // 1. Extract exercise data from request body
-    const exerciseStatuses  = req.body; // Array of objects [{ exerciseId, isDone }, ...]
+    //Extract exercise data from request body
+    const exerciseStatuses  = req.body; 
 
-
+    // validation of data recieved
     for (const { exerciseId, isDone } of exerciseStatuses) {
       if (typeof exerciseId !== 'string' || typeof isDone !== 'boolean') {
         return res.status(400).json({ message: "Invalid exercise data format" });
       }
     }
 
-    // 3. Extract user ID and today's date
-    const userId = req.user._id; // Assuming you have user ID in req.user object
+    //Extract user ID and today's date
+    const userId = req.user._id; 
     const date = new Date().toISOString().slice(0, 10); // YYYY-MM-DD format
 
-    // 4. Update exercises (user only)
+    // 4. Update exercises for user only
     const updatePromises = exerciseStatuses.map(async ({ exerciseId, isDone }) => {
-      if (req.user.role !== "user") { // Restrict updates to users only
+      if (req.user.role !== "user") { 
         return res.status(403).json({ message: "Unauthorized operation" });
       }
 
       const exerciseToUpdate = await Exercise.find(
         {
           userid: userId,
-          date, // Filter by user ID and today's date
+          date, 
         }
       );
 
-      console.log(exerciseToUpdate)
+      // console.log(exerciseToUpdate)
         exerciseToUpdate[0].exercises.map((exercise)=>{
           if(exercise._id.toString()===exerciseId){
             exercise.isDone=isDone

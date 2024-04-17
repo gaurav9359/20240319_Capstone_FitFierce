@@ -1,7 +1,6 @@
 const mongoose = require('mongoose');
 
 
-// Main schema (dietplan)
 const dietplanSchema = new mongoose.Schema({
   user_id: {
     type: mongoose.Schema.Types.ObjectId,
@@ -9,7 +8,7 @@ const dietplanSchema = new mongoose.Schema({
   },
   trainer_id: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User', // Reference to the User model (optional trainer)
+    ref: 'User', // Reference to the User model 
   },
   date: {
     type: Date,
@@ -35,7 +34,7 @@ const dietplanSchema = new mongoose.Schema({
     },
     time_toEat: {
       type: String,
-      enum: ['morning', 'evening', 'night'], // Restricts time to morning, evening, or night
+      enum: ['morning', 'evening', 'night'], 
       required: true,
     },
     isDone:{

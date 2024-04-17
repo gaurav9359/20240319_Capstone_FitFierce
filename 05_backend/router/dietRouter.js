@@ -9,10 +9,10 @@ console.log("oreno")
 //create Diet
 router.post("/createDiet", verifyJwt, getUserMiddleware, dietController.createDietplan);
 
-//Read allDiet
+//get allDiet
 router.get("/getAllDiet", verifyJwt, getUserMiddleware, dietController.getAllDiet);
 
-//Read Exercise
+//get today's diet
 router.get("/getDietToday/", verifyJwt, getUserMiddleware, dietController.getDietToday);
 
 //Update diet
@@ -21,7 +21,7 @@ router.put("/updateDiet", verifyJwt, getUserMiddleware, dietController.updateDie
 //Update status
 router.put("/updateDietStatus", verifyJwt, getUserMiddleware, dietController.updateDietStatus);
 
-//Delete Exercise
+//Delete diet
 router.delete("/deleteDiet", verifyJwt, getUserMiddleware, dietController.deleteDiet);
 
 module.exports= router;

@@ -1,8 +1,10 @@
+// import all the dependencies and modules
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-// const tokenManager = require("../tokenManager");
 require("dotenv").config();
 const User = require("../models/User");
+
+// import validators
 const {
     nameValidator,
     emailValidator,
@@ -15,12 +17,15 @@ const {
     trainerSpecialityValidator,
     priceValidator,
     validityDaysValidator,
-}= require("../dependencies/validator/User")
+}= require("../dependencies/validator/User");
+const { response } = require("express");
 
 
 
 
 async function signupTrainer(req, res) {
+
+  //extract all the necessary variables from req.body
     try {
       const {
         name,
@@ -50,9 +55,9 @@ async function signupTrainer(req, res) {
         !priceValidator(price) ||
         !validityDaysValidator(validity_days)
       ) {
+        // if validation fails then send error message
         return res.status(400).json({ message: 'Invalid input' });
       }
-      console.log("user wordk")
   
       // Check if the email already exists
       const existingUser = await User.findOne({ email });
@@ -81,14 +86,17 @@ async function signupTrainer(req, res) {
       // Save the new user
       await newUser.save();
   
+      //if account creation is successful send the message
       res.status(201).json({ message: 'Trainer account created successfully' });
     } catch (error) {
+      // if any error occurs send that error message
       res.status(500).json({ message: error.message });
     }
   }
   
   async function signup(req, res) {
     try {
+      // get all the necessary input from req.body
       const { name, email, password, phone_number } = req.body;
   
       // Validate user input
@@ -98,6 +106,7 @@ async function signupTrainer(req, res) {
         !passwordValidator(password) ||
         !phoneNumberValidator(phone_number)
       ) {
+        // return if validation fails
         return res.status(400).json({ message: 'Invalid input' });
       }
   
@@ -122,19 +131,23 @@ async function signupTrainer(req, res) {
       // Save the new user
       await newUser.save();
   
+      // send the success message
       res.status(201).json({ message: 'User account created successfully' });
     } catch (error) {
+      // if any error comes send the error message
       res.status(500).json({ message: error.message });
     }
   }
 
 async function signin(req,res){
+     // get all the inputs from req.body
     const { email, password } = req.body;
 
-  // Validate the user input
-  if (!emailValidator(email) || !passwordValidator(password)) {
-    return res.status(400).json({ message: "Invalid input" });
-  }
+    // Validate the user input
+    if (!emailValidator(email) || !passwordValidator(password)) {
+      // return if validation fails
+      return res.status(400).json({ message: "Invalid input" });
+    }
 
   try {
     // Check if the user exists
@@ -151,23 +164,13 @@ async function signin(req,res){
 
     // Create and assign a token
     const token = jwt.sign({ _id: user._id}, process.env.JWT_SECRET, { expiresIn: '10h' });
-    // localStorage.setItem('jwtToken', token); // Store token in localStorage
-    // Send the token in the response Body
-    // Once the frontend and backend are connected,
-    // the token will be sent in the response header
-    res.status(200).json({ token, role: user.role });
-    // if (res.ok) {
-    //   localStorage.setItem('token', token);
-      
-    //   localStorage.setItem('role', user.role);
-    //   console.log("Stored locally")
-    // }
 
-    // Store the token temporarily in another file in root
-    // tokenManager.setToken(token);
-    // setAuthToken(token);
+    // send token and role in response
+    res.status(200).json({ token, role: user.role });
+    
 
   } catch (error) {
+    // send error message if it occurs
     res.status(500).json({ message: error.message });
   }
 }

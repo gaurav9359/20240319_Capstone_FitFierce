@@ -1,17 +1,13 @@
 const mongoose = require('mongoose');
 
-// Exercise sub-schema
-// const exerciseSchema = new mongoose.Schema();
-
-// Main schema (plan)
 const planSchema = new mongoose.Schema({
   userid: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User', // Reference to the User model (optional trainer)
+    ref: 'User', // Reference to the User model 
   },
   trainer_id: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User', // Reference to the User model (optional trainer)
+    ref: 'User', // Reference to the User model 
   },
   date: {
     type: Date,
@@ -44,8 +40,8 @@ const planSchema = new mongoose.Schema({
         required: true,
       },
       estimated_time: {
-        type: String, // Can be a string representing time duration (e.g., "30min")
-        required: true, // Now required field
+        type: String, 
+        required: true, 
       },
       isDone: {
         type: Boolean,
@@ -53,7 +49,7 @@ const planSchema = new mongoose.Schema({
       },
       
     }
-  ], // Array of exercise objects based on sub-schema
+  ], 
  
 });
 

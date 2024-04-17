@@ -4,7 +4,7 @@ const subscribeController= require("../controllers/subscribeController")
 const { verifyJwt, getUserMiddleware, fetchWithAuthorization } = require("../dependencies/jwtHelpers");
 
 
-//create Exercise
+//create subscription
 router.post("/purchase", verifyJwt, getUserMiddleware, subscribeController.subscribePlan);
 
 //get Subscribed user

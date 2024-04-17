@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
-    unique: true, // Ensures unique email addresses
+    unique: true, 
   },
   password: {
     type: String,
@@ -20,30 +20,30 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ['user', 'trainer'], // Restricts role to either 'user' or 'trainer'
+    enum: ['user', 'trainer'], 
     required:true
   },
   image: {
-    type: String, // Can be null or empty string if no image provided
+    type: String, 
   },
   banner: {
-    type: String, // Can be null or empty string if no banner provided
+    type: String,
   },
   description: {
-    type: String, // Can be null or empty string if no description provided
+    type: String, 
   },
   trainer_speciality: {
-    type: String, // Can be null or empty string if not a trainer
+    type: String, 
   },
   created_at: {
     type: Date,
-    default: Date.now, // Automatically assigns current timestamp on creation
+    default: Date.now, 
   },
   price: {
-    type: Number,  // Added field for price
+    type: Number, 
   },
   validity_days: {
-    type: Number,  // Added field for validity (days, weeks, months, etc.)
+    type: Number,  
   },
   subscribed_plans:[
     {

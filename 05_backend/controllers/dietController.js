@@ -1,3 +1,4 @@
+// import all the necessary dependencies
 const Dietplan = require("../models/DietPlans");
 const Subscription= require("../models/Subscription")
 const {
@@ -13,8 +14,9 @@ const mongoose = require("mongoose");
 //getAllDiet
 const getAllDiet = async (req, res) => {
     try {
-      // Get user ID
+      // Get user ID from middleware
       const userId = req.user._id.toString();
+
       let dietToReturn = {}; // Final object to return
   
       // Handle user role
@@ -22,12 +24,12 @@ const getAllDiet = async (req, res) => {
         // Get all diets created by user
         const userDiets = await Dietplan.find({ user_id: new mongoose.Types.ObjectId(userId) }, { trainer_id: 0 });
 
-  
-      
+        // initiliaze dietToReturn object with meal array
         let dietToReturn = {
           meals: []
       };
       
+      // push the meal details in dietToReturn
       userDiets.forEach(diet => {
           diet.meals.forEach(meal => {
             let new_meal={diet_name: meal.diet_name,
@@ -44,17 +46,21 @@ const getAllDiet = async (req, res) => {
           });
       });
 
+      // reverse the dietToReturn to sort in decreasing date
       dietToReturn.meals.reverse()
       
       res.status(200).json(dietToReturn);
       } else if (req.user.role === 'trainer') {
+
         // Get all diets created by the trainer
         const userDiets = await Dietplan.find({ trainer_id: new mongoose.Types.ObjectId(userId) });
 
+        // initialize the dietToReturn object with meal aray
          let dietToReturn = {
           meals: []
       };
       
+      // push meals in dietToReturn
       userDiets.forEach(diet => {
           diet.meals.forEach(meal => {
             let new_meal={diet_name: meal.diet_name,
@@ -71,17 +77,20 @@ const getAllDiet = async (req, res) => {
           });
       });
 
+      // reverse the meals to get them in datewise order
       dietToReturn.meals.reverse()
+
+      // send the response
       res.status(200).json(dietToReturn);
 
 
       } else {
+        // show error if anything happens in between the code
         res.status(400).json({ message: "Invalid user role" });
       }
-  
       // res.status(200).json(dietToReturn);
     } catch (error) {
-      console.error(error); // Log the error for debugging
+      console.error(error); 
       res.status(500).json({ message: 'Internal server error' });
     }
   };
@@ -90,10 +99,10 @@ const getAllDiet = async (req, res) => {
 // create meal
 const createDietplan = async (req, res) => {
     try {
-      // 1. Extract meal data from request body
+    //  Extract meal data from request body
       const  meals  = req.body;
   
-      // 2. Validate meal data (assuming you have validator functions)
+      // Validate meal data (assuming you have validator functions)
       const validMeals = meals.filter((meal) => {
         const { diet_name, quantity,measurement, calories, time_toEat } = meal;
         if(
@@ -104,20 +113,22 @@ const createDietplan = async (req, res) => {
           timeToEatValidator(time_toEat)
         )
           {
+            // return if validation is successful
             return { diet_name, quantity,measurement, calories, time_toEat }
           }
           else{
+            // return if validation fails
             return res.status(400).json({ message: "Invalid exercise data" });
           }
         
       });
   
   
-      // 3. Extract user ID and today's date
-      const userId = req.user._id; // Assuming you have user ID in req.user object
+      //  Extract user ID and get today's date
+      const userId = req.user._id; 
       const date = new Date().toISOString().slice(0,10);
   
-      // 4. Find existing dietplan (based on user role)
+      // Find existing dietplan (based on user role)
       let prevDietplan;
       if (req.user.role === "user") {
         prevDietplan = await Dietplan.findOne({ user_id: userId, date });
@@ -127,7 +138,7 @@ const createDietplan = async (req, res) => {
         return res.status(400).json({ message: "Invalid user role" });
       }
   
-      // 5. Update existing dietplan or create a new one
+      // Update existing dietplan or create a new one
       if (prevDietplan) {
         prevDietplan.meals.push(...validMeals);
       } else {
@@ -138,21 +149,23 @@ const createDietplan = async (req, res) => {
         });
       }
   
-      // 6. Save the dietplan (update or create)
+      // Save the dietplan update or create
       const savedDietplan = await prevDietplan.save();
 
      //save the trainer exercise in all the user's exercise array
     if(req.user.role==='trainer'){
+
       // Find active subscriptions for the user
       const activeSubscriptions = await Subscription.find({
-        trainer_id: userId  // Replace with a dynamic trainer ID if needed
+        trainer_id: userId  
       });
   
       // Extract trainer IDs from active subscriptions
       const userIds = activeSubscriptions.map((subscription) => subscription.user_id);
       console.log(userIds)
       const newDate= new Date(date);
-      // Fetch exercises from trainers (if any)
+
+      // Fetch exercises from trainers 
       const userExercise = await Promise.all(
         userIds.map(async (user_Id) => {
           let user_object= new mongoose.Types.ObjectId(user_Id.toString())
@@ -174,7 +187,7 @@ const createDietplan = async (req, res) => {
       );
       }
   
-      // 7. Send successful response with saved dietplan
+      // Send successful response with saved dietplan
       res.status(201).json(savedDietplan);
     } catch (error) {
       console.error(error);
@@ -182,7 +195,7 @@ const createDietplan = async (req, res) => {
     }
   };
 
-//   get Todays diet
+//get Todays diet
 const getDietToday = async (req, res) => {
     try {
       // Get user ID and today's date in YYYY-MM-DD format
@@ -190,8 +203,9 @@ const getDietToday = async (req, res) => {
       const date = new Date().toISOString().slice(0, 10);
       let dietToReturn = {};
   
-      // Handle user role
+      // if the role is user 
       if (req.user.role === 'user') {
+
         // Get diet plan created by user
         const userDietPlan = await Dietplan.findOne({ user_id: userId, date });
   
@@ -203,7 +217,7 @@ const getDietToday = async (req, res) => {
           (subscription) => subscription.trainer_id
         );
   
-        // Fetch diet plans from trainers (if any)
+        // Fetch diet plans from trainers 
         const trainerDietPlans = await Promise.all(
           trainerIds.map(async (trainerId) => {
             return await Dietplan.findOne({ trainer_id: trainerId, date });
@@ -213,7 +227,7 @@ const getDietToday = async (req, res) => {
         // Combine diet plans from user and trainers
         dietToReturn = {
           userDietPlan: userDietPlan || null,
-          trainerDietPlans: trainerDietPlans.filter(Boolean), // Remove null values
+          trainerDietPlans: trainerDietPlans.filter(Boolean), 
         };
       } else if (req.user.role === 'trainer') {
         // Trainer can only see diet plan created by themselves
@@ -226,6 +240,7 @@ const getDietToday = async (req, res) => {
         res.status(400).json({ message: 'Invalid user role' });
       }
   
+      // send the response
       res.status(200).json(dietToReturn);
     } catch (error) {
       console.error(error);
@@ -237,25 +252,26 @@ const getDietToday = async (req, res) => {
   //update diet
   const updateDiet = async (req, res) => {
     try {
-      // 1. Extract meal data and ID from request body
+    //  Extract meal data and ID from request body
       const { mealId, ...mealData } = req.body;
       const { diet_name, quantity, calories, time_toEat } = mealData;
   
-      // 2. Validate meal data (if updating specific fields)
+      // Validate meal data 
       if (
         !dietNameValidator(diet_name) ||
         !quantityValidator(quantity) ||
         !caloriesValidator(calories) ||
         !timeToEatValidator(time_toEat)
       ) {
+        // return if meal info is invalid
         return res.status(400).json({ message: "Invalid meal data" });
       }
   
-      // 3. Extract user ID and today's date
+      // Extract userID and get today's date
       const userId = req.user._id;
       const date = new Date().toISOString().slice(0, 10);
   
-      // 4. Find the diet plan to update (based on user role)
+      // Find the diet plan to update based on role
       let dietPlanToUpdate;
       if (req.user.role === "user") {
         dietPlanToUpdate = await Dietplan.findOne({
@@ -273,16 +289,15 @@ const getDietToday = async (req, res) => {
         return res.status(400).json({ message: "Invalid user role" });
       }
   
-      // 5. Check if diet plan exists and handle errors
+      // Check if diet plan exists and handle errors
       if (!dietPlanToUpdate) {
+        // if diet plan not found then return error message
         return res.status(404).json({ message: "Diet plan not found" });
       }
   
-      // 6. Update the meal (based on user role and update approach)
+      //  Update the meal based on user role 
       const updatedMeals = dietPlanToUpdate.meals.map((meal) => {
         if (meal._id.toString() === mealId) {
-          // Check if meal IDs match
-          // Update specific fields if provided in the request body
           return {
             ...meal,
             ...(diet_name ? { diet_name } : {}),
@@ -295,10 +310,10 @@ const getDietToday = async (req, res) => {
       });
       dietPlanToUpdate.meals = updatedMeals;
   
-      // 7. Save the updated diet plan
+      // Save the updated diet plan
       const savedDietPlan = await dietPlanToUpdate.save();
   
-      // 8. Send successful response with saved diet plan
+      // Send successful response with saved diet plan
       res.status(200).json(savedDietPlan);
     } catch (error) {
       console.error(error);
@@ -310,14 +325,14 @@ const getDietToday = async (req, res) => {
   // Delete a meal
 const deleteDiet = async (req, res) => {
     try {
-      // 1. Extract meal ID from request params
+      // Extract meal ID from request params
       const mealId = req.query.id;
   
-      // 2. Extract user ID and today's date
+      // Extract user ID and today's date
       const userId = req.user._id;
       const date = new Date().toISOString().slice(0, 10);
   
-      // 3. Find and potentially update the diet plan (based on user role)
+      // Find and potentially update the diet plan 
       let updatedDietPlan;
       if (req.user.role === "user") {
         updatedDietPlan = await Dietplan.findOneAndUpdate(
@@ -333,14 +348,13 @@ const deleteDiet = async (req, res) => {
         return res.status(400).json({ message: "Invalid user role" });
       }
   
-      // 4. Check if diet plan exists and handle errors
+      // Check if diet plan exists and handle errors
       if (!updatedDietPlan) {
         return res.status(404).json({ message: "Diet plan not found" });
       }
   
-      // 5. Debugging and optional response with updated diet plan
-      console.log("updatedDietPlan:", updatedDietPlan);
-      // res.status(200).json(updatedDietPlan); // Optional: return updated document if needed
+      // console.log("updatedDietPlan:", updatedDietPlan);
+      // res.status(200).json(updatedDietPlan); //return updated document 
   
       // 6. Send successful response (no need to return deleted meal)
       res.status(200).json({ message: "Meal deleted successfully" });
@@ -353,49 +367,49 @@ const deleteDiet = async (req, res) => {
   //update diet status
   const updateDietStatus = async (req, res) => {
     try {
-      // 1. Extract diet data from request body
-      const dietStatuses = req.body; // Array of objects [{ mealId, isDone }, ...]
+      // Extract diet data from request body
+      const dietStatuses = req.body; 
   
-      // 2. Validate data types (optional)
+    // Validate data types 
       for (const { mealId, isDone } of dietStatuses) {
         if (typeof mealId !== 'string' || typeof isDone !== 'boolean') {
           return res.status(400).json({ message: "Invalid diet data format" });
         }
       }
   
-      // 3. Extract user ID and today's date
-      const userId = req.user._id; // Assuming you have user ID in req.user object
-      const date = new Date().toISOString().slice(0, 10); // YYYY-MM-DD format
-  
-      // 4. Update diets (user only)
+      // Extract user ID and get today's date
+      const userId = req.user._id; 
+      const date = new Date().toISOString().slice(0, 10); 
+
+      // Update diets (user only)
       const updatePromises = dietStatuses.map(async ({ mealId, isDone }) => {
-        if (req.user.role !== "user") { // Restrict updates to users only
+        // Restrict updates to users only
+        if (req.user.role !== "user") { 
           return res.status(403).json({ message: "Unauthorized operation" });
         }
   
+        // Filter by user ID and today's date
         const dietToUpdate = await Dietplan.find(
           {
             user_id: userId,
-            date, // Filter by user ID and today's date
+            date, 
           }
         );
-
-  
+        // update the info
           dietToUpdate[0].meals.map((meal)=>{
             if(meal._id.toString()===mealId){
               meal.isDone=isDone
             }
           })
   
+          // save the changes made
           const updatedSuccessfull=await dietToUpdate[0].save()
         
-  
-        // No need to track updated count here (optional)
       });
+     // Wait for all update operations to complete
+      await Promise.all(updatePromises); 
   
-      await Promise.all(updatePromises); // Wait for all update operations to complete
-  
-      // 5. Send successful response
+      //  Send successful response
       res.status(200).json({ message: "Diet statuses updated successfully" });
     } catch (error) {
       console.error(error); // Log the error for debugging
